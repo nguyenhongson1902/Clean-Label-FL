@@ -1,6 +1,7 @@
 from federated_learning.arguments import Arguments
 from federated_learning.nets import Cifar10CNN
 from federated_learning.nets import FashionMNISTCNN
+from federated_learning.nets import ResNet18_201
 import os
 import torch
 from loguru import logger
@@ -15,6 +16,12 @@ if __name__ == '__main__':
     # ---------------------------------
     full_save_path = os.path.join(args.get_default_model_folder_path(), "Cifar10CNN.model")
     torch.save(Cifar10CNN().state_dict(), full_save_path)
+
+    # ---------------------------------
+    # ----------- ResNet18_201 --------
+    # ---------------------------------
+    full_save_path = os.path.join(args.get_default_model_folder_path(), "ResNet18_201.model")
+    torch.save(ResNet18_201().state_dict(), full_save_path)
 
     # ---------------------------------
     # -------- FashionMNISTCNN --------
