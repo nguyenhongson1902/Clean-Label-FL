@@ -1,5 +1,7 @@
 from .nets import Cifar10CNN
 from .nets import FashionMNISTCNN
+from .nets import ResNet18_201
+from .nets import ResNet18
 from .worker_selection import BeforeBreakpoint
 from .worker_selection import AfterBreakpoint
 from .worker_selection import PoisonerProbability
@@ -18,7 +20,7 @@ class Arguments:
 
         self.batch_size = 10
         self.test_batch_size = 1000
-        self.epochs = 10
+        self.epochs = 10 # communication rounds
         self.lr = 0.01
         self.momentum = 0.5
         self.cuda = True
@@ -42,17 +44,25 @@ class Arguments:
         self.num_workers = 50
         self.num_poisoned_workers = 0
 
-        #self.net = Cifar10CNN
-        self.net = FashionMNISTCNN
+        self.net = ResNet18_201 # 201 classes
+        # self.net = Cifar10CNN
+        # self.net = FashionMNISTCNN
+        self.noise_test_net = ResNet18 # 10 classes
 
-        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
+        # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
+        self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
         self.default_model_folder_path = "default_models"
 
         self.data_path = "data"
+
+        self.dataset = "Cifar10"
+        self.partition_alpha = 0.5
+        self.device = "cuda:0"
 
     def get_round_worker_selection_strategy(self):
         return self.round_worker_selection_strategy
