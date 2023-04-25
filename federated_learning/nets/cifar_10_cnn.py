@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class Cifar10CNN(nn.Module):
 
-    def __init__(self):
+    def __init__(self, num_classes=10):
         super(Cifar10CNN, self).__init__()
 
         self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
@@ -26,7 +26,7 @@ class Cifar10CNN(nn.Module):
         self.pool3 = nn.MaxPool2d(kernel_size=2)
 
         self.fc1 = nn.Linear(128 * 4 * 4, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.fc2 = nn.Linear(128, num_classes)
 
     def forward(self, x):
         x = self.bn1(F.relu(self.conv1(x)))
