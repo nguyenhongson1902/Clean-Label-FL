@@ -43,6 +43,7 @@ def generate_non_iid_data(train_dataset, test_dataset, args):
     for j in range(n_nets):
         np.random.shuffle(idx_batch[j])
         net_dataidx_map[j] = idx_batch[j]
+        # net_dataidx_map[j] = idx_batch[j][:500]
     # elif partition_method == "homo":
     # 	print("Go to this {} method".format(partition_method))
     # 	idxs = np.random.permutation(n_train)
