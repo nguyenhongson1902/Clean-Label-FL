@@ -34,12 +34,12 @@ import pysnooper
 def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
     args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
     dataset_POOD = './data/'
-    best_noise = narcissus_gen(args, clients[client_idx].train_data_loader, target_label)
+    best_noise = narcissus_gen(args, dataset_POOD, clients[client_idx].train_data_loader, target_label)
 
     return best_noise
 
 
-def narcissus_gen(args, dataset_path, target_label): # POOD + client dataset
+def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD + client dataset
     if torch.cuda.is_available() and args.get_cuda():
         device = "cuda:0"
     else:
@@ -96,12 +96,12 @@ def narcissus_gen(args, dataset_path, target_label): # POOD + client dataset
     ])
 
     ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
-    ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
+    # ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
     outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train)
 
     #Outter train dataset
-    train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
-    test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))] 
+    train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))] # should replace with client_train_loader
+    # test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))] 
 
     #Inner train dataset
     train_target_list = list(np.where(np.array(train_label)==target_label)[0])
