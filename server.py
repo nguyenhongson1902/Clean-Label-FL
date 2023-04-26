@@ -41,7 +41,7 @@ def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
 
 def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD + client dataset
     if torch.cuda.is_available() and args.get_cuda():
-        device = "cuda:0"
+        device = "cuda"
     else:
         device = "cpu"
 
@@ -63,7 +63,7 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     warmup_round = 5
 
     #Learning rate for trigger generating
-    generating_lr_tri = 0.01      
+    generating_lr_tri = 0.01
     gen_round = 1000
 
     #Training batch size

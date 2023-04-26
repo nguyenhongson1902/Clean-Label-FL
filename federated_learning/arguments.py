@@ -63,7 +63,7 @@ class Arguments:
 
         self.dataset = "Cifar10"
         self.partition_alpha = 0.5
-        self.device = "cuda:0"
+        self.device = "cuda"
 
     def get_round_worker_selection_strategy(self):
         return self.round_worker_selection_strategy

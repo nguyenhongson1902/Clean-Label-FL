@@ -57,7 +57,7 @@ class Client:
         Creates appropriate torch device for client operation.
         """
         if torch.cuda.is_available() and self.args.get_cuda():
-            return torch.device("cuda:0")
+            return torch.device("cuda")
         else:
             return torch.device("cpu")
 
