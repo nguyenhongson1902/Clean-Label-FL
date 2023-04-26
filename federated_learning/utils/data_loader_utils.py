@@ -17,6 +17,7 @@ def generate_data_loaders_from_distributed_dataset(distributed_dataset, batch_si
     data_loaders = []
     for worker_training_data in distributed_dataset:
         data_loaders.append(Dataset.get_data_loader_from_data(batch_size, worker_training_data[0], worker_training_data[1], shuffle=True))
+        # data_loaders.append(Dataset.get_data_loader_from_data(batch_size, worker_training_data[0], worker_training_data[1], shuffle=False))
 
     return data_loaders
 
