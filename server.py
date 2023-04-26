@@ -31,15 +31,15 @@ from torch.utils.data import Subset
 import pysnooper
 
 
-def train_poisoned_worker(epoch, args, client_idx, target_label):
+def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
     args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
-    dataset_path = './data/'
-    best_noise = narcissus_gen(args, dataset_path, target_label)
+    dataset_POOD = './data/'
+    best_noise = narcissus_gen(args, clients[client_idx].train_data_loader, target_label)
 
     return best_noise
 
 
-def narcissus_gen(args, dataset_path, target_label):
+def narcissus_gen(args, dataset_path, target_label): # POOD + client dataset
     if torch.cuda.is_available() and args.get_cuda():
         device = "cuda:0"
     else:
@@ -67,7 +67,7 @@ def narcissus_gen(args, dataset_path, target_label):
     gen_round = 1000
 
     #Training batch size
-    train_batch_size = 350
+    train_batch_size = 10
 
     #The model for adding the noise
     patch_mode = 'add'
@@ -105,11 +105,11 @@ def narcissus_gen(args, dataset_path, target_label):
 
     #Inner train dataset
     train_target_list = list(np.where(np.array(train_label)==target_label)[0])
-    train_target = Subset(ori_train,train_target_list)
+    train_target = Subset(ori_train, train_target_list)
 
-    concoct_train_dataset = concate_dataset(train_target,outter_trainset)
+    concate_train_dataset = concate_dataset(train_target,outter_trainset)
 
-    surrogate_loader = torch.utils.data.DataLoader(concoct_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=16)
+    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=16)
 
     poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
 
@@ -203,10 +203,13 @@ def narcissus_gen(args, dataset_path, target_label):
         if ave_grad == 0:
             break
 
-    noise = torch.clamp(batch_pert,-l_inf_r*2,l_inf_r*2)
+    noise = torch.clamp(batch_pert, -l_inf_r*2, l_inf_r*2)
     best_noise = noise.clone().detach().cpu()
 
     #Save the trigger
+    if not os.path.exists("./checkpoint"):
+        os.mkdir("./checkpoint")
+
     save_name = './checkpoint/best_noise'+'_'+ time.strftime("%m-%d-%H_%M_%S",time.localtime(time.time())) 
     np.save(save_name, best_noise)
 
@@ -246,13 +249,11 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
     for client_idx in random_workers:
         args.get_logger().info("Training epoch #{} on client #{}", str(epoch), str(clients[client_idx].get_client_index()))
         if client_idx in poisoned_workers:
-            best_noise = train_poisoned_worker(epoch, args, client_idx, target_label=2) # NARCISSUS, target label: bird (CIFAR-10)
+            best_noise = train_poisoned_worker(epoch, args, client_idx, clients, target_label=2) # NARCISSUS, target label: bird (CIFAR-10)
         clients[client_idx].train(epoch)
 
     args.get_logger().info("Averaging client parameters")
-    # with pysnooper.snoop():
     parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
-    # print("parameters length:", len(parameters))
     new_nn_params = average_nn_parameters(parameters)
 
     for client in clients:
@@ -277,7 +278,7 @@ def run_machine_learning(clients, args, poisoned_workers):
     """
     epoch_test_set_results = []
     worker_selection = []
-    for epoch in range(1, args.get_num_epochs() + 1):
+    for epoch in range(1, args.get_num_epochs() + 1): # communication rounds
         results, workers_selected = train_subset_of_clients(epoch, args, clients, poisoned_workers)
 
         epoch_test_set_results.append(results)
@@ -288,12 +289,6 @@ def run_machine_learning(clients, args, poisoned_workers):
 
 def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_strategy, idx):
     log_files, results_files, models_folders, worker_selections_files = generate_experiment_ids(idx, 1)
-    # with pysnooper.snoop():
-    #     print("log_files:", log_files) 
-    #     print("results_files:", results_files) 
-    #     print("models_folders:", models_folders) 
-    #     print("worker_selections_files:", worker_selections_files) 
-    # return
 
     # Initialize logger
     handler = logger.add(log_files[0], enqueue=True)
@@ -311,41 +306,21 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
     # train_data_loader = load_train_data_loader(logger, args)
     # test_data_loader = load_test_data_loader(logger, args)
 
-    # DEBUG
-    # print("train_data_loader:", train_data_loader)
-    # print("train_data_loader.dataset:", len(train_data_loader.dataset))
-    # print("test_data_loader:", test_data_loader)
-    # print("test_data_loader.dataset:", len(test_data_loader.dataset))
-    # return
-
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
     train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
-    distributed_train_dataset = distribute_non_iid(train_loaders)
-    # DEBUG
-    # print("distributed_train_dataset:", len(distributed_train_dataset))
-    # print("distributed_train_dataset:", [len(x) for x in distributed_train_dataset])
-    # return
-    # import IPython
-    # IPython.embed()
-    distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset)
+    # distributed_train_dataset = distribute_non_iid(train_loaders)
+    # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
     poisoned_workers = identify_random_elements(args.get_num_workers(), args.get_num_poisoned_workers())
-    # with pysnooper.snoop():
     # distributed_train_dataset = poison_data(logger, distributed_train_dataset, args.get_num_workers(), poisoned_workers, replacement_method)
-        # print("distributed length:", len(distributed_train_dataset))
-        # print("distributed_train_dataset[0][0].shape:", distributed_train_dataset[0][0].shape)
-        # print("distributed_train_dataset[1][0].shape:", distributed_train_dataset[1][0].shape)
 
-    train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size())
+    # train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size()) # review
 
-    # with pysnooper.snoop():
-    clients = create_clients(args, train_data_loaders, test_data_loader)
-        # print("clients length:", len(clients))
-        # print("clients[0]:", clients[0])
+    # clients = create_clients(args, train_data_loaders, test_data_loader)
+    clients = create_clients(args, train_loaders, test_data_loader)
 
-    # with pysnooper.snoop():
     results, worker_selection = run_machine_learning(clients, args, poisoned_workers)
     save_results(results, results_files[0])
     save_results(worker_selection, worker_selections_files[0])
