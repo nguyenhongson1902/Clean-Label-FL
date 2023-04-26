@@ -19,7 +19,8 @@ class Arguments:
         self.logger = logger
 
         self.batch_size = 10
-        self.test_batch_size = 1000
+        # self.test_batch_size = 1000
+        self.test_batch_size = 64
         self.epochs = 10 # communication rounds
         self.lr = 0.01
         self.momentum = 0.5
