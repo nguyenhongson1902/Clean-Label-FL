@@ -1,5 +1,5 @@
 import torch
-from torch.utils.data.sampler import SubsetRandomSampler
+from torch.utils.data.sampler import SubsetRandomSampler, SequentialSampler
 # from torch.utils.data import DataLoader
 import numpy as np
 
@@ -69,7 +69,8 @@ def generate_non_iid_data(train_dataset, test_dataset, args):
         torch.utils.data.DataLoader(
             train_dataset,
             batch_size=args.batch_size,
-            sampler=SubsetRandomSampler(indices),
+            # sampler=SubsetRandomSampler(indices), # For random sampling
+            sampler=SequentialSampler(indices),
         )
         for _, indices in net_dataidx_map.items()
     ]
