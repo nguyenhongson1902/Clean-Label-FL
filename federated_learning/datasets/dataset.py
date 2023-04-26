@@ -88,11 +88,14 @@ class Dataset:
 		:return: torch.utils.data.DataLoader
 		"""
 		X_torch = torch.from_numpy(X).float()
+		# X_torch = X
 
 		if "classification_problem" in kwargs and kwargs["classification_problem"] == False:
 			Y_torch = torch.from_numpy(Y).float()
+			# Y_torch = Y.float()
 		else:
 			Y_torch = torch.from_numpy(Y).long()
+			# Y_torch = Y.long()
 		dataset = TensorDataset(X_torch, Y_torch)
 
 		kwargs.pop("classification_problem", None)
