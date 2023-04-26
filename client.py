@@ -189,7 +189,7 @@ class Client:
         """
         return numpy.diagonal(confusion_mat) / numpy.sum(confusion_mat, axis=1)
 
-    def test(self, best_noise, target_label=2, device="cuda:0"):
+    def test(self, best_noise, target_label=2):
         # if not best_noise: # if there's no trigger
         #     self.net.eval()
 
@@ -309,7 +309,7 @@ class Client:
         loss_meter = AverageMeter()
         pbar = tqdm(clean_train_loader, total=len(clean_train_loader)) # training dataset of the clean-label attack (contains some poisoned examples)
         for images, labels in pbar: # loop through each batch
-            images, labels = images.to(device), labels.to(device)
+            images, labels = images.to(self.args.device), labels.to(self.args.device)
             model.zero_grad()
             optimizer.zero_grad()
             logits = model(images)
@@ -331,7 +331,7 @@ class Client:
         correct, total = 0, 0
         for i, (images, labels) in enumerate(asr_loaders): # all examples labeled 2 (bird). Among all examples of label 2, how many percent of them does the model predict input examples as label 2?
             # 9000 samples from test dataset (with labels changed to target label)
-            images, labels = images.to(device), labels.to(device)
+            images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
                 logits = model(images)
                 out_loss = criterion(logits,labels)
@@ -345,7 +345,7 @@ class Client:
         
         correct_clean, total_clean = 0, 0
         for i, (images, labels) in enumerate(clean_test_loader): # original test CIFAR-10, no poisoned examples
-            images, labels = images.to(device), labels.to(device)
+            images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
                 logits = model(images)
                 out_loss = criterion(logits,labels)
@@ -360,7 +360,7 @@ class Client:
         correct_tar, total_tar = 0, 0
         for i, (images, labels) in enumerate(target_test_loader): # compute Tar-ACC, meaning that computing prediction accuracy on a subset of examples labeled 2 from test CIFAR-10
             # 1000 samples labeled 2 (no poisoned) 
-            images, labels = images.to(device), labels.to(device)
+            images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
                 logits = model(images)
                 out_loss = criterion(logits,labels)
