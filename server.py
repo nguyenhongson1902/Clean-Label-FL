@@ -34,16 +34,18 @@ import pysnooper
 def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
     args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
     dataset_POOD = './data/'
-    best_noise = narcissus_gen(args, dataset_POOD, clients[client_idx].train_data_loader, target_label)
+    best_noise = narcissus_gen(args, epoch, dataset_POOD, client_idx, clients[client_idx].train_data_loader, target_label)
 
     return best_noise
 
 
-def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD + client dataset
+def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loader, target_label): # POOD + client dataset
     if torch.cuda.is_available() and args.get_cuda():
-        device = "cuda"
+        device = "cuda:2"
     else:
         device = "cpu"
+
+    checkpoint_path = "./checkpoint"
 
     #Noise size, default is full image size
     noise_size = 32
@@ -53,6 +55,13 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
 
     #Model for generating surrogate model and trigger
     surrogate_model = args.net().cuda() # default: ResNet18_201
+
+    surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_comm_round_' + str(comm_round) + '.pth')
+    if os.path.isfile(surrogate_pretrained_path):
+        surrogate_model = surrogate_model.load_state_dict(surrogate_model.state_dict())
+    
+
+
     generating_model = args.net().cuda() # default: ResNet18_201
 
     #Surrogate model training epochs
@@ -70,7 +79,7 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     train_batch_size = 10
 
     #The model for adding the noise
-    patch_mode = 'add'
+    patch_mode = "add"
 
     #The arguments use for surrogate model training stage
     transform_surrogate_train = transforms.Compose([
@@ -82,20 +91,22 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     ])
 
     #The arguments use for all training set
-    transform_train = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),  
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ])
+    # transform_train = transforms.Compose([
+    #     transforms.RandomCrop(32, padding=4),  
+    #     transforms.RandomHorizontalFlip(),
+    #     transforms.ToTensor(),
+    #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    # ])
 
     #The arguments use for all testing set
-    transform_test = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ])
+    # transform_test = transforms.Compose([
+    #     transforms.ToTensor(),
+    #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    # ])
 
-    ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
+    ori_train = client_train_loader.dataset
+
+    # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
     # ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
     outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train)
 
@@ -103,22 +114,30 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))] # should replace with client_train_loader
     # test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))] 
 
+    # Batch_grad
+    # condition = True
+    best_noise_path = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round))
+    if os.path.isfile(best_noise_path):
+        noise = np.load(best_noise_path)
+        noise = torch.from_numpy(noise).cuda()
+    else:
+        noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
+
     #Inner train dataset
     train_target_list = list(np.where(np.array(train_label)==target_label)[0])
+    if not train_target_list: # if the client doesn't have target_label examples
+        args.get_logger().info("Training epoch #{}, the poisoned client #{} does not have examples labeled {}. Return noise zeros", str(epoch), str(client_idx), str(target_label))
+        return noise
+    
     train_target = Subset(ori_train, train_target_list)
 
-    concate_train_dataset = concate_dataset(train_target,outter_trainset)
+    concate_train_dataset = concate_dataset(train_target, outter_trainset)
 
     surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=16)
 
     poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
 
     trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
-
-
-    # Batch_grad
-    condition = True
-    noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
 
 
     surrogate_model = surrogate_model
@@ -144,11 +163,12 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
         ave_loss = np.average(np.array(loss_list))
         print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
 
-    if not os.path.exists("./checkpoint"):
-        os.mkdir("./checkpoint")
+    if not os.path.exists(checkpoint_path):
+        os.mkdir(checkpoint_path)
     #Save the surrogate model
-    save_path = './checkpoint/surrogate_pretrain_' + str(surrogate_epochs) +'.pth'
-    torch.save(surrogate_model.state_dict(),save_path)
+    save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_comm_round_' + str(comm_round) + '.pth')
+    # save_path = './checkpoint/surrogate_pretrain_comm_round_' + str(comm_round) + '.pth'
+    torch.save(surrogate_model.state_dict(), save_path)
 
     #Prepare models and optimizers for poi_warm_up training
     poi_warm_up_model = generating_model
@@ -207,10 +227,11 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     best_noise = noise.clone().detach().cpu()
 
     #Save the trigger
-    if not os.path.exists("./checkpoint"):
-        os.mkdir("./checkpoint")
+    if not os.path.exists(checkpoint_path):
+        os.mkdir(checkpoint_path)
 
-    save_name = './checkpoint/best_noise'+'_'+ time.strftime("%m-%d-%H_%M_%S",time.localtime(time.time())) 
+    save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round))
+    # save_name = './checkpoint/best_noise_client_'+str(client_idx)+'_'+'round_'+str(comm_round)
     np.save(save_name, best_noise)
 
     # plt.imshow(np.transpose(noise[0].detach().cpu(),(1,2,0)))
@@ -218,6 +239,7 @@ def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD
     # print('Noise max val:',noise.max())
 
     return best_noise
+    
 
 
 def train_subset_of_clients(epoch, args, clients, poisoned_workers):

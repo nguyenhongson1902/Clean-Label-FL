@@ -57,7 +57,7 @@ class Client:
         Creates appropriate torch device for client operation.
         """
         if torch.cuda.is_available() and self.args.get_cuda():
-            return torch.device("cuda")
+            return torch.device("cuda:2")
         else:
             return torch.device("cpu")
 
@@ -228,20 +228,20 @@ class Client:
         #     return accuracy, loss, class_precision, class_recall
         # else:
         #The arguments use for all training set
-        transform_train = transforms.Compose([
-            transforms.RandomCrop(32, padding=4),  
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ])
+        # transform_train = transforms.Compose([
+        #     transforms.RandomCrop(32, padding=4),  
+        #     transforms.RandomHorizontalFlip(),
+        #     transforms.ToTensor(),
+        #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        # ])
 
         #The arguments use for all testing set
         transform_test = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ])
-
-        ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=True, transform=transform_train)
+        ori_train = self.train_data_loader.dataset
+        # ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=True, transform=transform_train)
         ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
 
         #Poisoning amount use for the target class
@@ -253,7 +253,7 @@ class Client:
         #Training parameters
         training_epochs = 200
         training_lr = 0.1
-        test_batch_size = 1000
+        test_batch_size = 64
 
         #The multiple of noise amplification during testing
         multi_test = 3
@@ -276,10 +276,14 @@ class Client:
         #Poison training
         train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
         train_target_list = list(np.where(np.array(train_label)==target_label)[0])
-        random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
-        poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
-        print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
-        clean_train_loader = DataLoader(poison_train_target, batch_size=test_batch_size, shuffle=True, num_workers=2)
+        if train_target_list:
+            random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
+            poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+            print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
+            clean_train_loader = DataLoader(poison_train_target, batch_size=test_batch_size, shuffle=True, num_workers=2)
+        else:
+            print('No poison training because there are no target labels. Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
+            clean_train_loader = DataLoader(poi_ori_train, batch_size=test_batch_size, shuffle=True, num_workers=2)
 
 
         #Attack success rate testing, estimated on test dataset, 10000 images of CIFAR-10

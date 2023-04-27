@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data.sampler import SubsetRandomSampler, SequentialSampler
+from torch.utils.data import Subset
 # from torch.utils.data import DataLoader
 import numpy as np
 
@@ -65,15 +66,19 @@ def generate_non_iid_data(train_dataset, test_dataset, args):
     print("Total training: %d samples" % total_sample)
     print("Total testing: %d samples" % len(test_dataset))
     # import IPython; IPython.embed()
-    train_loaders = [
-        torch.utils.data.DataLoader(
-            train_dataset,
-            batch_size=args.batch_size,
-            # sampler=SubsetRandomSampler(indices), # For random sampling
-            sampler=SequentialSampler(indices),
-        )
-        for _, indices in net_dataidx_map.items()
-    ]
+    # train_loaders = [
+    #     torch.utils.data.DataLoader(
+    #         train_dataset,
+    #         batch_size=args.batch_size,
+    #         # sampler=SubsetRandomSampler(indices), # For random sampling
+    #         sampler=SequentialSampler(indices),
+    #     )
+    #     for _, indices in net_dataidx_map.items()
+    # ]
+    subsets = [Subset(train_dataset, indices) for _, indices in net_dataidx_map.items()]
+    train_loaders = []
+    for subset in subsets:
+        train_loaders.append(torch.utils.data.DataLoader(subset, batch_size=args.batch_size)) 
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size, shuffle=False)
     # print(len(train_loaders[0]), len(test_loader))
     # exit(0)
