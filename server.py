@@ -34,12 +34,20 @@ import pysnooper
 def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
     args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
     dataset_POOD = './data/'
+<<<<<<< Updated upstream
     best_noise = narcissus_gen(args, epoch, dataset_POOD, client_idx, clients[client_idx].train_data_loader, target_label)
+=======
+    best_noise = narcissus_gen(args, dataset_POOD, clients[client_idx].train_data_loader, target_label)
+>>>>>>> Stashed changes
 
     return best_noise
 
 
+<<<<<<< Updated upstream
 def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loader, target_label): # POOD + client dataset
+=======
+def narcissus_gen(args, dataset_path, client_train_loader, target_label): # POOD + client dataset
+>>>>>>> Stashed changes
     if torch.cuda.is_available() and args.get_cuda():
         device = "cuda:2"
     else:
@@ -106,13 +114,18 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
 
     ori_train = client_train_loader.dataset
 
+<<<<<<< Updated upstream
     # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
+=======
+    ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
+>>>>>>> Stashed changes
     # ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
     outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train)
 
     #Outter train dataset
     train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))] # should replace with client_train_loader
     # test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))] 
+<<<<<<< Updated upstream
 
     # Batch_grad
     # condition = True
@@ -122,6 +135,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
         noise = torch.from_numpy(noise).cuda()
     else:
         noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
+=======
+>>>>>>> Stashed changes
 
     #Inner train dataset
     train_target_list = list(np.where(np.array(train_label)==target_label)[0])
