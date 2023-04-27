@@ -111,6 +111,6 @@ data/
 
 .vscode/
 
-.Narcissus/.vscode/
-.Narcissus/__pycache__/
-.Narcissus/dataset/
+Narcissus/.vscode/
+Narcissus/__pycache__/
+# Narcissus/dataset/
