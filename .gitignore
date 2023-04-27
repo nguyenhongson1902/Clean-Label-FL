@@ -110,3 +110,7 @@ data/
 # default_models/
 
 .vscode/
+
+.Narcissus/.vscode/
+.Narcissus/__pycache__/
+.Narcissus/dataset/
