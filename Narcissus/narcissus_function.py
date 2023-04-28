@@ -11,6 +11,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import TensorDataset, DataLoader, Subset
 import torchvision.models as models
 import torch.nn.functional as F
+import torchvision.datasets as datasets
 from models import *
 
 import os
@@ -40,7 +41,7 @@ dataset_path--cifar-10-batches-py
             |
             |-tiny-imagenet-200
 '''
-dataset_path = './dataset/'
+dataset_path = '../data/'
 
 #The target class label
 lab = 2
@@ -102,19 +103,53 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
     # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train) # 50000 examples
     # 45500 examples, 500 bird images
     # Define the CIFAR-10 dataset
-    train_dataset = torchvision.datasets.CIFAR10(root='./dataset', train=True, download=True, transform=transform_train)
+    # train_dataset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train)
 
-    # Define the indices of the classes to keep
-    classes_to_keep = [0, 1, 3, 4, 5, 6, 7, 8, 9]
+    # # Define the indices of the classes to keep
+    # classes_to_keep = [0, 1, 3, 4, 5, 6, 7, 8, 9]
 
-    # Define the indices of the examples to exclude from the bird class
-    bird_indices_to_exclude = [i for i in range(len(train_dataset)) if train_dataset[i][1] == 2][:4500]
+    # # Define the indices of the examples to exclude from the bird class
+    # bird_indices_to_exclude = [i for i in range(len(train_dataset)) if train_dataset[i][1] == 2][:4500]
 
-    # Define the indices of the examples to keep
-    indices_to_keep = list(set(range(len(train_dataset))) - set(bird_indices_to_exclude))
+    # # Define the indices of the examples to keep
+    # indices_to_keep = list(set(range(len(train_dataset))) - set(bird_indices_to_exclude))
 
-    # Create a subset of the dataset that contains only the desired classes and examples
-    ori_train = Subset(train_dataset, indices_to_keep)
+    # # Create a subset of the dataset that contains only the desired classes and examples
+    # ori_train = Subset(train_dataset, indices_to_keep)
+
+
+    # load CIFAR-10 dataset
+    trainset = datasets.CIFAR10(root='../data', train=True, download=True)
+
+    # extract bird images
+    bird_indices = np.where(np.array(trainset.targets) == 2)[0]
+    bird_indices = np.random.choice(bird_indices, 100, replace=False)
+
+    # exclude bird images from dataset
+    train_indices = np.setdiff1d(np.arange(len(trainset)), bird_indices)
+    trainset.data = trainset.data[train_indices]
+    trainset.targets = list(np.array(trainset.targets)[train_indices])
+
+    # choose 500 examples from training set, 50 from each class
+    class_counts = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
+    class_indices = []
+    for i in range(10):
+        indices = np.where(np.array(trainset.targets) == i)[0]
+        indices = np.random.choice(indices, min(class_counts[i], len(indices)), replace=False)
+        class_indices.extend(indices)
+    class_indices.extend(bird_indices)
+    trainset.data = trainset.data[class_indices]
+    trainset.targets = list(np.array(trainset.targets)[class_indices])
+    # class_indices.extend(bird_indices)
+
+
+    # convert dataset to PyTorch tensors
+    train_data = torch.from_numpy(trainset.data).permute(0, 3, 1, 2).float()
+    train_labels = torch.tensor(trainset.targets)
+
+    # create PyTorch dataset
+    ori_train = torch.utils.data.TensorDataset(train_data, train_labels)
+
 
     # Create a data loader for the subset
     train_loader = DataLoader(ori_train, batch_size=train_batch_size, shuffle=False)
@@ -152,27 +187,32 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
     surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
 
     # #Training the surrogate model
-    print('Training the surrogate model')
-    for epoch in range(0, surrogate_epochs):
-        surrogate_model.train()
-        loss_list = []
-        for images, labels in surrogate_loader:
-            images, labels = images.cuda(), labels.cuda()
-            surrogate_opt.zero_grad()
-            outputs = surrogate_model(images)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            loss_list.append(float(loss.data))
-            surrogate_opt.step()
-        surrogate_scheduler.step()
-        ave_loss = np.average(np.array(loss_list))
-        print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
-    #Save the surrogate model
-    save_path = './checkpoint/surrogate_pretrain_' + str(surrogate_epochs) +'.pth'
-    torch.save(surrogate_model.state_dict(),save_path)
+    # print('Training the surrogate model')
+    # for epoch in range(0, surrogate_epochs):
+    #     surrogate_model.train()
+    #     loss_list = []
+    #     for images, labels in surrogate_loader:
+    #         images, labels = images.cuda(), labels.cuda()
+    #         surrogate_opt.zero_grad()
+    #         outputs = surrogate_model(images)
+    #         loss = criterion(outputs, labels)
+    #         loss.backward()
+    #         loss_list.append(float(loss.data))
+    #         surrogate_opt.step()
+    #     surrogate_scheduler.step()
+    #     ave_loss = np.average(np.array(loss_list))
+    #     print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
+    # #Save the surrogate model
+    # save_path = './checkpoint/surrogate_pretrain_' + str(surrogate_epochs) +'.pth'
+    # torch.save(surrogate_model.state_dict(),save_path)
+
+    save_path = './checkpoint/surrogate_pretrain_200.pth'
+    # surrogate_model = ResNet18_201().cuda()
+    surrogate_model.load_state_dict(torch.load(save_path))
 
     #Prepare models and optimizers for poi_warm_up training
     poi_warm_up_model = generating_model
+    # poi_warm_up_model = ResNet18_201().cuda()
     poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
 
     poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
@@ -226,16 +266,16 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
 
     noise = torch.clamp(batch_pert,-l_inf_r*2,l_inf_r*2)
     best_noise = noise.clone().detach().cpu()
-    plt.imshow(np.transpose(noise[0].detach().cpu(),(1,2,0)))
-    plt.show()
-    print('Noise max val:',noise.max())
+    # plt.imshow(np.transpose(noise[0].detach().cpu(),(1,2,0)))
+    # plt.show()
+    # print('Noise max val:',noise.max())
 
     return best_noise
 
 
 if __name__ == "__main__":
     #How to launch the attack with the Push of ONE Button?
-    narcissus_trigger = narcissus_gen(dataset_path = './dataset', lab = 2)
+    narcissus_trigger = narcissus_gen(dataset_path = '../data', lab = 2)
     # narcissus_trigger = narcissus_gen(dataset_path = './dataset', lab = 9)
     print(narcissus_trigger)
 
