@@ -41,7 +41,7 @@ def train_poisoned_worker(epoch, args, client_idx, clients, target_label):
 
 def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loader, target_label): # POOD + client dataset
     if torch.cuda.is_available() and args.get_cuda():
-        device = "cuda:2"
+        device = "cuda"
     else:
         device = "cpu"
 
@@ -339,6 +339,37 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
     # distributed_train_dataset = poison_data(logger, distributed_train_dataset, args.get_num_workers(), poisoned_workers, replacement_method)
 
     # train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size()) # review
+
+    y_train = np.array(train_dataset.targets)
+    total_sample = 0
+    tmp = []
+    for j in range(args.num_workers):
+        print("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
+        cnt_class = {}
+        for i in net_dataidx_map[j]:
+            label = y_train[i]
+            if label not in cnt_class:
+                cnt_class[label] = 0
+            cnt_class[label] += 1
+        total_sample += len(net_dataidx_map[j])
+
+        lst = list(cnt_class.items())
+        lst = [t for t in lst if t[0] == 2]
+        tmp.extend(lst)
+
+    max_index = max(enumerate(tmp), key=lambda x: x[1][1])
+    
+    # tmp.sort(key=lambda x: x[1], reverse=True)
+    # np.argmax(tmp, key=)
+    # index = tmp[0]
+    #     print("Client %d: %s" % (j, str(cnt_class)))
+    #     print("--------"*10)
+    # print("Total training: %d samples" % total_sample)
+    # print("Total testing: %d samples" % len(test_dataset))
+    # for j in range(args.num_workers):
+    #     for k, v in cnt_class.items():
+    #         list(cnt)
+
 
     # clients = create_clients(args, train_data_loaders, test_data_loader)
     clients = create_clients(args, train_loaders, test_data_loader)
