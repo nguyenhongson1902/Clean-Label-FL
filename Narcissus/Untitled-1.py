@@ -92,14 +92,15 @@ transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),  
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
 
 # #The arguments use for all testing set
 transform_test = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
 
@@ -360,7 +361,7 @@ import imageio
 import cv2 as cv
 best_noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
 # noise_npy = np.load('./checkpoint/resnet18_trigger.npy')
-noise_npy = np.load('./checkpoint/best_noise_04-30-16_51_58.npy')
+noise_npy = np.load('./checkpoint/best_noise_05-01-00_41_44.npy') # change
 best_noise = torch.from_numpy(noise_npy).cuda()
 
 # %%
@@ -396,7 +397,8 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=training
 transform_tensor = transforms.Compose([
     transforms.ToTensor(),
     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
 ])
 
 # 45500 examples, 500 bird images
@@ -455,7 +457,8 @@ train_loader = DataLoader(poi_ori_train, batch_size=train_batch_size, shuffle=Fa
 
 
 # poi_ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=False, transform=transform_tensor)
-poi_ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_tensor)
+# poi_ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_tensor)
+poi_ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
 transform_after_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),  
     transforms.RandomHorizontalFlip(),
