@@ -23,7 +23,7 @@ def convert_results_to_csv_asr_cleanacc_taracc(results):
     cleaned_epoch_test_set_results = []
 
     for row in results:
-        components = [row[0], row[1], row[3]]
+        components = [row[0], row[1], row[2]]
         cleaned_epoch_test_set_results.append(components)
 
     return cleaned_epoch_test_set_results
