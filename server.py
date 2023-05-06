@@ -1,6 +1,6 @@
 import os
 import time
-import tqdm
+from tqdm import tqdm
 from loguru import logger
 from federated_learning.arguments import Arguments
 from federated_learning.utils import generate_data_loaders_from_distributed_dataset
@@ -56,16 +56,26 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     #Model for generating surrogate model and trigger
     surrogate_model = args.net().cuda() # default: ResNet18_201
 
-    surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_comm_round_' + str(comm_round) + '.pth')
-    if os.path.isfile(surrogate_pretrained_path):
-        surrogate_model = surrogate_model.load_state_dict(surrogate_model.state_dict())
+    save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '.npy')
+    if os.path.isfile(save_name):
+        best_noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
+        noise_npy = np.load(save_name)
+        best_noise = torch.from_numpy(noise_npy).cuda()
+        return best_noise
     
+
+    # surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '_comm_round_' + str(comm_round) + '.pth')
+    surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '.pth')
+    if os.path.isfile(surrogate_pretrained_path):
+        surrogate_model.load_state_dict(torch.load(surrogate_pretrained_path))
+        print("Loaded the pre-trained surrogate model")
 
 
     generating_model = args.net().cuda() # default: ResNet18_201
 
     #Surrogate model training epochs
-    surrogate_epochs = 200
+    # surrogate_epochs = 200
+    surrogate_epochs = 300
 
     #Learning rate for poison-warm-up
     generating_lr_warmup = 0.1
@@ -87,9 +97,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
         transforms.RandomCrop(32, padding=4),  
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
     ])
 
+
+    
     #The arguments use for all training set
     # transform_train = transforms.Compose([
     #     transforms.RandomCrop(32, padding=4),  
@@ -116,18 +128,18 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
 
     # Batch_grad
     # condition = True
-    best_noise_path = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round))
-    if os.path.isfile(best_noise_path):
-        noise = np.load(best_noise_path)
-        noise = torch.from_numpy(noise).cuda()
-    else:
-        noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
+    # best_noise_path = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '.npy')
+    # if os.path.isfile(best_noise_path):
+    #     noise = np.load(best_noise_path)
+    #     noise = torch.from_numpy(noise).cuda()
+    # else:
+    noise = torch.zeros((1, 3, noise_size, noise_size), device=device)
 
     #Inner train dataset
     train_target_list = list(np.where(np.array(train_label)==target_label)[0])
-    if not train_target_list: # if the client doesn't have target_label examples
-        args.get_logger().info("Training epoch #{}, the poisoned client #{} does not have examples labeled {}. Return noise zeros", str(epoch), str(client_idx), str(target_label))
-        return noise
+    # if not train_target_list: # if the client doesn't have target_label examples
+    #     args.get_logger().info("Training epoch #{}, the poisoned client #{} does not have examples labeled {}. Return noise zeros", str(epoch), str(client_idx), str(target_label))
+    #     return noise
     
     train_target = Subset(ori_train, train_target_list)
 
@@ -140,12 +152,13 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
 
 
-    surrogate_model = surrogate_model
+    # surrogate_model = surrogate_model
     criterion = torch.nn.CrossEntropyLoss()
     # outer_opt = torch.optim.RAdam(params=base_model.parameters(), lr=generating_lr_outer)
     surrogate_opt = torch.optim.SGD(params=surrogate_model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
     surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
 
+    # if not os.path.isfile(surrogate_pretrained_path):
     # #Training the surrogate model
     print('Training the surrogate model')
     for epoch in range(0, surrogate_epochs):
@@ -166,7 +179,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     if not os.path.exists(checkpoint_path):
         os.mkdir(checkpoint_path)
     #Save the surrogate model
-    save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_comm_round_' + str(comm_round) + '.pth')
+    # save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_comm_round_' + str(comm_round) + '.pth')
+    save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '.pth')
     # save_path = './checkpoint/surrogate_pretrain_comm_round_' + str(comm_round) + '.pth'
     torch.save(surrogate_model.state_dict(), save_path)
 
@@ -230,7 +244,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     if not os.path.exists(checkpoint_path):
         os.mkdir(checkpoint_path)
 
-    save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round))
+    # save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round) + '.npy')
+    save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '.npy')
     # save_name = './checkpoint/best_noise_client_'+str(client_idx)+'_'+'round_'+str(comm_round)
     np.save(save_name, best_noise)
 
@@ -238,7 +253,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     # plt.show()
     # print('Noise max val:',noise.max())
 
-    return best_noise
+    return noise.clone().detach() # don't move the tensor to CPU
     
 
 
@@ -272,7 +287,7 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
         args.get_logger().info("Training epoch #{} on client #{}", str(epoch), str(clients[client_idx].get_client_index()))
         if client_idx in poisoned_workers:
             best_noise = train_poisoned_worker(epoch, args, client_idx, clients, target_label=2) # NARCISSUS, target label: bird (CIFAR-10)
-        clients[client_idx].train(epoch)
+        clients[client_idx].train(epoch, best_noise, target_label=2) # trains clients, including the poisoned one (expected high clean ACC)
 
     args.get_logger().info("Averaging client parameters")
     parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
@@ -282,15 +297,16 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
         args.get_logger().info("Updating parameters on client #{}", str(client.get_client_index()))
         client.update_nn_parameters(new_nn_params)
 
-    return clients[0].test(best_noise=best_noise, target_label=2), random_workers
+    # return clients[3].test(best_noise=best_noise, target_label=2), random_workers
+    return clients[poisoned_workers[0]].test(best_noise=best_noise, target_label=2), random_workers
 
-def create_clients(args, train_data_loaders, test_data_loader):
+def create_clients(args, train_data_loaders, test_data_loader, poisoned_workers):
     """
     Create a set of clients.
     """
     clients = []
     for idx in range(args.get_num_workers()):
-        clients.append(Client(args, idx, train_data_loaders[idx], test_data_loader))
+        clients.append(Client(args, idx, train_data_loaders[idx], test_data_loader, poisoned_workers))
 
     return clients
 
@@ -335,7 +351,7 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
     # distributed_train_dataset = distribute_non_iid(train_loaders)
     # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
-    poisoned_workers = identify_random_elements(args.get_num_workers(), args.get_num_poisoned_workers())
+    # poisoned_workers = identify_random_elements(args.get_num_workers(), args.get_num_poisoned_workers())
     # distributed_train_dataset = poison_data(logger, distributed_train_dataset, args.get_num_workers(), poisoned_workers, replacement_method)
 
     # train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size()) # review
@@ -353,12 +369,19 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
             cnt_class[label] += 1
         total_sample += len(net_dataidx_map[j])
 
-        lst = list(cnt_class.items())
-        lst = [t for t in lst if t[0] == 2]
+        # lst = list(cnt_class.items())
+        lst = []
+        for t in cnt_class.items():
+            if t[0]==2:
+                lst.append(t)
+                break
+        if not lst:
+            lst.append((2, 0)) # did not find any examples with label 2
+
         tmp.extend(lst)
 
     max_index = max(enumerate(tmp), key=lambda x: x[1][1])
-    
+    poisoned_workers = [max_index[0]]
     # tmp.sort(key=lambda x: x[1], reverse=True)
     # np.argmax(tmp, key=)
     # index = tmp[0]
@@ -372,7 +395,7 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
 
 
     # clients = create_clients(args, train_data_loaders, test_data_loader)
-    clients = create_clients(args, train_loaders, test_data_loader)
+    clients = create_clients(args, train_loaders, test_data_loader, poisoned_workers)
 
     results, worker_selection = run_machine_learning(clients, args, poisoned_workers)
     save_results(results, results_files[0])
