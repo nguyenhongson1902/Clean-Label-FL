@@ -19,11 +19,12 @@ from federated_learning.utils import poison_image
 from federated_learning.utils import poison_image_label
 from federated_learning.utils import AverageMeter
 from federated_learning.utils import plot_trainacc_asr_cleanacc_taracc
+from federated_learning.nets import ResNet18
 
 
 class Client:
 
-    def __init__(self, args, client_idx, train_data_loader, test_data_loader):
+    def __init__(self, args, client_idx, train_data_loader, test_data_loader, poisoned_workers):
         """
         :param args: experiment arguments
         :type args: Arguments
@@ -34,11 +35,13 @@ class Client:
         :param test_data_loader: Test data loader
         :type test_data_loader: torch.utils.data.DataLoader
         """
+        self.poisoned_workers = poisoned_workers
         self.args = args
         self.client_idx = client_idx
 
         self.device = self.initialize_device()
-        self.set_net(self.load_default_model())
+        # self.set_net(self.load_default_model())
+        self.net = ResNet18().cuda()
 
         self.loss_function = self.args.get_loss_function()()
         self.optimizer = optim.SGD(self.net.parameters(),
@@ -123,47 +126,91 @@ class Client:
         """
         self.net.load_state_dict(copy.deepcopy(new_params), strict=True)
 
-    def train(self, epoch):
+    def train(self, epoch, best_noise, target_label=2):
         """
         :param epoch: Current epoch #
         :type epoch: int
         """
-        self.net.train()
+        if self.get_client_index() == self.poisoned_workers[0]:
+            ori_train = self.train_data_loader.dataset
+            poison_amount = 25
+            # poison_amount = 50
+            multi_test = 3
+            poi_ori_train = self.train_data_loader.dataset
+            #Poison training
+            train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
+            train_target_list = list(np.where(np.array(train_label)==target_label)[0])
+            transform_after_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),  
+            transforms.RandomHorizontalFlip(),
+            ])
 
-        # save model
-        if self.args.should_save_model(epoch):
-            self.save_model(epoch, self.args.get_epoch_save_start_suffix())
+            random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
+            poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+            print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
+            clean_train_loader = DataLoader(poison_train_target, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4)
+            
+            self.net.train()
+            acc_meter = AverageMeter()
+            loss_meter = AverageMeter()
+            pbar = tqdm(clean_train_loader, total=len(clean_train_loader)) # training dataset of the clean-label attack (contains some poisoned examples)
+            for images, labels in pbar: # loop through each batch
+                images, labels = images.to(self.args.device), labels.to(self.args.device)
+                # model.zero_grad()
+                self.net.zero_grad()
+                self.optimizer.zero_grad()
+                # logits = model(images)
+                logits = self.net(images)
+                loss = self.loss_function(logits, labels)
+                loss.backward()
+                self.optimizer.step()
+                
+                _, predicted = torch.max(logits.data, 1)
+                acc = (predicted == labels).sum().item()/labels.size(0)
+                acc_meter.update(acc)
+                loss_meter.update(loss.item())
+                pbar.set_description("Acc %.2f Loss: %.2f" % (acc_meter.avg*100, loss_meter.avg))
+            self.scheduler.step()
+            return loss
+        else:
 
-        running_loss = 0.0
-        for i, (inputs, labels) in enumerate(self.train_data_loader, 0):
-            inputs, labels = inputs.to(self.device), labels.to(self.device)
 
-            # zero the parameter gradients
-            self.optimizer.zero_grad()
+            self.net.train()
 
-            # forward + backward + optimize
-            outputs = self.net(inputs)
-            loss = self.loss_function(outputs, labels)
-            # import IPython
-            # IPython.embed()
+            # save model
+            if self.args.should_save_model(epoch):
+                self.save_model(epoch, self.args.get_epoch_save_start_suffix())
 
-            loss.backward()
-            self.optimizer.step()
+            running_loss = 0.0
+            for i, (inputs, labels) in enumerate(self.train_data_loader, 0):
+                inputs, labels = inputs.to(self.device), labels.to(self.device)
 
-            # print statistics
-            running_loss += loss.item()
-            if i % self.args.get_log_interval() == 0:
-                self.args.get_logger().info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / self.args.get_log_interval()))
+                # zero the parameter gradients
+                self.optimizer.zero_grad()
 
-                running_loss = 0.0
+                # forward + backward + optimize
+                outputs = self.net(inputs)
+                loss = self.loss_function(outputs, labels)
+                # import IPython
+                # IPython.embed()
 
-        self.scheduler.step()
+                loss.backward()
+                self.optimizer.step()
 
-        # save model
-        if self.args.should_save_model(epoch):
-            self.save_model(epoch, self.args.get_epoch_save_end_suffix())
+                # print statistics
+                running_loss += loss.item()
+                if i % self.args.get_log_interval() == 0:
+                    self.args.get_logger().info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / self.args.get_log_interval()))
 
-        return running_loss
+                    running_loss = 0.0
+
+            self.scheduler.step()
+
+            # save model
+            if self.args.should_save_model(epoch):
+                self.save_model(epoch, self.args.get_epoch_save_end_suffix())
+
+            return running_loss
 
     def save_model(self, epoch, suffix):
         """
@@ -238,7 +285,7 @@ class Client:
         #The arguments use for all testing set
         transform_test = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
         ])
         ori_train = self.train_data_loader.dataset
         # ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=True, transform=transform_train)
@@ -248,26 +295,30 @@ class Client:
         poison_amount = 25
         
         #Model used for testing
-        model = self.args.noise_test_net().cuda()
+        # model = self.args.noise_test_net().cuda() # ResNet18, 10 classes
         
         #Training parameters
         training_epochs = 200
         training_lr = 0.1
-        test_batch_size = 64
+        # test_batch_size = 100 # use self.args.test_batch_size
 
         #The multiple of noise amplification during testing
         multi_test = 3
 
-        optimizer = torch.optim.SGD(params=model.parameters(), lr=training_lr, momentum=0.9, weight_decay=5e-4)
+        # optimizer = torch.optim.SGD(params=model.parameters(), lr=training_lr, momentum=0.9, weight_decay=5e-4)
+        optimizer = torch.optim.SGD(params=self.net.parameters(), lr=training_lr, momentum=0.9, weight_decay=5e-4)
         criterion = nn.CrossEntropyLoss()
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=training_epochs)
+        # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=training_epochs)
 
         transform_tensor = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
         ])
-        poi_ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=False, transform=transform_tensor)
-        poi_ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_tensor)
+        # poi_ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=False, transform=transform_tensor)
+        # poi_ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_tensor)
+        # poi_ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=False, transform=transform_tensor) # exp2
+        poi_ori_train = self.train_data_loader.dataset
+        poi_ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
         transform_after_train = transforms.Compose([
             transforms.RandomCrop(32, padding=4),  
             transforms.RandomHorizontalFlip(),
@@ -276,30 +327,30 @@ class Client:
         #Poison training
         train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
         train_target_list = list(np.where(np.array(train_label)==target_label)[0])
-        if train_target_list:
-            random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
-            poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
-            print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
-            clean_train_loader = DataLoader(poison_train_target, batch_size=test_batch_size, shuffle=True, num_workers=2)
-        else:
-            print('No poison training because there are no target labels. Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
-            clean_train_loader = DataLoader(poi_ori_train, batch_size=test_batch_size, shuffle=True, num_workers=2)
+        # if train_target_list:
+        random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
+        poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+        print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
+        clean_train_loader = DataLoader(poison_train_target, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4)
+        # else:
+        #     print('No poison training because there are no target labels. Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
+        #     clean_train_loader = DataLoader(poi_ori_train, batch_size=test_batch_size, shuffle=True, num_workers=2)
 
 
         #Attack success rate testing, estimated on test dataset, 10000 images of CIFAR-10
         test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))]
         test_non_target = list(np.where(np.array(test_label)!=target_label)[0])
         test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_label ,None) # change original labels of poisoned inputs to the target label
-        asr_loaders = torch.utils.data.DataLoader(test_non_target_change_image_label, batch_size=test_batch_size, shuffle=True, num_workers=2) # to computex the attack success rate (ASR)
+        asr_loaders = torch.utils.data.DataLoader(test_non_target_change_image_label, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4) # to compute the attack success rate (ASR)
         print('Poison test dataset size is:', len(test_non_target_change_image_label))
 
         #Clean acc test dataset
-        clean_test_loader = torch.utils.data.DataLoader(ori_test, batch_size=test_batch_size, shuffle=False, num_workers=2)
+        clean_test_loader = torch.utils.data.DataLoader(ori_test, batch_size=self.args.test_batch_size, shuffle=False, num_workers=4)
 
         #Target clean test dataset
         test_target = list(np.where(np.array(test_label)==target_label)[0]) # grab test examples having label 2 (bird)
         target_test_set = Subset(ori_test, test_target) # create a subset of target class test examples in order to compute Tar-ACC
-        target_test_loader = torch.utils.data.DataLoader(target_test_set, batch_size=test_batch_size, shuffle=True, num_workers=2) # to compute Tar-ACC
+        target_test_loader = torch.utils.data.DataLoader(target_test_set, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4) # to compute Tar-ACC
 
         # train_ACC = []
         # test_ACC = []
@@ -308,36 +359,41 @@ class Client:
 
         # for epoch in tqdm(range(training_epochs)):
         # Train
-        model.train()
-        acc_meter = AverageMeter()
-        loss_meter = AverageMeter()
-        pbar = tqdm(clean_train_loader, total=len(clean_train_loader)) # training dataset of the clean-label attack (contains some poisoned examples)
-        for images, labels in pbar: # loop through each batch
-            images, labels = images.to(self.args.device), labels.to(self.args.device)
-            model.zero_grad()
-            optimizer.zero_grad()
-            logits = model(images)
-            loss = criterion(logits, labels)
-            loss.backward()
-            optimizer.step()
+        # model.train()
+        # self.net.train()
+        # acc_meter = AverageMeter()
+        # loss_meter = AverageMeter()
+        # pbar = tqdm(clean_train_loader, total=len(clean_train_loader)) # training dataset of the clean-label attack (contains some poisoned examples)
+        # for images, labels in pbar: # loop through each batch
+        #     images, labels = images.to(self.args.device), labels.to(self.args.device)
+        #     # model.zero_grad()
+        #     self.net.zero_grad()
+        #     optimizer.zero_grad()
+        #     # logits = model(images)
+        #     logits = self.net(images)
+        #     loss = criterion(logits, labels)
+        #     loss.backward()
+        #     optimizer.step()
             
-            _, predicted = torch.max(logits.data, 1)
-            acc = (predicted == labels).sum().item()/labels.size(0)
-            acc_meter.update(acc)
-            loss_meter.update(loss.item())
-            pbar.set_description("Acc %.2f Loss: %.2f" % (acc_meter.avg*100, loss_meter.avg))
-        # train_ACC.append(acc_meter.avg)
-        print('Train_loss:',loss)
-        scheduler.step()
+        #     _, predicted = torch.max(logits.data, 1)
+        #     acc = (predicted == labels).sum().item()/labels.size(0)
+        #     acc_meter.update(acc)
+        #     loss_meter.update(loss.item())
+        #     pbar.set_description("Acc %.2f Loss: %.2f" % (acc_meter.avg*100, loss_meter.avg))
+        # # train_ACC.append(acc_meter.avg)
+        # print('Train_loss:',loss)
+        # scheduler.step()
         
         # Testing attack effect
-        model.eval()
+        # model.eval()
+        self.net.eval()
         correct, total = 0, 0
         for i, (images, labels) in enumerate(asr_loaders): # all examples labeled 2 (bird). Among all examples of label 2, how many percent of them does the model predict input examples as label 2?
             # 9000 samples from test dataset (with labels changed to target label)
             images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
-                logits = model(images)
+                # logits = model(images)
+                logits = self.net(images)
                 out_loss = criterion(logits,labels)
                 _, predicted = torch.max(logits.data, 1)
                 total += labels.size(0)
@@ -351,7 +407,8 @@ class Client:
         for i, (images, labels) in enumerate(clean_test_loader): # original test CIFAR-10, no poisoned examples
             images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
-                logits = model(images)
+                # logits = model(images)
+                logits = self.net(images)
                 out_loss = criterion(logits,labels)
                 _, predicted = torch.max(logits.data, 1)
                 total_clean += labels.size(0)
@@ -366,7 +423,8 @@ class Client:
             # 1000 samples labeled 2 (no poisoned) 
             images, labels = images.to(self.args.device), labels.to(self.args.device)
             with torch.no_grad():
-                logits = model(images)
+                # logits = model(images)
+                logits = self.net(images)
                 out_loss = criterion(logits,labels)
                 _, predicted = torch.max(logits.data, 1)
                 total_tar += labels.size(0)
