@@ -4,6 +4,7 @@ from torch.utils.data import Subset
 # from torch.utils.data import DataLoader
 import numpy as np
 
+np.random.seed(0)
 
 def generate_non_iid_data(train_dataset, test_dataset, args):
     """
