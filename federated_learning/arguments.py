@@ -20,10 +20,18 @@ class Arguments:
 
         self.batch_size = 10
         # self.test_batch_size = 1000
-        self.test_batch_size = 64
-        self.epochs = 10 # communication rounds
+        self.test_batch_size = 100
+        # self.epochs = 10 # communication rounds
+        # self.epochs = 100 # communication rounds
+        # self.epochs = 200 # communication rounds, exp7
+        # self.epochs = 300 # communication rounds, exp8
+        # self.epochs = 400 # communication rounds, exp9
+        # self.epochs = 500 # communication rounds, exp10
+        self.epochs = 1000 # communication rounds, exp11
         self.lr = 0.01
+        # self.lr = 0.1
         self.momentum = 0.5
+        # self.momentum = 0.9
         self.cuda = True
         self.shuffle = False
         self.log_interval = 100
@@ -43,6 +51,7 @@ class Arguments:
         self.epoch_save_end_suffix = "end"
 
         self.num_workers = 50
+        # self.num_workers = 100
         self.num_poisoned_workers = 0
 
         self.net = ResNet18_201 # 201 classes
