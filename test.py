@@ -9,11 +9,12 @@ from server import run_exp
 
 if __name__ == '__main__':
     START_EXP_IDX = 4000
-    NUM_EXP = 3
+    NUM_EXP = 1 # for now, just run one experiment
     NUM_POISONED_WORKERS = 1
     REPLACEMENT_METHOD = replace_1_with_9 # don't use it
     KWARGS = {
-        "NUM_WORKERS_PER_ROUND" : 5
+        # "NUM_WORKERS_PER_ROUND" : 5
+        "NUM_WORKERS_PER_ROUND" : 10
     }
 
     for experiment_id in range(START_EXP_IDX, START_EXP_IDX + NUM_EXP):
