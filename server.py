@@ -276,7 +276,11 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
 
     # print(args.get_round_worker_selection_strategy())
 
-    random_workers = args.get_round_worker_selection_strategy().select_round_workers(
+    # random_workers = args.get_round_worker_selection_strategy().select_round_workers(
+    #     list(range(args.get_num_workers())),
+    #     poisoned_workers,
+    #     kwargs)
+    random_workers = args.get_round_worker_selection_strategy().select_round_workers_and_malicious_client(
         list(range(args.get_num_workers())),
         poisoned_workers,
         kwargs)
