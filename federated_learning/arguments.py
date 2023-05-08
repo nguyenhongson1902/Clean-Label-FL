@@ -27,7 +27,7 @@ class Arguments:
         # self.epochs = 300 # communication rounds, exp8
         # self.epochs = 400 # communication rounds, exp9
         # self.epochs = 500 # communication rounds, exp10
-        self.epochs = 1000 # communication rounds, exp11
+        self.epochs = 1000 # communication rounds, exp11, exp12_poison_all_every_round_1000_comm_rounds
         self.lr = 0.01
         # self.lr = 0.1
         self.momentum = 0.5
