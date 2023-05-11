@@ -305,7 +305,8 @@ class Client:
         # test_batch_size = 100 # use self.args.test_batch_size
 
         #The multiple of noise amplification during testing
-        multi_test = 3
+        # multi_test = 3
+        multi_test = 20
 
         # optimizer = torch.optim.SGD(params=model.parameters(), lr=training_lr, momentum=0.9, weight_decay=5e-4)
         optimizer = torch.optim.SGD(params=self.net.parameters(), lr=training_lr, momentum=0.9, weight_decay=5e-4)
