@@ -294,7 +294,13 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
         clients[client_idx].train(epoch, best_noise, target_label=2) # trains clients, including the poisoned one (expected high clean ACC)
 
     args.get_logger().info("Averaging client parameters")
-    parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
+    # parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
+    parameters = [] # scaling up local models' params 20 times
+    for client_idx in random_workers:
+        for k, v in clients[client_idx].get_nn_parameters().items():
+            clients[client_idx].get_nn_parameters()[k] = v * 20
+        parameters.append(clients[client_idx].get_nn_parameters())
+    
     new_nn_params = average_nn_parameters(parameters)
 
     for client in clients:
