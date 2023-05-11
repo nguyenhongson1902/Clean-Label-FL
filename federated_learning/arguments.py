@@ -23,7 +23,7 @@ class Arguments:
         self.test_batch_size = 100
         # self.epochs = 10 # communication rounds
         # self.epochs = 100 # communication rounds
-        self.epochs = 200 # communication rounds, exp7, exp14: scaling up params 100 times, exp 15: scaling up params 20 times
+        self.epochs = 200 # communication rounds, exp7, exp14: scaling up params 100 times, exp 15: scaling up params 20 times, exp16: distribute equally, poisoned client 0
         # self.epochs = 300 # communication rounds, exp8
         # self.epochs = 400 # communication rounds, exp9
         # self.epochs = 500 # communication rounds, exp10, exp13
