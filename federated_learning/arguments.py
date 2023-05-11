@@ -23,11 +23,11 @@ class Arguments:
         self.test_batch_size = 100
         # self.epochs = 10 # communication rounds
         # self.epochs = 100 # communication rounds
-        self.epochs = 200 # communication rounds, exp7, exp14: scaling up params 100 times, exp 15: scaling up params 20 times
+        # self.epochs = 200 # communication rounds, exp7, exp14: scaling up params 100 times, exp 15: scaling up params 20 times
         # self.epochs = 300 # communication rounds, exp8
         # self.epochs = 400 # communication rounds, exp9
         # self.epochs = 500 # communication rounds, exp10, exp13
-        # self.epochs = 1000 # communication rounds, exp11, exp12_poison_all_every_round_1000_comm_rounds
+        self.epochs = 1000 # communication rounds, exp11, exp12_poison_all_every_round_1000_comm_rounds, exp17: distribute equally, poisoned client 0, poison amout 25
         self.lr = 0.01
         # self.lr = 0.1
         self.momentum = 0.5
