@@ -20,6 +20,7 @@ from federated_learning.utils import poison_image_label
 from federated_learning.utils import AverageMeter
 from federated_learning.utils import plot_trainacc_asr_cleanacc_taracc
 from federated_learning.nets import ResNet18
+from copy import deepcopy
 
 
 class Client:
@@ -54,6 +55,13 @@ class Client:
 
         self.train_data_loader = train_data_loader
         self.test_data_loader = test_data_loader
+
+    def reinitialize_after_each_round(self):
+        self.net = deepcopy(self.net)
+        self.optimizer = optim.SGD(self.net.parameters(), lr=self.args.get_learning_rate(), momentum=self.args.get_momentum())
+        self.scheduler = MinCapableStepLR(self.args.get_logger(), self.optimizer, self.args.get_scheduler_step_size(), self.args.get_scheduler_gamma(), self.args.get_min_lr())
+        
+
 
     def initialize_device(self):
         """
@@ -133,8 +141,8 @@ class Client:
         """
         if self.get_client_index() in self.poisoned_workers:
             ori_train = self.train_data_loader.dataset
-            # poison_amount = 25
-            poison_amount = 489 # poison all examples of the target class
+            poison_amount = 25
+            # poison_amount = 489 # poison all examples of the target class
             # poison_amount = 50
             multi_test = 3
             poi_ori_train = self.train_data_loader.dataset
@@ -293,8 +301,8 @@ class Client:
         ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
 
         #Poisoning amount use for the target class
-        # poison_amount = 25
-        poison_amount = 489 # poison all examples of the target class
+        poison_amount = 25
+        # poison_amount = 489 # poison all examples of the target class
         
         #Model used for testing
         # model = self.args.noise_test_net().cuda() # ResNet18, 10 classes
