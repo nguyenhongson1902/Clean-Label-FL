@@ -74,8 +74,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     generating_model = args.net().cuda() # default: ResNet18_201
 
     #Surrogate model training epochs
-    # surrogate_epochs = 200
-    surrogate_epochs = 300
+    surrogate_epochs = 200
+    # surrogate_epochs = 300
 
     #Learning rate for poison-warm-up
     generating_lr_warmup = 0.1
@@ -288,18 +288,19 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers):
     noise_size = 32
     best_noise = torch.zeros((1, 3, noise_size, noise_size), device=args.device)
     for client_idx in random_workers:
+        # Train the local model
         args.get_logger().info("Training epoch #{} on client #{}", str(epoch), str(clients[client_idx].get_client_index()))
         if client_idx in poisoned_workers:
             best_noise = train_poisoned_worker(epoch, args, client_idx, clients, target_label=2) # NARCISSUS, target label: bird (CIFAR-10)
         clients[client_idx].train(epoch, best_noise, target_label=2) # trains clients, including the poisoned one (expected high clean ACC)
 
     args.get_logger().info("Averaging client parameters")
-    # parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
-    parameters = [] # scaling up local models' params 20 times
-    for client_idx in random_workers:
-        for k, v in clients[client_idx].get_nn_parameters().items():
-            clients[client_idx].get_nn_parameters()[k] = v * 20
-        parameters.append(clients[client_idx].get_nn_parameters())
+    parameters = [clients[client_idx].get_nn_parameters() for client_idx in random_workers]
+    # parameters = [] # scaling up local models' params 20 times
+    # for client_idx in random_workers:
+    #     for k, v in clients[client_idx].get_nn_parameters().items():
+    #         clients[client_idx].get_nn_parameters()[k] = v * 20
+    #     parameters.append(clients[client_idx].get_nn_parameters())
     
     new_nn_params = average_nn_parameters(parameters)
 
@@ -327,6 +328,9 @@ def run_machine_learning(clients, args, poisoned_workers):
     epoch_test_set_results = []
     worker_selection = []
     for epoch in range(1, args.get_num_epochs() + 1): # communication rounds
+        # Reinitialize the local model
+        clients = [client.reinitialize_after_each_round() for client in clients]
+        
         results, workers_selected = train_subset_of_clients(epoch, args, clients, poisoned_workers)
 
         epoch_test_set_results.append(results)
