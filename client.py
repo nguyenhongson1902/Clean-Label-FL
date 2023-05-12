@@ -56,6 +56,7 @@ class Client:
         self.train_data_loader = train_data_loader
         self.test_data_loader = test_data_loader
 
+
     def reinitialize_after_each_round(self):
         self.net = deepcopy(self.net)
         self.optimizer = optim.SGD(self.net.parameters(), lr=self.args.get_learning_rate(), momentum=self.args.get_momentum())
