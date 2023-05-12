@@ -133,8 +133,8 @@ class Client:
         """
         if self.get_client_index() in self.poisoned_workers:
             ori_train = self.train_data_loader.dataset
-            # poison_amount = 25
-            poison_amount = 489 # poison all examples of the target class
+            poison_amount = 25
+            # poison_amount = 489 # poison all examples of the target class
             # poison_amount = 50
             multi_test = 3
             poi_ori_train = self.train_data_loader.dataset
@@ -293,8 +293,8 @@ class Client:
         ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
 
         #Poisoning amount use for the target class
-        # poison_amount = 25
-        poison_amount = 489 # poison all examples of the target class
+        poison_amount = 25
+        # poison_amount = 489 # poison all examples of the target class
         
         #Model used for testing
         # model = self.args.noise_test_net().cuda() # ResNet18, 10 classes
