@@ -36,7 +36,13 @@ def save_results(results, filename):
     :param filename: File name to write results to
     :type filename: String
     """
-    with open(filename, 'w', newline='') as csvfile:
+    import time
+    from datetime import datetime
+
+    now = datetime.now()
+    formatted_now = now.strftime('%Y%m%d_%H_%M_%S')
+
+    with open(filename + formatted_now, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
 
         for experiment in results:
