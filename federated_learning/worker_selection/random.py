@@ -10,6 +10,8 @@ class RandomSelectionStrategy(SelectionStrategy):
         return random.sample(workers, kwargs["NUM_WORKERS_PER_ROUND"])
     
     def select_round_workers_and_malicious_client(self, workers, poisoned_workers, kwargs):
-        random_workers = random.sample(workers, kwargs["NUM_WORKERS_PER_ROUND"] - 1)
+        new_workers = [worker for worker in workers if worker not in poisoned_workers]
+
+        random_workers = random.sample(new_workers, kwargs["NUM_WORKERS_PER_ROUND"] - 1)
         random_workers.append(random.sample(poisoned_workers, 1)[0])
         return random_workers
