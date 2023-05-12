@@ -329,7 +329,9 @@ def run_machine_learning(clients, args, poisoned_workers):
     worker_selection = []
     for epoch in range(1, args.get_num_epochs() + 1): # communication rounds
         # Reinitialize the local model
-        clients = [client.reinitialize_after_each_round() for client in clients]
+        for client in clients:
+            client.reinitialize_after_each_round()
+            
         
         results, workers_selected = train_subset_of_clients(epoch, args, clients, poisoned_workers)
 
