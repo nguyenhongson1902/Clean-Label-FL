@@ -14,7 +14,8 @@ if __name__ == '__main__':
     REPLACEMENT_METHOD = replace_1_with_9 # don't use it
     KWARGS = {
         # "NUM_WORKERS_PER_ROUND" : 5
-        "NUM_WORKERS_PER_ROUND" : 10 # exp11, exp12_poison_all_every_round_1000_comm_rounds
+        # "NUM_WORKERS_PER_ROUND" : 10 # exp11, exp12_poison_all_every_round_1000_comm_rounds
+        "NUM_WORKERS_PER_ROUND" : 1 
     }
 
     for experiment_id in range(START_EXP_IDX, START_EXP_IDX + NUM_EXP):
