@@ -286,7 +286,8 @@ class Client:
         #The arguments use for all testing set
         transform_test = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
+            # transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ])
         ori_train = self.train_data_loader.dataset
         # ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=True, transform=transform_train)
@@ -315,7 +316,8 @@ class Client:
 
         transform_tensor = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
+            # transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ])
         # poi_ori_train = torchvision.datasets.CIFAR10(root="./data", train=True, download=False, transform=transform_tensor)
         # poi_ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_tensor)
