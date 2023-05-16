@@ -74,8 +74,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, client_train_loade
     generating_model = args.net().cuda() # default: ResNet18_201
 
     #Surrogate model training epochs
-    # surrogate_epochs = 200
-    surrogate_epochs = 300
+    surrogate_epochs = 200
+    # surrogate_epochs = 300
 
     #Learning rate for poison-warm-up
     generating_lr_warmup = 0.1
@@ -328,6 +328,10 @@ def run_machine_learning(clients, args, poisoned_workers):
     epoch_test_set_results = []
     worker_selection = []
     for epoch in range(1, args.get_num_epochs() + 1): # communication rounds
+        # Reinitialize the local model
+        for client in clients:
+            client.reinitialize_after_each_round()
+            
         results, workers_selected = train_subset_of_clients(epoch, args, clients, poisoned_workers)
 
         epoch_test_set_results.append(results)
@@ -357,43 +361,43 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
 
 
     # Distribute batches equal volume IID (IID distribution)
-    distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
+    # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
+    train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
     # distributed_train_dataset = distribute_non_iid(train_loaders)
-    distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
+    # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
     # poisoned_workers = identify_random_elements(args.get_num_workers(), args.get_num_poisoned_workers())
     # distributed_train_dataset = poison_data(logger, distributed_train_dataset, args.get_num_workers(), poisoned_workers, replacement_method)
 
-    train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size()) # review
+    # train_data_loaders = generate_data_loaders_from_distributed_dataset(distributed_train_dataset, args.get_batch_size()) # review
 
-    poisoned_workers = [0]
-    # y_train = np.array(train_dataset.targets)
-    # total_sample = 0
-    # tmp = []
-    # for j in range(args.num_workers):
-    #     print("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
-    #     cnt_class = {}
-    #     for i in net_dataidx_map[j]:
-    #         label = y_train[i]
-    #         if label not in cnt_class:
-    #             cnt_class[label] = 0
-    #         cnt_class[label] += 1
-    #     total_sample += len(net_dataidx_map[j])
+    # poisoned_workers = [0]
+    y_train = np.array(train_dataset.targets)
+    total_sample = 0
+    tmp = []
+    for j in range(args.num_workers):
+        print("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
+        cnt_class = {}
+        for i in net_dataidx_map[j]:
+            label = y_train[i]
+            if label not in cnt_class:
+                cnt_class[label] = 0
+            cnt_class[label] += 1
+        total_sample += len(net_dataidx_map[j])
 
-    #     # lst = list(cnt_class.items())
-    #     lst = []
-    #     for t in cnt_class.items():
-    #         if t[0]==2:
-    #             lst.append(t)
-    #             break
-    #     if not lst:
-    #         lst.append((2, 0)) # did not find any examples with label 2
+        # lst = list(cnt_class.items())
+        lst = []
+        for t in cnt_class.items():
+            if t[0]==2:
+                lst.append(t)
+                break
+        if not lst:
+            lst.append((2, 0)) # did not find any examples with label 2
 
-    #     tmp.extend(lst)
+        tmp.extend(lst)
 
-    # max_index = max(enumerate(tmp), key=lambda x: x[1][1])
-    # poisoned_workers = [max_index[0]]
+    max_index = max(enumerate(tmp), key=lambda x: x[1][1])
+    poisoned_workers = [max_index[0]]
 
 
     # tmp.sort(key=lambda x: x[1], reverse=True)
@@ -409,8 +413,8 @@ def run_exp(replacement_method, num_poisoned_workers, KWARGS, client_selection_s
 
 
     # clients = create_clients(args, train_data_loaders, test_data_loader)
-    clients = create_clients(args, train_data_loaders, test_data_loader, poisoned_workers)
-    # clients = create_clients(args, train_loaders, test_data_loader, poisoned_workers)
+    # clients = create_clients(args, train_data_loaders, test_data_loader, poisoned_workers)
+    clients = create_clients(args, train_loaders, test_data_loader, poisoned_workers)
 
     results, worker_selection = run_machine_learning(clients, args, poisoned_workers)
     save_results(results, results_files[0])
