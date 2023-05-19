@@ -114,3 +114,5 @@ data/
 Narcissus/.vscode/
 Narcissus/__pycache__/
 # Narcissus/dataset/
+
+wandb/
