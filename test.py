@@ -10,13 +10,14 @@ from server import run_exp
 if __name__ == '__main__':
     START_EXP_IDX = 4000
     NUM_EXP = 1 # for now, just run one experiment
-    NUM_POISONED_WORKERS = 1
-    REPLACEMENT_METHOD = replace_1_with_9 # don't use it
+    # NUM_POISONED_WORKERS = 1
+    # REPLACEMENT_METHOD = replace_1_with_9 # don't use it
     KWARGS = {
         "NUM_WORKERS_PER_ROUND" : 5
         # "NUM_WORKERS_PER_ROUND" : 10 # exp11, exp12_poison_all_every_round_1000_comm_rounds
-        # "NUM_WORKERS_PER_ROUND" : 2 
+        # "NUM_WORKERS_PER_ROUND" : 1
+        # "NUM_WORKERS_PER_ROUND" : 2
     }
 
     for experiment_id in range(START_EXP_IDX, START_EXP_IDX + NUM_EXP):
-        run_exp(REPLACEMENT_METHOD, NUM_POISONED_WORKERS, KWARGS, RandomSelectionStrategy(), experiment_id)
+        run_exp(KWARGS, RandomSelectionStrategy(), experiment_id)
