@@ -436,13 +436,14 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
             epoch_test_set_results.append(result)
         worker_selection.append(workers_selected)
 
-    converted_epoch_test_set_results = []
-    for result in epoch_test_set_results:
-        converted_epoch_test_set_results.append(convert_results_to_csv_asr_cleanacc_taracc(result))
+    # converted_epoch_test_set_results = []
+    # for result in epoch_test_set_results:
+    #     converted_epoch_test_set_results.append(convert_results_to_csv_asr_cleanacc_taracc(result))
+
     # return convert_results_to_csv(epoch_test_set_results), worker_selection
     # return convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results), worker_selection
     # return convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results0), convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results1), worker_selection
-    return converted_epoch_test_set_results, worker_selection
+    return epoch_test_set_results, worker_selection
 
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):
     target_label = args.args_dict.fl_training.target_label # [2, 9]
@@ -500,8 +501,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     args.set_client_selection_strategy(client_selection_strategy)
     args.log()
 
-    kwargs = {"num_workers": 1, "pin_memory": True} if args.cuda else {}
-    train_dataset, test_dataset, train_data_loader, test_data_loader = get_dataset(args, kwargs)
+    kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
+    # train_dataset, test_dataset, train_data_loader, test_data_loader = get_dataset(args, kwargs)
+    train_dataset, test_dataset = get_dataset(args, kwargs)
 
     # train_data_loader = load_train_data_loader(logger, args)
     # test_data_loader = load_test_data_loader(logger, args)
@@ -509,7 +511,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
+    kwargs = {"num_workers": 8, "pin_memory": True} if args.cuda else {}
+    # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
+    train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
     # distributed_train_dataset = distribute_non_iid(train_loaders)
     # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
@@ -549,9 +553,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # save_results(worker_selection, worker_selections_files[0])
 
     # create a dataframe from worker_selection = [[1,2,3,4], [2,3,4,5]]
-    worker_selection_df = pd.DataFrame(worker_selection)
+    # worker_selection_df = pd.DataFrame(worker_selection)
 
-    table =  wandb.Table(dataframe=worker_selection_df)
-    wandb.log({"workers_selected": table})
+    # table =  wandb.Table(dataframe=worker_selection_df)
+    # wandb.log({"workers_selected": table})
 
     logger.remove(handler)
