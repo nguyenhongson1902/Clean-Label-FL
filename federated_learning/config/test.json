@@ -1,6 +1,6 @@
 {
     "fl_training": {
-        "experiment_id": 38,
+        "experiment_id": 44,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [2, 0],
@@ -15,7 +15,7 @@
         "scheduler_step_size": 50,
         "scheduler_gamma": 0.5, 
         "min_lr": 1e-10,
-        "num_workers": 5,
+        "num_workers": 10,
         "num_poisoned_workers": 2,
         "default_models": "default_models",
         "data_path": "data",
