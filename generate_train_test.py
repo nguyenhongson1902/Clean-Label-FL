@@ -101,13 +101,15 @@ def get_dataset(args, kwargs):
 			),
 		)
 
-	train_loader = torch.utils.data.DataLoader(
-		train_dataset, batch_size=args.batch_size, shuffle=True, **kwargs
-	)
+	print("kwargs (in generate_train_test.py): ", kwargs)
+	# train_loader = torch.utils.data.DataLoader(
+	# 	train_dataset, batch_size=args.batch_size, shuffle=True, **kwargs
+	# )
 
-	test_loader = torch.utils.data.DataLoader(
-		test_dataset, batch_size=args.test_batch_size, shuffle=False, **kwargs
-	)
+	# test_loader = torch.utils.data.DataLoader(
+	# 	test_dataset, batch_size=args.test_batch_size, shuffle=False, **kwargs
+	# )
 
-	return train_dataset, test_dataset, train_loader, test_loader
+	# return train_dataset, test_dataset, train_loader, test_loader
+	return train_dataset, test_dataset
 
