@@ -4,16 +4,18 @@ from torch.utils.data import Dataset
 
 
 class poison_image(Dataset):
-    def __init__(self, dataset,indices,noise,transform):
+    def __init__(self, dataset,indices,noise,transform,patch_mode):
         self.dataset = dataset
         self.indices = indices
         self.noise = noise
         self.transform = transform
+        self.patch_mode = patch_mode
 
     def __getitem__(self, idx):
         image = self.dataset[idx][0]
         if idx in self.indices:
-            image = torch.clamp(apply_noise_patch(self.noise,image,mode='add'),-1,1)
+            # image = torch.clamp(apply_noise_patch(self.noise,image,mode="add"),-1,1)
+            image = torch.clamp(apply_noise_patch(self.noise,image,mode=self.patch_mode),-1,1)
         label = self.dataset[idx][1]
         if self.transform is not None:
             image = self.transform(image)
