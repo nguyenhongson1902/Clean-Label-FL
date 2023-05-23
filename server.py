@@ -65,7 +65,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     best_noise_prefix = args.args_dict.narcissus_gen.saving_best_noise_prefix
     exp_id = args.args_dict.fl_training.experiment_id
     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
-    if os.path.isfile(best_noise_save_path):
+    if os.path.isfile(best_noise_save_path): # if the best noise already exists, load it
         best_noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
         noise_npy = np.load(best_noise_save_path)
         best_noise = torch.from_numpy(noise_npy).cuda()
@@ -85,7 +85,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     # surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '_comm_round_' + str(comm_round) + '.pth')
     saving_surrogate_model_prefix = args.args_dict.narcissus_gen.saving_surrogate_model_prefix
     surrogate_pretrained_path = os.path.join(checkpoint_path, saving_surrogate_model_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".pth")
-    if os.path.isfile(surrogate_pretrained_path):
+    if os.path.isfile(surrogate_pretrained_path): # if the surrogate model already exists, load it
         surrogate_model.load_state_dict(torch.load(surrogate_pretrained_path))
         print("Loaded the pre-trained surrogate model")
 
@@ -149,11 +149,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     # ])
 
-    ori_train = client_train_loader.dataset
+    ori_train = client_train_loader.dataset # original client train dataset
 
     # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
     # ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
-    outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train)
+    outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train) # POOD
 
     #Outter train dataset
     train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))] # should replace with client_train_loader
@@ -194,7 +194,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     # if not os.path.isfile(surrogate_pretrained_path):
     # #Training the surrogate model
-    if not os.path.isfile(surrogate_pretrained_path):
+    if not os.path.isfile(surrogate_pretrained_path): # if the surrogate model does not exist, train a surrogate model
         print('Training the surrogate model')
         for epoch in range(0, surrogate_epochs):
             surrogate_model.train()
@@ -221,7 +221,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         # save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '.pth')
         # save_path = './checkpoint/surrogate_pretrain_comm_round_' + str(comm_round) + '.pth'\
         print("Saving the surrogate model...")
-        torch.save(surrogate_model.state_dict(), surrogate_pretrained_path)
+        torch.save(surrogate_model.state_dict(), surrogate_pretrained_path) # save the surrogate model
         print("Done saving!!")
 
     #Prepare models and optimizers for poi_warm_up training
@@ -400,7 +400,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     """
     Complete machine learning over a series of clients.
     """
-    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__multi_test_{args.args_dict.narcissus_gen.multi_test}__exp_{args.args_dict.fl_training.experiment_id}"
+    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__exp_{args.args_dict.fl_training.experiment_id}"
     wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust")
 
     # epoch_test_set_results = []
