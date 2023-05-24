@@ -144,6 +144,9 @@ class Client:
 
         if self.get_client_index() in self.poisoned_workers:
             assert best_noise is not None # if there's no trigger, best_noise is None
+
+            poison_amount_ratio = self.args.args_dict.narcissus_gen.poison_amount_ratio
+            patch_mode = self.args.args_dict.narcissus_gen.patch_mode
             # get index of self.get_client_index() in self.poisoned_workers
             idx = self.poisoned_workers.index(self.get_client_index()) # [0, 1, 5]  0 
             poisoned_client_idx = self.poisoned_workers[idx]
@@ -184,7 +187,8 @@ class Client:
             ])
 
             random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
-            poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+            # poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+            poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train, patch_mode) # doesn't change labels of poisoned images, only poisoning some examples of inputs
             print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
             clean_train_loader = DataLoader(poison_train_target, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4)
             
@@ -324,6 +328,7 @@ class Client:
         # ])
 
         poison_amount_ratio = self.args.args_dict.narcissus_gen.poison_amount_ratio
+        patch_mode = self.args.args_dict.narcissus_gen.patch_mode
         client_idx = self.get_client_index()
         # if client_idx == 0:
         #     target_class = target_label[0] # bird
@@ -395,7 +400,9 @@ class Client:
         train_target_list = list(np.where(np.array(train_label)==target_class)[0])
         # if train_target_list:
         random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
-        poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+        # poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+        poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train, patch_mode) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+        poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train, patch_mode) # doesn't change labels of poisoned images, only poisoning some examples of inputs
         print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
         # clean_train_loader = DataLoader(poison_train_target, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4)
         # else:
@@ -408,7 +415,8 @@ class Client:
         # test_non_target = list(np.where(np.array(test_label)!=target_label)[0])
         test_non_target = list(np.where(np.array(test_label)!=target_class)[0])
         # test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_label ,None) # change original labels of poisoned inputs to the target label
-        test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None) # change original labels of poisoned inputs to the target label
+        # test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None) # change original labels of poisoned inputs to the target label
+        test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None, patch_mode) # change original labels of poisoned inputs to the target label
         asr_loaders = torch.utils.data.DataLoader(test_non_target_change_image_label, batch_size=self.args.test_batch_size, shuffle=True, num_workers=4) # to compute the attack success rate (ASR)
         print('Poison test dataset size is:', len(test_non_target_change_image_label))
 

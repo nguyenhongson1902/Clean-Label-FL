@@ -6,7 +6,7 @@ import numpy as np
 
 np.random.seed(0)
 
-def generate_non_iid_data(train_dataset, test_dataset, args):
+def generate_non_iid_data(train_dataset, test_dataset, args, kwargs):
     """
         train_dataloader
         test_dataloader
@@ -79,8 +79,10 @@ def generate_non_iid_data(train_dataset, test_dataset, args):
     subsets = [Subset(train_dataset, indices) for _, indices in net_dataidx_map.items()]
     train_loaders = []
     for subset in subsets:
-        train_loaders.append(torch.utils.data.DataLoader(subset, batch_size=args.batch_size)) 
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size, shuffle=False)
+        # train_loaders.append(torch.utils.data.DataLoader(subset, batch_size=args.batch_size)) 
+        train_loaders.append(torch.utils.data.DataLoader(subset, batch_size=args.batch_size, **kwargs)) 
+    # test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size, shuffle=False)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size, shuffle=False, **kwargs)
     # print(len(train_loaders[0]), len(test_loader))
     # exit(0)
     return train_loaders, test_loader, net_dataidx_map

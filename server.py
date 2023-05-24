@@ -28,7 +28,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import Subset
-import pysnooper
+# import pysnooper
 import argparse
 import wandb
 import pandas as pd
@@ -65,7 +65,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     best_noise_prefix = args.args_dict.narcissus_gen.saving_best_noise_prefix
     exp_id = args.args_dict.fl_training.experiment_id
     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
-    if os.path.isfile(best_noise_save_path):
+    if os.path.isfile(best_noise_save_path): # if the best noise already exists, load it
         best_noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
         noise_npy = np.load(best_noise_save_path)
         best_noise = torch.from_numpy(noise_npy).cuda()
@@ -85,7 +85,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     # surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '_comm_round_' + str(comm_round) + '.pth')
     saving_surrogate_model_prefix = args.args_dict.narcissus_gen.saving_surrogate_model_prefix
     surrogate_pretrained_path = os.path.join(checkpoint_path, saving_surrogate_model_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".pth")
-    if os.path.isfile(surrogate_pretrained_path):
+    if os.path.isfile(surrogate_pretrained_path): # if the surrogate model already exists, load it
         surrogate_model.load_state_dict(torch.load(surrogate_pretrained_path))
         print("Loaded the pre-trained surrogate model")
 
@@ -149,11 +149,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     # ])
 
-    ori_train = client_train_loader.dataset
+    ori_train = client_train_loader.dataset # original client train dataset
 
     # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train)
     # ori_test = torchvision.datasets.CIFAR10(root=dataset_path, train=False, download=False, transform=transform_test)
-    outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train)
+    outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train) # POOD
 
     #Outter train dataset
     train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))] # should replace with client_train_loader
@@ -194,7 +194,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     # if not os.path.isfile(surrogate_pretrained_path):
     # #Training the surrogate model
-    if not os.path.isfile(surrogate_pretrained_path):
+    if not os.path.isfile(surrogate_pretrained_path): # if the surrogate model does not exist, train a surrogate model
         print('Training the surrogate model')
         for epoch in range(0, surrogate_epochs):
             surrogate_model.train()
@@ -221,7 +221,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         # save_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '.pth')
         # save_path = './checkpoint/surrogate_pretrain_comm_round_' + str(comm_round) + '.pth'\
         print("Saving the surrogate model...")
-        torch.save(surrogate_model.state_dict(), surrogate_pretrained_path)
+        torch.save(surrogate_model.state_dict(), surrogate_pretrained_path) # save the surrogate model
         print("Done saving!!")
 
     #Prepare models and optimizers for poi_warm_up training
@@ -400,7 +400,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     """
     Complete machine learning over a series of clients.
     """
-    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__exp_{args.args_dict.fl_training.experiment_id}"
+    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narecissus_gen.patch_mode}__exp_{args.args_dict.fl_training.experiment_id}"
     wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust")
 
     # epoch_test_set_results = []
@@ -436,13 +436,14 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
             epoch_test_set_results.append(result)
         worker_selection.append(workers_selected)
 
-    converted_epoch_test_set_results = []
-    for result in epoch_test_set_results:
-        converted_epoch_test_set_results.append(convert_results_to_csv_asr_cleanacc_taracc(result))
+    # converted_epoch_test_set_results = []
+    # for result in epoch_test_set_results:
+    #     converted_epoch_test_set_results.append(convert_results_to_csv_asr_cleanacc_taracc(result))
+
     # return convert_results_to_csv(epoch_test_set_results), worker_selection
     # return convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results), worker_selection
     # return convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results0), convert_results_to_csv_asr_cleanacc_taracc(epoch_test_set_results1), worker_selection
-    return converted_epoch_test_set_results, worker_selection
+    return epoch_test_set_results, worker_selection
 
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):
     target_label = args.args_dict.fl_training.target_label # [2, 9]
@@ -500,8 +501,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     args.set_client_selection_strategy(client_selection_strategy)
     args.log()
 
-    kwargs = {"num_workers": 1, "pin_memory": True} if args.cuda else {}
-    train_dataset, test_dataset, train_data_loader, test_data_loader = get_dataset(args, kwargs)
+    kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
+    # train_dataset, test_dataset, train_data_loader, test_data_loader = get_dataset(args, kwargs)
+    train_dataset, test_dataset = get_dataset(args, kwargs)
 
     # train_data_loader = load_train_data_loader(logger, args)
     # test_data_loader = load_test_data_loader(logger, args)
@@ -509,7 +511,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
+    kwargs = {"num_workers": 8, "pin_memory": True} if args.cuda else {}
+    # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
+    train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
     # distributed_train_dataset = distribute_non_iid(train_loaders)
     # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
@@ -549,9 +553,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # save_results(worker_selection, worker_selections_files[0])
 
     # create a dataframe from worker_selection = [[1,2,3,4], [2,3,4,5]]
-    worker_selection_df = pd.DataFrame(worker_selection)
+    # worker_selection_df = pd.DataFrame(worker_selection)
 
-    table =  wandb.Table(dataframe=worker_selection_df)
-    wandb.log({"workers_selected": table})
+    # table =  wandb.Table(dataframe=worker_selection_df)
+    # wandb.log({"workers_selected": table})
 
     logger.remove(handler)
