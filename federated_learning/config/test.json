@@ -1,6 +1,6 @@
 {
     "fl_training": {
-        "experiment_id": 48,
+        "experiment_id": 49,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [2],
