@@ -331,8 +331,9 @@ class Client:
         # else:
         #     target_class = target_label[1] # truck
         #     poison_amount = round(poison_amount_ratio * 5000)
-        target_class = target_label[client_idx] # [2, 9]
-        poison_amount = round(poison_amount_ratio * n_target_samples[client_idx])
+        idx = self.poisoned_workers.index(client_idx)
+        target_class = target_label[idx] # [2, 9]
+        poison_amount = round(poison_amount_ratio * n_target_samples[idx])
 
         #The arguments use for all testing set
         transform_test = transforms.Compose([
