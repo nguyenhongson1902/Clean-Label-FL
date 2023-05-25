@@ -1,9 +1,9 @@
 {
     "fl_training": {
-        "experiment_id": 40,
+        "experiment_id": 52,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
-        "target_label": [0, 5, 7, 2, 6],
+        "target_label": [2, 0],
         "batch_size": 10,
         "test_batch_size": 100,
         "epochs": 1000,
@@ -35,7 +35,7 @@
         "generating_lr_warmup": 0.1,
         "warmup_round": 5,
         "generating_lr_tri": 0.01,
-        "gen_round": 1000,
+        "gen_round": 1500,
         "train_batch_size": 10,
         "patch_mode": "add",
         "poison_amount_ratio": 1.0,
