@@ -64,11 +64,18 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     best_noise_prefix = args.args_dict.narcissus_gen.saving_best_noise_prefix
     exp_id = args.args_dict.fl_training.experiment_id
-    best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
+    if (comm_round - 1) % 100 == 0:
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
+    else:
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str((comm_round // 100) * 100) + "__exp_" + str(exp_id) + ".npy")
+    # best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
+
+
     if os.path.isfile(best_noise_save_path): # if the best noise already exists, load it
         best_noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
         noise_npy = np.load(best_noise_save_path)
         best_noise = torch.from_numpy(noise_npy).cuda()
+        print(best_noise_save_path + "loaded")
         return best_noise
     
     client_train_loader = clients[client_idx].train_data_loader
@@ -288,7 +295,12 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     # save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '_' + 'round_' + str(comm_round) + '.npy')
     # save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '.npy')
-    best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
+    # best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
+
+    if (comm_round - 1) % 100 == 0:
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
+    else:
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str((comm_round // 100) * 100) + "__exp_" + str(exp_id) + ".npy")
     # save_name = './checkpoint/best_noise_client_'+str(client_idx)+'_'+'round_'+str(comm_round)
     np.save(best_noise_save_path, best_noise)
 
