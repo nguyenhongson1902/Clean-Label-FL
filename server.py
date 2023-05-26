@@ -523,7 +523,7 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    kwargs = {"num_workers": 8, "pin_memory": True} if args.cuda else {}
+    kwargs = {"num_workers": 4, "pin_memory": True} if args.cuda else {}
     # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
     train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
     # distributed_train_dataset = distribute_non_iid(train_loaders)
