@@ -8,6 +8,7 @@ from federated_learning.datasets.data_distribution import distribute_batches_equ
 from federated_learning.datasets.data_distribution import generate_non_iid_data
 from federated_learning.datasets.data_distribution import distribute_non_iid
 
+from federated_learning.utils.plot import plot_data_dis_to_file
 from federated_learning.utils import average_nn_parameters
 from federated_learning.utils import convert_distributed_data_into_numpy
 from federated_learning.utils import poison_data
@@ -64,10 +65,17 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     best_noise_prefix = args.args_dict.narcissus_gen.saving_best_noise_prefix
     exp_id = args.args_dict.fl_training.experiment_id
-    if (comm_round - 1) % 100 == 0:
-        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
+    gen_trigger_interval = args.args_dict.fl_training.gen_trigger_interval
+
+    if gen_trigger_interval == 1: # generate trigger only one time
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
     else:
-        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str((comm_round // 100) * 100) + "__exp_" + str(exp_id) + ".npy")
+        attack_round = ((comm_round - 1) // gen_trigger_interval) * gen_trigger_interval + 1 # comm_round indexes from 1
+        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round_" + str(attack_round) + "__exp_" + str(exp_id) + ".npy")
+    # if (comm_round - 1) % gen_trigger_interval == 0:
+    #     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round_" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
+    # else:
+    #     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round_" + str(((comm_round - 1) // gen_trigger_interval) * gen_trigger_interval + 1) + "__exp_" + str(exp_id) + ".npy")
     # best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
 
 
@@ -217,7 +225,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
             surrogate_scheduler.step()
             ave_loss = np.average(np.array(loss_list))
             print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
-            wandb.log({"epoch": epoch, "surrogate_loss": ave_loss})
+            wandb.log({"surrogate_epoch": epoch, "surrogate_loss": ave_loss})
 
 
     
@@ -252,37 +260,37 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
             poi_warm_up_opt.zero_grad()
             outputs = poi_warm_up_model(images)
             loss = criterion(outputs, labels)
-            loss.backward(retain_graph = True)
+            loss.backward(retain_graph=True)
             loss_list.append(float(loss.data))
             poi_warm_up_opt.step()
         ave_loss = np.average(np.array(loss_list))
         print('Epoch:%d, Loss: %e' % (epoch, ave_loss))
-        wandb.log({"epoch": epoch, "poi_warm_up_loss": ave_loss})
+        wandb.log({"poi_warm_up_epoch": epoch, "poi_warm_up_loss": ave_loss})
 
     #Trigger generating stage
     for param in poi_warm_up_model.parameters():
         param.requires_grad = False
 
     batch_pert = torch.autograd.Variable(noise.cuda(), requires_grad=True)
-    batch_opt = torch.optim.RAdam(params=[batch_pert],lr=generating_lr_tri)
+    batch_opt = torch.optim.RAdam(params=[batch_pert], lr=generating_lr_tri)
     for round in tqdm(range(gen_round)):
         loss_list = []
         for images, labels in trigger_gen_loaders:
             images, labels = images.cuda(), labels.cuda()
             new_images = torch.clone(images)
-            clamp_batch_pert = torch.clamp(batch_pert,-l_inf_r*2,l_inf_r*2)
-            new_images = torch.clamp(apply_noise_patch(clamp_batch_pert,new_images.clone(),mode=patch_mode),-1,1)
+            clamp_batch_pert = torch.clamp(batch_pert, -l_inf_r*2, l_inf_r*2)
+            new_images = torch.clamp(apply_noise_patch(clamp_batch_pert, new_images.clone(), mode=patch_mode), -1, 1)
             per_logits = poi_warm_up_model.forward(new_images)
             loss = criterion(per_logits, labels)
             loss_regu = torch.mean(loss)
             batch_opt.zero_grad()
             loss_list.append(float(loss_regu.data))
-            loss_regu.backward(retain_graph = True)
+            loss_regu.backward(retain_graph=True)
             batch_opt.step()
         ave_loss = np.average(np.array(loss_list))
         ave_grad = np.sum(abs(batch_pert.grad).detach().cpu().numpy())
-        print('Gradient:',ave_grad,'Loss:', ave_loss)
-        wandb.log({"round": round, "gradient": ave_grad, "trigger_gen_loss": ave_loss})
+        print('Gradient:', ave_grad, 'Loss:', ave_loss)
+        wandb.log({"gen_round": round, "gradient": ave_grad, "trigger_gen_loss": ave_loss})
         if ave_grad == 0:
             break
 
@@ -297,10 +305,10 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     # save_name = os.path.join(checkpoint_path, 'best_noise_client_' + str(client_idx) + '.npy')
     # best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".npy")
 
-    if (comm_round - 1) % 100 == 0:
-        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
-    else:
-        best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str((comm_round // 100) * 100) + "__exp_" + str(exp_id) + ".npy")
+    # if (comm_round - 1) % 100 == 0:
+    #     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str(comm_round) + "__exp_" + str(exp_id) + ".npy")
+    # else:
+    #     best_noise_save_path = os.path.join(checkpoint_path, best_noise_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__comm_round" + str((comm_round // 100) * 100) + "__exp_" + str(exp_id) + ".npy")
     # save_name = './checkpoint/best_noise_client_'+str(client_idx)+'_'+'round_'+str(comm_round)
     np.save(best_noise_save_path, best_noise)
 
@@ -412,7 +420,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     """
     Complete machine learning over a series of clients.
     """
-    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__gen_round_{args.args_dict.narcissus_gen.gen_round}__exp_{args.args_dict.fl_training.experiment_id}"
+    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__exp_{args.args_dict.fl_training.experiment_id}"
     wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust")
 
     # epoch_test_set_results = []
@@ -458,15 +466,19 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     return epoch_test_set_results, worker_selection
 
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):
+    # exp_id = args.args_dict.fl_training.experiment_id
+    
     target_label = args.args_dict.fl_training.target_label # [2, 9]
     poisoned_workers = []
     n_target_samples = []
 
     y_train = np.array(train_dataset.targets)
     total_sample = 0
+    # with open(os.path.join("./distribution_logs", "exp_id_" + str(exp_id)), "w") as f:
     for target in target_label:
         tmp = []
         for j in range(args.num_workers):
+            # f.write("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
             print("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
             cnt_class = {}
             for i in net_dataidx_map[j]:
@@ -526,6 +538,32 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     kwargs = {"num_workers": 8, "pin_memory": True} if args.cuda else {}
     # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
     train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
+
+    # import IPython
+    # plot data distribution by matplotlib
+    # count sample for each class in each worker
+    labels_clients = {}
+
+    for i in range(args.get_num_workers()):
+        cnt_class = {}
+        for j in net_dataidx_map[i]:
+            label = train_dataset.targets[j]
+            if label not in cnt_class:
+                cnt_class[label] = 0
+            cnt_class[label] += 1
+        print("Client %d: %d samples" % (i, len(net_dataidx_map[i])))
+        # print(cnt_class)
+        labels_clients[f"Client {i}"] = cnt_class
+
+    data_file_name = f"non_iid_data_distribution__dataset_{args.args_dict.fl_training.dataset.lower()}__partition_alpha_{args.args_dict.fl_training.partition_alpha}__num_workers_{args.args_dict.fl_training.num_workers}__exp_{args.args_dict.fl_training.experiment_id}.png"
+    plot_data_dis_to_file(labels_clients, num_class=10, data_file_name=os.path.join("./plots", data_file_name))
+
+
+    # IPython.embed()
+
+    # exit(0)
+
+    # plot 
     # distributed_train_dataset = distribute_non_iid(train_loaders)
     # distributed_train_dataset = convert_distributed_data_into_numpy(distributed_train_dataset) # review, why do we need to convert?
     
@@ -539,8 +577,14 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # poisoned_workers = select_poisoned_workers(args, train_dataset, net_dataidx_map)
     poisoned_workers, n_target_samples = select_poisoned_workers(args, train_dataset, net_dataidx_map)
     # poisoned_workers = [0, 1]
+    # poison_class = [0, 4] # args.args_dict.fl_training.target_label
+    # poisoned_workers = [0, 1]
+    poisoned_workers = args.args_dict.fl_training.poisoned_workers
+    # n_target_samples = [2538, 1777]
+    n_target_samples = args.args_dict.fl_training.n_target_samples
     print("Poisoned workers: ", poisoned_workers)
-
+    print("Number of target samples: ", n_target_samples)
+    # exit(0)
     # tmp.sort(key=lambda x: x[1], reverse=True)
     # np.argmax(tmp, key=)
     # index = tmp[0]
