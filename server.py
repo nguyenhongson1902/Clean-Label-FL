@@ -204,8 +204,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     # surrogate_model = surrogate_model
     criterion = torch.nn.CrossEntropyLoss()
     # outer_opt = torch.optim.RAdam(params=base_model.parameters(), lr=generating_lr_outer)
-    surrogate_opt = torch.optim.SGD(params=surrogate_model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
-    surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
+    if args.args_dict.narcissus_gen.optimizer == "adamw":
+        surrogate_opt = torch.optim.AdamW(params=surrogate_model.parameters(), lr=0.001, weight_decay=0.01)
+    elif args.args_dict.narcissus_gen.optimizer == "sgd":
+        surrogate_opt = torch.optim.SGD(params=surrogate_model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
+        surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
 
     # if not os.path.isfile(surrogate_pretrained_path):
     # #Training the surrogate model
@@ -222,7 +225,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
                 loss.backward()
                 loss_list.append(float(loss.data))
                 surrogate_opt.step()
-            surrogate_scheduler.step()
+            if args.args_dict.narcissus_gen.optimizer == "sgd":
+                surrogate_scheduler.step()
             ave_loss = np.average(np.array(loss_list))
             print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
             wandb.log({"surrogate_epoch": epoch, "surrogate_loss": ave_loss})
@@ -243,7 +247,10 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     poi_warm_up_model = generating_model
     poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
 
-    poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
+    if args.args_dict.narcissus_gen.optimizer == "radam":
+        poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
+    elif args.args_dict.narcissus_gen.optimizer == "adamw":
+        poi_warm_up_opt = torch.optim.AdamW(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
 
     #Poi_warm_up stage
     poi_warm_up_model.train()
@@ -272,7 +279,12 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         param.requires_grad = False
 
     batch_pert = torch.autograd.Variable(noise.cuda(), requires_grad=True)
-    batch_opt = torch.optim.RAdam(params=[batch_pert], lr=generating_lr_tri)
+
+    if args.args_dict.narcissus_gen.optimizer == "radam":
+        batch_opt = torch.optim.RAdam(params=[batch_pert], lr=generating_lr_tri)
+    elif args.args_dict.narcissus_gen.optimizer == "adamw":
+        batch_opt = torch.optim.AdamW(params=[batch_pert], lr=generating_lr_tri)
+        
     for round in tqdm(range(gen_round)):
         loss_list = []
         for images, labels in trigger_gen_loaders:
@@ -420,7 +432,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     """
     Complete machine learning over a series of clients.
     """
-    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__exp_{args.args_dict.fl_training.experiment_id}"
+    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__narcissus_optimizer_{args.args_dict.narcissus_gen.optimizer}__exp_{args.args_dict.fl_training.experiment_id}"
     wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust")
 
     # epoch_test_set_results = []
