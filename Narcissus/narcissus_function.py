@@ -44,7 +44,8 @@ dataset_path--cifar-10-batches-py
 dataset_path = '../data/'
 
 #The target class label
-lab = 2
+# lab = 2 # bird
+lab = 0 # airplane
 # lab = 9 # truck
 
 
@@ -83,8 +84,8 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
         transforms.RandomCrop(32, padding=4),  
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        # transforms.Normalize([0.4802, 0.4481, 0.3975], [0.2302, 0.2265, 0.2262]),
         # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
 
@@ -93,20 +94,20 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
         transforms.RandomCrop(32, padding=4),  
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        # transforms.Normalize((0.49139968, 0.48215841, 0.44653091), (0.24703223, 0.24348513, 0.26158784)),
         # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
 
     #The arguments use for all testing set
     transform_test = transforms.Compose([
         transforms.ToTensor(),
-        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        # transforms.Normalize((0.49421428, 0.48513139, 0.45040909), (0.24665252, 0.24289226, 0.26159238)),
         # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
 
-    # ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train) # 50000 examples
+    ori_train = torchvision.datasets.CIFAR10(root=dataset_path, train=True, download=True, transform=transform_train) # 50000 examples
     # 45500 examples, 500 bird images
     # Define the CIFAR-10 dataset
     train_dataset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train)
