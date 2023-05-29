@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.optim import Optimizer
 import torch.backends.cudnn as cudnn
-import tqdm
+from tqdm import tqdm
 
 import torchvision
 import torchvision.transforms as transforms
@@ -186,7 +186,7 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
 
     batch_pert = torch.autograd.Variable(noise.cuda(), requires_grad=True)
     batch_opt = torch.optim.RAdam(params=[batch_pert],lr=generating_lr_tri)
-    for minmin in tqdm.notebook.tqdm(range(gen_round)):
+    for minmin in tqdm(range(gen_round)):
         loss_list = []
         for images, labels in trigger_gen_loaders:
             images, labels = images.cuda(), labels.cuda()
