@@ -83,7 +83,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         best_noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
         noise_npy = np.load(best_noise_save_path)
         best_noise = torch.from_numpy(noise_npy).cuda()
-        print(best_noise_save_path + "loaded")
+        print(best_noise_save_path + " loaded")
         return best_noise
     
     client_train_loader = clients[client_idx].train_data_loader

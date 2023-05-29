@@ -140,7 +140,7 @@ class Client:
         :param epoch: Current epoch #
         :type epoch: int
         """
-        poison_amount_ratio = self.args.args_dict.narcissus_gen.poison_amount_ratio
+        # poison_amount_ratio = self.args.args_dict.narcissus_gen.poison_amount_ratio
 
         if self.get_client_index() in self.poisoned_workers:
             assert best_noise is not None # if there's no trigger, best_noise is None
