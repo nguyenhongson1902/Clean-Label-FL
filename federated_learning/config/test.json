@@ -1,11 +1,11 @@
 {
     "fl_training": {
-        "experiment_id": 67,
+        "experiment_id": 68,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [0],
-        "poisoned_workers": [5],
-        "n_target_samples": [1262],
+        "poisoned_workers": [0],
+        "n_target_samples": [2538],
         "batch_size": 10,
         "test_batch_size": 100,
         "epochs": 1000,
@@ -17,7 +17,7 @@
         "scheduler_step_size": 50,
         "scheduler_gamma": 0.5, 
         "min_lr": 1e-10,
-        "num_workers": 10,
+        "num_workers": 5,
         "num_poisoned_workers": 1,
         "default_models": "default_models",
         "data_path": "data",
@@ -43,6 +43,7 @@
         "patch_mode": "add",
         "poison_amount_ratio": 1.0,
         "multi_test": 3,
-        "training_lr": 0.1
+        "training_lr": 0.1,
+        "optimizer": "adamw"
     }
 }
