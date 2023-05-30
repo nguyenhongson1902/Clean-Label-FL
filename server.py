@@ -205,7 +205,9 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     criterion = torch.nn.CrossEntropyLoss()
     # outer_opt = torch.optim.RAdam(params=base_model.parameters(), lr=generating_lr_outer)
     if args.args_dict.narcissus_gen.optimizer == "adamw":
-        surrogate_opt = torch.optim.AdamW(params=surrogate_model.parameters(), lr=0.001, weight_decay=0.01)
+        surrogate_opt = torch.optim.AdamW(params=surrogate_model.parameters(), lr=3e-4, weight_decay=0.01)
+    elif args.args_dict.narcissus_gen.optimizer == "radam":
+        surrogate_opt = torch.optim.RAdam(params=surrogate_model.parameters(), lr=1e-3)
     elif args.args_dict.narcissus_gen.optimizer == "sgd":
         surrogate_opt = torch.optim.SGD(params=surrogate_model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
         surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
@@ -247,7 +249,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     poi_warm_up_model = generating_model
     poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
 
-    if args.args_dict.narcissus_gen.optimizer == "radam":
+    if args.args_dict.narcissus_gen.optimizer == "radam" or args.args_dict.narcissus_gen.optimizer == "sgd":
         poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
     elif args.args_dict.narcissus_gen.optimizer == "adamw":
         poi_warm_up_opt = torch.optim.AdamW(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
@@ -280,7 +282,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     batch_pert = torch.autograd.Variable(noise.cuda(), requires_grad=True)
 
-    if args.args_dict.narcissus_gen.optimizer == "radam":
+    if args.args_dict.narcissus_gen.optimizer == "radam" or args.args_dict.narcissus_gen.optimizer == "sgd":
         batch_opt = torch.optim.RAdam(params=[batch_pert], lr=generating_lr_tri)
     elif args.args_dict.narcissus_gen.optimizer == "adamw":
         batch_opt = torch.optim.AdamW(params=[batch_pert], lr=generating_lr_tri)
