@@ -1,6 +1,6 @@
 {
     "fl_training": {
-        "experiment_id": 69,
+        "experiment_id": 72,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [0],
@@ -25,7 +25,7 @@
         "partition_alpha": 0.5,
         "train_data_loader_pickle_path": "data_loaders/cifar10/train_data_loader.pickle",
         "test_data_loader_pickle_path": "data_loaders/cifar10/test_data_loader.pickle",
-        "gen_trigger_interval": 50
+        "gen_trigger_interval": 1
     },
     "narcissus_gen": {
         "checkpoint_path": "./checkpoint",
@@ -38,7 +38,7 @@
         "generating_lr_warmup": 0.1,
         "warmup_round": 5,
         "generating_lr_tri": 0.01,
-        "gen_round": 1000,
+        "gen_round": 1500,
         "train_batch_size": 10,
         "patch_mode": "add",
         "poison_amount_ratio": 1.0,
