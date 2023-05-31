@@ -304,7 +304,7 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         ave_loss = np.average(np.array(loss_list))
         ave_grad = np.sum(abs(batch_pert.grad).detach().cpu().numpy())
         print('Gradient:', ave_grad, 'Loss:', ave_loss)
-        wandb.log({"gen_round": round, "gradient": ave_grad, "trigger_gen_loss": ave_loss})
+        wandb.log({"gradient": ave_grad, "trigger_gen_loss": ave_loss}, step=round)
         if ave_grad == 0:
             break
 
