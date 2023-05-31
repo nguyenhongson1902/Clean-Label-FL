@@ -4,7 +4,7 @@ import os
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-import cv2 as cv
+# import cv2 as cv
 import torch.nn as nn
 from collections import OrderedDict
 
