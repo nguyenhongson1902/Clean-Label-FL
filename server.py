@@ -231,8 +231,9 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
                 surrogate_scheduler.step()
             ave_loss = np.average(np.array(loss_list))
             print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
-            wandb.log({"surrogate_epoch": epoch, "surrogate_loss": ave_loss})
+            wandb.log({"surrogate_loss": ave_loss}, step=epoch)
 
+        epoch = 0 # Reset epoch to 0 so the step size of wandb will start from 0
 
     
     #Save the surrogate model
@@ -274,7 +275,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
             poi_warm_up_opt.step()
         ave_loss = np.average(np.array(loss_list))
         print('Epoch:%d, Loss: %e' % (epoch, ave_loss))
-        wandb.log({"poi_warm_up_epoch": epoch, "poi_warm_up_loss": ave_loss})
+        wandb.log({"poi_warm_up_loss": ave_loss}, step=epoch)
+    epoch = 0 # Reset epoch to 0 so the step size of wandb will start from 0
 
     #Trigger generating stage
     for param in poi_warm_up_model.parameters():
@@ -304,9 +306,10 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         ave_loss = np.average(np.array(loss_list))
         ave_grad = np.sum(abs(batch_pert.grad).detach().cpu().numpy())
         print('Gradient:', ave_grad, 'Loss:', ave_loss)
-        wandb.log({"gen_round": round, "gradient": ave_grad, "trigger_gen_loss": ave_loss})
+        wandb.log({"gradient": ave_grad, "trigger_gen_loss": ave_loss}, step=round)
         if ave_grad == 0:
             break
+    round = 0 # Reset round to 0 so the step size of wandb will start from 0
 
     noise = torch.clamp(batch_pert, -l_inf_r*2, l_inf_r*2)
     best_noise = noise.clone().detach().cpu()
@@ -460,7 +463,8 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
         # wandb.log({"comm_round__client_1": epoch, "asr__client_1": acc1, "acc_clean__client_1": acc_clean1, "acc_tar__client_1": acc_tar1})
         for i in range(len(poisoned_workers)):
             acc, acc_clean, acc_tar = results[i]
-            wandb.log({"comm_round__client_" + str(poisoned_workers[i]): epoch, "asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar})
+            # wandb.log({"comm_round__client_" + str(poisoned_workers[i]): epoch, "asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar})
+            wandb.log({"asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar}, step=epoch)
             
 
         # epoch_test_set_results.append(results)
@@ -469,6 +473,8 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
         for result in results:
             epoch_test_set_results.append(result)
         worker_selection.append(workers_selected)
+    
+    epoch = 0 # Reset epoch to 0 so that the wandb step size can start from 0
 
     # converted_epoch_test_set_results = []
     # for result in epoch_test_set_results:
