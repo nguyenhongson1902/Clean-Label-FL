@@ -1,6 +1,6 @@
 {
     "fl_training": {
-        "experiment_id": 72,
+        "experiment_id": 74,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [0],
@@ -20,7 +20,7 @@
         "num_workers": 5,
         "num_poisoned_workers": 1,
         "default_models": "default_models",
-        "data_path": "data",
+        "data_path": "data", 
         "dataset": "Cifar10",
         "partition_alpha": 0.5,
         "train_data_loader_pickle_path": "data_loaders/cifar10/train_data_loader.pickle",
@@ -38,7 +38,7 @@
         "generating_lr_warmup": 0.1,
         "warmup_round": 5,
         "generating_lr_tri": 0.01,
-        "gen_round": 1500,
+        "gen_round": 2000,
         "train_batch_size": 10,
         "patch_mode": "add",
         "poison_amount_ratio": 1.0,
