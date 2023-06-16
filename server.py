@@ -213,6 +213,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         surrogate_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(surrogate_opt, T_max=surrogate_epochs)
 
     # if not os.path.isfile(surrogate_pretrained_path):
+    wandb.define_metric("surrogate_epoch")
+    wandb.define_metric("surrogate_loss", step_metric="surrogate_epoch")
     # #Training the surrogate model
     if not os.path.isfile(surrogate_pretrained_path): # if the surrogate model does not exist, train a surrogate model
         print('Training the surrogate model')
@@ -231,9 +233,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
                 surrogate_scheduler.step()
             ave_loss = np.average(np.array(loss_list))
             print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
-            wandb.log({"surrogate_loss": ave_loss}, step=epoch)
+            wandb.log({"surrogate_loss": ave_loss, "surrogate_epoch": epoch})
 
-        epoch = 0 # Reset epoch to 0 so the step size of wandb will start from 0
 
     
     #Save the surrogate model
@@ -260,6 +261,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     for param in poi_warm_up_model.parameters():
         param.requires_grad = True
 
+    wandb.define_metric("poi_warm_up_round")
+    wandb.define_metric("poi_warm_up_loss", step_metric="poi_warm_up_round")
     #Training the surrogate model
     for epoch in range(0, warmup_round):
         poi_warm_up_model.train()
@@ -275,8 +278,8 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
             poi_warm_up_opt.step()
         ave_loss = np.average(np.array(loss_list))
         print('Epoch:%d, Loss: %e' % (epoch, ave_loss))
-        wandb.log({"poi_warm_up_loss": ave_loss}, step=epoch)
-    epoch = 0 # Reset epoch to 0 so the step size of wandb will start from 0
+        
+        wandb.log({"poi_warm_up_loss": ave_loss, "poi_warm_up_round": epoch})
 
     #Trigger generating stage
     for param in poi_warm_up_model.parameters():
@@ -289,6 +292,10 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
     elif args.args_dict.narcissus_gen.optimizer == "adamw":
         batch_opt = torch.optim.AdamW(params=[batch_pert], lr=generating_lr_tri)
         
+
+    wandb.define_metric("gen_round")
+    wandb.define_metric("gradient", step_metric="gen_round")
+    wandb.define_metric("trigger_gen_loss", step_metric="gen_round")
     for round in tqdm(range(gen_round)):
         loss_list = []
         for images, labels in trigger_gen_loaders:
@@ -306,10 +313,9 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
         ave_loss = np.average(np.array(loss_list))
         ave_grad = np.sum(abs(batch_pert.grad).detach().cpu().numpy())
         print('Gradient:', ave_grad, 'Loss:', ave_loss)
-        wandb.log({"gradient": ave_grad, "trigger_gen_loss": ave_loss}, step=round)
+        wandb.log({"gradient": ave_grad, "trigger_gen_loss": ave_loss, "gen_round": round})
         if ave_grad == 0:
             break
-    round = 0 # Reset round to 0 so the step size of wandb will start from 0
 
     noise = torch.clamp(batch_pert, -l_inf_r*2, l_inf_r*2)
     best_noise = noise.clone().detach().cpu()
@@ -420,7 +426,7 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers, n_target_sam
     # acc1, acc_clean1, acc_tar1 = clients[poisoned_workers[1]].test(best_noise=best_noise_dict[poisoned_workers[1]], target_label=target_label)
     # wandb.log({"comm_round": epoch, "acc": acc, "acc_clean": acc_clean, "acc_tar": acc_tar})
     # return (acc, acc_clean, acc_tar), random_workers # Compute metrics on the poisoned client
-    # return (acc0, acc_clean0, acc_tar0), (acc1, acc_clean1, acc_tar1), random_workers # Compute metrics on the poisoned client
+    # return (acc0, acc_clean0, acc_tar0), (acc1, acc_clean1, acc_ tar1), random_workers # Compute metrics on the poisoned client
     return results, random_workers # Compute metrics on the poisoned client
 
 def create_clients(args, train_data_loaders, test_data_loader, poisoned_workers, global_model):
@@ -437,7 +443,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     """
     Complete machine learning over a series of clients.
     """
-    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__narcissus_optimizer_{args.args_dict.narcissus_gen.optimizer}__exp_{args.args_dict.fl_training.experiment_id}"
+    wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__max_gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__narcissus_optimizer_{args.args_dict.narcissus_gen.optimizer}__exp_{args.args_dict.fl_training.experiment_id}"
     wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust")
 
     # epoch_test_set_results = []
@@ -447,7 +453,6 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     worker_selection = []
 
     # global_model = ResNet18().cuda()
-
     for epoch in range(1, args.get_num_epochs() + 1): # communication rounds
         # Reinitialize the local model
         for client in clients:
@@ -462,9 +467,14 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
         # wandb.log({"comm_round__client_0": epoch, "asr__client_0": acc0, "acc_clean__client_0": acc_clean0, "acc_tar__client_0": acc_tar0})
         # wandb.log({"comm_round__client_1": epoch, "asr__client_1": acc1, "acc_clean__client_1": acc_clean1, "acc_tar__client_1": acc_tar1})
         for i in range(len(poisoned_workers)):
+            wandb.define_metric("comm_round")
+            wandb.define_metric("asr__client_" + str(poisoned_workers[i]), step_metric="comm_round")
+            wandb.define_metric("acc_clean__client_" + str(poisoned_workers[i]), step_metric="comm_round")
+            wandb.define_metric("acc_tar__client_" + str(poisoned_workers[i]), step_metric="comm_round")
+            
             acc, acc_clean, acc_tar = results[i]
             # wandb.log({"comm_round__client_" + str(poisoned_workers[i]): epoch, "asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar})
-            wandb.log({"asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar}, step=epoch)
+            wandb.log({"asr__client_" + str(poisoned_workers[i]): acc, "acc_clean__client_" + str(poisoned_workers[i]): acc_clean, "acc_tar__client_" + str(poisoned_workers[i]): acc_tar, "comm_round": epoch})
             
 
         # epoch_test_set_results.append(results)
