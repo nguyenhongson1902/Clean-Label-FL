@@ -6,6 +6,7 @@ from federated_learning.arguments import Arguments
 from federated_learning.utils import generate_data_loaders_from_distributed_dataset
 from federated_learning.datasets.data_distribution import distribute_batches_equally
 from federated_learning.datasets.data_distribution import generate_non_iid_data
+from federated_learning.datasets.data_distribution import generate_iid_data
 from federated_learning.datasets.data_distribution import distribute_non_iid
 
 from federated_learning.utils.plot import plot_data_dis_to_file
@@ -194,11 +195,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     concate_train_dataset = concate_dataset(train_target, outter_trainset)
 
-    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=16)
+    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=4)
 
-    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
+    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
 
-    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=16)
+    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
 
 
     # surrogate_model = surrogate_model
@@ -533,7 +534,7 @@ def select_poisoned_workers(args, train_dataset, net_dataidx_map):
         max_index = max(enumerate(tmp), key=lambda x: x[1][1])
         # poisoned_workers = [max_index[0]]
         poisoned_workers.append(max_index[0])
-        n_target_samples.append(max_index[1][1])
+        n_target_samples.append([1][1])
     return poisoned_workers, n_target_samples
 
 def run_exp(KWARGS, client_selection_strategy, idx):
@@ -567,27 +568,30 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
     kwargs = {"num_workers": 4, "pin_memory": True} if args.cuda else {}
     # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
-    train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
+    # train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
+    train_loaders, train_indices, test_data_loader = generate_iid_data(train_dataset, test_dataset, args, kwargs)
 
     # import IPython
     # plot data distribution by matplotlib
     # count sample for each class in each worker
-    labels_clients = {}
+    # Only need this when doing non-iid dataset
+    ####
+    # labels_clients = {}
 
-    for i in range(args.get_num_workers()):
-        cnt_class = {}
-        for j in net_dataidx_map[i]:
-            label = train_dataset.targets[j]
-            if label not in cnt_class:
-                cnt_class[label] = 0
-            cnt_class[label] += 1
-        print("Client %d: %d samples" % (i, len(net_dataidx_map[i])))
-        # print(cnt_class)
-        labels_clients[f"Client {i}"] = cnt_class
+    # for i in range(args.get_num_workers()):
+    #     cnt_class = {}
+    #     for j in net_dataidx_map[i]:
+    #         label = train_dataset.targets[j]
+    #         if label not in cnt_class:
+    #             cnt_class[label] = 0
+    #         cnt_class[label] += 1
+    #     print("Client %d: %d samples" % (i, len(net_dataidx_map[i])))
+    #     # print(cnt_class)
+    #     labels_clients[f"Client {i}"] = cnt_class
 
-    data_file_name = f"non_iid_data_distribution__dataset_{args.args_dict.fl_training.dataset.lower()}__partition_alpha_{args.args_dict.fl_training.partition_alpha}__num_workers_{args.args_dict.fl_training.num_workers}__exp_{args.args_dict.fl_training.experiment_id}.png"
-    plot_data_dis_to_file(labels_clients, num_class=10, data_file_name=os.path.join("./plots", data_file_name))
-
+    # data_file_name = f"non_iid_data_distribution__dataset_{args.args_dict.fl_training.dataset.lower()}__partition_alpha_{args.args_dict.fl_training.partition_alpha}__num_workers_{args.args_dict.fl_training.num_workers}__exp_{args.args_dict.fl_training.experiment_id}.png"
+    # plot_data_dis_to_file(labels_clients, num_class=10, data_file_name=os.path.join("./plots", data_file_name))
+    ####
 
     # IPython.embed()
 
@@ -605,7 +609,9 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # poisoned_workers = [0]
 
     # poisoned_workers = select_poisoned_workers(args, train_dataset, net_dataidx_map)
-    poisoned_workers, n_target_samples = select_poisoned_workers(args, train_dataset, net_dataidx_map)
+    ####
+    # poisoned_workers, n_target_samples = select_poisoned_workers(args, train_dataset, net_dataidx_map)
+    ####
     # poisoned_workers = [0, 1]
     # poison_class = [0, 4] # args.args_dict.fl_training.target_label
     # poisoned_workers = [0, 1]
