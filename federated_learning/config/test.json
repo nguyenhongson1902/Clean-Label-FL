@@ -1,6 +1,6 @@
 {
     "fl_training": {
-        "experiment_id": 78,
+        "experiment_id": 79,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [2],
@@ -41,7 +41,7 @@
         "gen_round": 1000,
         "train_batch_size": 10,
         "patch_mode": "add",
-        "poison_amount_ratio": 0.15,
+        "poison_amount_ratio": 0.2,
         "multi_test": 3,
         "training_lr": 0.1,
         "optimizer": "radam"
