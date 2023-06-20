@@ -186,7 +186,10 @@ class Client:
             transforms.RandomHorizontalFlip(),
             ])
 
-            random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
+            random_poison_idx = train_target_list[:poison_amount]
+            print(random_poison_idx)
+
+            # random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
             # poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train) # doesn't change labels of poisoned images, only poisoning some examples of inputs
             poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train, patch_mode) # doesn't change labels of poisoned images, only poisoning some examples of inputs
             print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
