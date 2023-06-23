@@ -37,6 +37,18 @@ import pandas as pd
 from federated_learning.nets import ResNet18
 from copy import deepcopy
 
+import concurrent.futures
+
+# train_client is only for multithreading
+def train_client(client_idx, args, clients, poisoned_workers, target_label, epoch):
+    # print("Training epoch #{} on client #{}".format(epoch, client_idx))
+    args.get_logger().info("Training epoch #{} on client #{}", str(epoch), str(clients[client_idx].get_client_index()))
+    if client_idx in poisoned_workers:
+        best_noise = train_poisoned_worker(epoch, args, client_idx, clients, poisoned_workers, target_label=target_label, dataset_pood="./data/")
+        return client_idx, best_noise
+    else:
+        return client_idx, None
+
 
 def train_poisoned_worker(epoch, args, client_idx, clients, poisoned_workers, target_label, dataset_pood="./data/"):
     args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
@@ -195,11 +207,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     concate_train_dataset = concate_dataset(train_target, outter_trainset)
 
-    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
-    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
-    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
 
     # surrogate_model = surrogate_model
@@ -383,6 +395,20 @@ def train_subset_of_clients(epoch, args, clients, poisoned_workers, n_target_sam
     n_channels = args.args_dict.narcissus_gen.n_channels
     best_noise_dict = {} # poisoned_client_idx: best_noise
 
+    ################### Multithreading ############################
+    # # Create a ThreadPoolExecutor with the desired number of threads
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     # Submit the tasks to the executor
+    #     futures = [executor.submit(train_client, client_idx, args, clients, poisoned_workers, target_label, epoch) for client_idx in random_workers]
+
+    #     # Retrieve the results as they become available
+    #     for future in concurrent.futures.as_completed(futures):
+            
+    #         client_idx, best_noise = future.result()
+    #         best_noise_dict[client_idx] = best_noise
+    #         clients[client_idx].train(epoch, best_noise=best_noise_dict[client_idx], n_target_samples=n_target_samples, target_label=target_label)
+    ################### Multithreading ############################
+
     for client_idx in random_workers:
         args.get_logger().info("Training epoch #{} on client #{}", str(epoch), str(clients[client_idx].get_client_index()))
         if client_idx in poisoned_workers:
@@ -445,7 +471,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
     Complete machine learning over a series of clients.
     """
     wandb_name = f"{args.args_dict.fl_training.wandb_name}__num_workers_{args.num_workers}__num_selected_workers_{args.num_workers}__num_poisoned_workers_{args.get_num_poisoned_workers()}__poison_amount_ratio_{args.args_dict.narcissus_gen.poison_amount_ratio}__local_epochs_{args.args_dict.fl_training.local_epochs}__target_label_{args.args_dict.fl_training.target_label}__poisoned_workers_{args.args_dict.fl_training.poisoned_workers}__n_target_samples_{args.args_dict.fl_training.n_target_samples}__multi_test_{args.args_dict.narcissus_gen.multi_test}__patch_mode_{args.args_dict.narcissus_gen.patch_mode}__max_gen_round_{args.args_dict.narcissus_gen.gen_round}__gen_trigger_interval_{args.args_dict.fl_training.gen_trigger_interval}__narcissus_optimizer_{args.args_dict.narcissus_gen.optimizer}__exp_{args.args_dict.fl_training.experiment_id}"
-    wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust", mode="disabled")
+    wandb.init(name=wandb_name, project=args.args_dict.fl_training.project_name, entity="nguyenhongsonk62hust", mode="offline")
 
     # epoch_test_set_results = []
     # epoch_test_set_results0 = []
@@ -566,7 +592,7 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    kwargs = {"num_workers": 4, "pin_memory": True} if args.cuda else {}
+    kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
     # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
     # train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
     train_loaders, train_indices, test_data_loader = generate_iid_data(train_dataset, test_dataset, args, kwargs)
