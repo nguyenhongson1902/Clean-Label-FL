@@ -1,0 +1,2429 @@
+2023-06-26 13:47:16.955 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f0078dab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:17,656 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:17,657 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:17,657 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:19.927 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f006a7c3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:20,622 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:20,623 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:20,623 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:20,623 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:22.955 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fac5d2ab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:23,653 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:23,654 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:23,654 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:23,655 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:25.933 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fc4aa5bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:26,651 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:26,651 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:26,651 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:26,651 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:28.944 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f77a4bb7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:29,662 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:29,663 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:29,663 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:29,663 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:31.959 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fb13a0bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:32,680 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:32,680 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:32,680 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:32,680 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:34.978 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fa7d0fb3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:35,733 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:35,734 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:35,735 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:35,735 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:38.007 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f3e757bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:38,749 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:38,749 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:38,749 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:38,750 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:40.976 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f11139af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:41,703 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:41,703 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:41,704 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:41,704 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:44.037 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fac6ebb7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:44,760 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:44,761 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:44,761 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:44,762 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:46.961 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f905bbb7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:47,700 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:47,701 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:47,701 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:47,701 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:49.977 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f11e58bf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:50,718 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:50,718 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:50,719 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:50,719 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:53.002 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f5069dbb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:53,753 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:53,753 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:53,754 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:56.071 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f9a550af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+INFO flwr 2023-06-26 13:47:57,287 | grpc.py:50 | Opened insecure gRPC connection (no certificates were passed)
+DEBUG flwr 2023-06-26 13:47:57,287 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:47:57,287 | connection.py:39 | ChannelConnectivity.CONNECTING
+DEBUG flwr 2023-06-26 13:47:57,288 | connection.py:39 | ChannelConnectivity.READY
+2023-06-26 13:47:59.008 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fd553bb7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:01.995 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fb3a79ab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:04.963 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f41a06b7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:07.986 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f1eb07b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:10.971 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f62252bf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:13.982 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fcc4aabf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:16.989 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f20941af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:19.973 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f8f7b2af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:22.991 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f3c8f8af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:25.988 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f82933b7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:28.977 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f5d711b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:31.984 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f3aa0bb7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:34.973 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f71956bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:37.986 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fa8120af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:41.037 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f20975bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:44.016 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f4a3c8b7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:47.008 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fd7b91b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:50.002 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f0e49aab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:53.004 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fb2b5dab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:56.009 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fec783b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:48:58.995 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fbc1fbb3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:02.007 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f8e1c2b7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:05.011 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f570e7c3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:08.010 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fbe8f7bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:10.995 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f61f85ab010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:14.004 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f38f05bf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:17.014 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7fa056caf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:20.005 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f63a95bf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:23.012 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f2dd5aaf010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:26.018 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f7b4d8bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:29.002 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f80121bb010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:32.010 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f895a7b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:35.000 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f99e86af010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:38.019 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f4c043b3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:40.999 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f1bdefb3010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2023-06-26 13:49:44.019 | DEBUG    | federated_learning.arguments:log:221 - Arguments: 
+Batch Size: 64
+Test Batch Size: 100
+Epochs: 1000
+Learning Rate: 0.01
+Momentum: 0.5
+CUDA Enabled: True
+Log Interval: 100
+Scheduler Step Size: 50
+Scheduler Gamma: 0.5
+Scheduler Minimum Learning Rate: 1e-10
+Client Selection Strategy: None
+Client Selection Strategy Arguments: null
+Model Saving Enabled: False
+Model Saving Interval: 1
+Model Saving Path (Relative): models
+Epoch Save Start Prefix: start
+Epoch Save End Suffix: end
+Number of Clients: 50
+Number of Poisoned Clients: 1
+NN: <function ResNet18_201 at 0x7f051a6a7010>
+Train Data Loader Path: data_loaders/cifar10/train_data_loader.pickle
+Test Data Loader Path: data_loaders/cifar10/test_data_loader.pickle
+Loss Function: <class 'torch.nn.modules.loss.CrossEntropyLoss'>
+Default Model Folder Path: default_models
+Data Path: data
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 924, in <module>
+    client = Client(args, client_idx, train_loaders[client_idx], poisoned_workers)
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 62, in __init__
+    self.net = ResNet18().cuda()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/torch/nn/modules/module.py", line 905, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,619 | connection.py:39 | ChannelConnectivity.IDLE
+DEBUG flwr 2023-06-26 13:53:54,622 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,622 | connection.py:113 | gRPC channel closed
+Poisoned workers:  [0]
+Number of target samples:  [100]
+DEBUG flwr 2023-06-26 13:53:54,622 | connection.py:113 | gRPC channel closed
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+Poisoned workers:  [0]
+Number of target samples:  [100]
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    start_client(
+    start_client(
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    server_message = receive()
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    return self._next()
+    return self._next()
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    raise self
+    raise self
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618836503+07:00"}"
+>grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618836489+07:00"}"
+>
+
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618850119+07:00"}"
+>
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+DEBUG flwr 2023-06-26 13:53:54,825 | connection.py:113 | gRPC channel closed
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Traceback (most recent call last):
+Poisoned workers:  [0]
+Number of target samples:  [100]
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+Poisoned workers:  [0]
+Number of target samples:  [100]
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    return self._next()
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    start_client(
+    start_client(
+    server_message = receive()
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+    raise self
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    server_message = receive()
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    server_message = receive()
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2023-06-26T13:53:54.618836527+07:00", grpc_status:14, grpc_message:"Socket closed"}"
+>
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+    return self._next()
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    return self._next()
+    return self._next()
+DEBUG flwr 2023-06-26 13:53:54,826 | connection.py:113 | gRPC channel closed
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+DEBUG flwr 2023-06-26 13:53:54,826 | connection.py:113 | gRPC channel closed
+    raise self
+    return self._next()
+    raise self
+DEBUG flwr 2023-06-26 13:53:54,826 | connection.py:113 | gRPC channel closed
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618845772+07:00"}"
+>grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2023-06-26T13:53:54.618845718+07:00", grpc_status:14, grpc_message:"Socket closed"}"
+>
+
+DEBUG flwr 2023-06-26 13:53:54,826 | connection.py:113 | gRPC channel closed
+    raise self
+    raise self
+Poisoned workers:  [0]
+Number of target samples:  [100]
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618849435+07:00"}"
+>grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618845489+07:00"}"
+>
+
+Poisoned workers:  [0]
+Number of target samples:  [100]
+Traceback (most recent call last):
+    raise self
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+    raise self
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618840389+07:00"}"
+>
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618852587+07:00"}"
+>Poisoned workers:  [0]
+Number of target samples:  [100]
+Poisoned workers:  [0]
+Number of target samples:  [100]
+
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+  File "/mnt/Son/Clean-Label-FL-2-clients/client.py", line 926, in <module>
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    start_client(
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    fl.client.start_numpy_client(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port), client=client)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 252, in start_numpy_client
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    start_client(
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    start_client(
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/app.py", line 174, in start_client
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    server_message = receive()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/flwr/client/grpc_client/connection.py", line 105, in <lambda>
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    receive: Callable[[], ServerMessage] = lambda: next(server_message_iterator)
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 475, in __next__
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    return self._next()
+  File "/home/sonnh/miniconda3/envs/pytorch-gpu/lib/python3.10/site-packages/grpc/_channel.py", line 881, in _next
+    raise self
+    raise self
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618836489+07:00"}"
+>grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2023-06-26T13:53:54.618853069+07:00", grpc_status:14, grpc_message:"Socket closed"}"
+>
+
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2023-06-26T13:53:54.618837656+07:00"}"
+>
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2023-06-26T13:53:54.618844684+07:00", grpc_status:14, grpc_message:"Socket closed"}"
+>

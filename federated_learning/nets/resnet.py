@@ -93,7 +93,9 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        print("x", x.mean())
         out = F.relu(self.bn1(self.conv1(x)))
+        print("out", out.mean())
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)

@@ -36,6 +36,11 @@ import wandb
 import pandas as pd
 from federated_learning.nets import ResNet18
 from copy import deepcopy
+from federated_learning.worker_selection import RandomSelectionStrategy
+
+import flwr as fl
+from strategies import FedAvg
+import glob
 
 
 def train_poisoned_worker(epoch, args, client_idx, clients, poisoned_workers, target_label, dataset_pood="./data/"):
@@ -195,11 +200,11 @@ def narcissus_gen(args, comm_round, dataset_path, client_idx, clients, target_la
 
     concate_train_dataset = concate_dataset(train_target, outter_trainset)
 
-    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
-    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
-    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=4)
+    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
 
     # surrogate_model = surrogate_model
@@ -464,6 +469,7 @@ def run_machine_learning(clients, args, poisoned_workers, n_target_samples, glob
         # acc0, acc_clean0, acc_tar0 = results0
         # acc1, acc_clean1, acc_tar1 = results1
         results, workers_selected = train_subset_of_clients(epoch, args, clients, poisoned_workers, n_target_samples, global_model)
+        # results, workers_selected = train_client(epoch, args, clients, poisoned_workers, n_target_samples, global_model)
         # wandb.log({"comm_round": epoch, "asr": acc, "acc_clean": acc_clean, "acc_tar": acc_tar})
         # wandb.log({"comm_round__client_0": epoch, "asr__client_0": acc0, "acc_clean__client_0": acc_clean0, "acc_tar__client_0": acc_tar0})
         # wandb.log({"comm_round__client_1": epoch, "asr__client_1": acc1, "acc_clean__client_1": acc_clean1, "acc_tar__client_1": acc_tar1})
@@ -537,11 +543,11 @@ def select_poisoned_workers(args, train_dataset, net_dataidx_map):
         n_target_samples.append([1][1])
     return poisoned_workers, n_target_samples
 
-def run_exp(KWARGS, client_selection_strategy, idx):
-    log_files, results_files, models_folders, worker_selections_files = generate_experiment_ids(idx, 1)
+def run_exp(KWARGS, client_selection_strategy, idx=0):
+    # log_files, results_files, models_folders, worker_selections_files = generate_experiment_ids(idx, 1)
 
     # Initialize logger
-    handler = logger.add(log_files[0], enqueue=True)
+    handler = logger.add("logs/0_server.log", enqueue=True)
 
     parser = argparse.ArgumentParser(description="A Clean-Label Attack in FL")
     parser.add_argument("--config", type=str, help="Configuration file", default="federated_learning/config/test.json")
@@ -550,7 +556,7 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     absolute_config_path = os.path.join(os.getcwd(), config)
 
     args = Arguments(logger, config_filepath=absolute_config_path)
-    args.set_model_save_path(models_folders[0])
+    # args.set_model_save_path(models_folders[0])
     # args.set_num_poisoned_workers(num_poisoned_workers)
     args.set_round_worker_selection_strategy_kwargs(KWARGS)
     args.set_client_selection_strategy(client_selection_strategy)
@@ -558,7 +564,10 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
     # train_dataset, test_dataset, train_data_loader, test_data_loader = get_dataset(args, kwargs)
-    train_dataset, test_dataset = get_dataset(args, kwargs)
+
+    ######################
+    # train_dataset, test_dataset = get_dataset(args, kwargs)
+    ######################
 
     # train_data_loader = load_train_data_loader(logger, args)
     # test_data_loader = load_test_data_loader(logger, args)
@@ -566,10 +575,13 @@ def run_exp(KWARGS, client_selection_strategy, idx):
 
     # Distribute batches equal volume IID (IID distribution)
     # distributed_train_dataset = distribute_batches_equally(train_data_loader, args.get_num_workers())
-    kwargs = {"num_workers": 4, "pin_memory": True} if args.cuda else {}
+    # kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
     # train_loaders, test_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args)
     # train_loaders, test_data_loader, net_dataidx_map = generate_non_iid_data(train_dataset, test_dataset, args, kwargs)
-    train_loaders, train_indices, test_data_loader = generate_iid_data(train_dataset, test_dataset, args, kwargs)
+    
+    ######################
+    # train_loaders, train_indices, test_data_loader = generate_iid_data(train_dataset, test_dataset, args, kwargs)
+    ######################
 
     # import IPython
     # plot data distribution by matplotlib
@@ -633,14 +645,53 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     #         list(cnt)
 
     global_model = ResNet18().cuda()
+    initial_parameters = [v.cpu().numpy() for k, v in global_model.state_dict().items()]
+    initial_parameters = fl.common.ndarrays_to_parameters(initial_parameters)
+
+
+    # checkpoint_path = args.args_dict.narcissus_gen.checkpoint_path
+    # exp_id = args.args_dict.fl_training.experiment_id
+    # # Specify the pattern to match
+    # pattern = '*exp_{}.npy'.format(exp_id)
+    # # Get a list of files matching the pattern
+    # matching_files = glob.glob(os.path.join(checkpoint_path, pattern))
+    # # Check if any files match the pattern
+    # if len(matching_files) > 0:
+    #     # Load the first matching file
+    #     file_path = matching_files[0]
+    #     noise_npy = np.load(file_path)
+    #     best_noise = torch.from_numpy(noise_npy).cuda()
+    #     print(file_path + " loaded")
+    # else:
+    #     print("No matching file found.")
+
+
+    fl.server.start_server(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port),
+                           config=fl.server.ServerConfig(num_rounds=args.args_dict.fl_training.epochs),
+                           strategy=FedAvg(
+                                        fraction_fit=1.0,  # Sample 100% of available clients for training
+                                        min_fit_clients=args.args_dict.fl_training.num_workers,  # Never sample less than 50 clients for training
+                                        min_available_clients=args.args_dict.fl_training.num_workers,  # Wait until all 50 clients are available
+                                        initial_parameters=initial_parameters,
+                                        global_model=global_model,
+                                        arguments=args,
+                                        device=args.device,
+                                    ))
 
     # clients = create_clients(args, train_data_loaders, test_data_loader)
     # clients = create_clients(args, train_data_loaders, test_data_loader, poisoned_workers)
-    clients = create_clients(args, train_loaders, test_data_loader, poisoned_workers, global_model)
+
+    ############ Create clients ################
+    # clients = create_clients(args, train_loaders, test_data_loader, poisoned_workers, global_model)
+    ############ Create clients ################
 
     # results, worker_selection = run_machine_learning(clients, args, poisoned_workers)
     # results0, results1, worker_selection = run_machine_learning(clients, args, poisoned_workers)
-    results, worker_selection = run_machine_learning(clients, args, poisoned_workers, n_target_samples, global_model)
+
+    ############### Run machine learning ################
+    # results, worker_selection = run_machine_learning(clients, args, poisoned_workers, n_target_samples, global_model)
+    ############### Run machine learning ################
+
     # save_results(results, results_files[0])
     # save_results(worker_selection, worker_selections_files[0])
 
@@ -651,3 +702,15 @@ def run_exp(KWARGS, client_selection_strategy, idx):
     # wandb.log({"workers_selected": table})
 
     logger.remove(handler)
+
+
+if __name__ == "__main__":
+    KWARGS = {
+        "NUM_WORKERS_PER_ROUND" : 5
+    }
+    run_exp(KWARGS, RandomSelectionStrategy())
+    # Wandb initialization
+    # Test loader
+    # Server model
+    # Initial parameters
+    # Start server (flower)

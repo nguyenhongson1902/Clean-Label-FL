@@ -6,7 +6,7 @@
         "target_label": [2],
         "poisoned_workers": [0],
         "n_target_samples": [100],
-        "batch_size": 10,
+        "batch_size": 64,
         "test_batch_size": 100,
         "epochs": 1000,
         "local_epochs": 1,
@@ -17,7 +17,7 @@
         "scheduler_step_size": 50,
         "scheduler_gamma": 0.5, 
         "min_lr": 1e-10,
-        "num_workers": 50,
+        "num_workers": 5,
         "num_poisoned_workers": 1,
         "default_models": "default_models",
         "data_path": "data", 
@@ -25,7 +25,9 @@
         "partition_alpha": 0.5,
         "train_data_loader_pickle_path": "data_loaders/cifar10/train_data_loader.pickle",
         "test_data_loader_pickle_path": "data_loaders/cifar10/test_data_loader.pickle",
-        "gen_trigger_interval": 1
+        "gen_trigger_interval": 1,
+        "server_address": "127.0.0.1",
+        "server_port": 9999
     },
     "narcissus_gen": {
         "checkpoint_path": "./checkpoint",
