@@ -929,7 +929,7 @@ if __name__ == "__main__":
 
     poisoned_workers = args.args_dict.fl_training.poisoned_workers
     # n_target_samples = [2538, 1777]
-    n_target_samples = args.args_dict.fl_training.n_target_samples``
+    n_target_samples = args.args_dict.fl_training.n_target_samples
     print("Poisoned workers: ", poisoned_workers)
     print("Number of target samples: ", n_target_samples)
 
