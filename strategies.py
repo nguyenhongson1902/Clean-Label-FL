@@ -3,6 +3,7 @@ import flwr as fl
 import collections
 import torch
 import wandb
+import copy
 from engines import server_test_fn
 
 
@@ -30,12 +31,11 @@ class FedAvg(fl.server.strategy.FedAvg):
             server_round, 
             results, failures, 
         )[0]
-        # print("aggregated_parameters", type(aggregated_parameters))
         aggregated_parameters = fl.common.parameters_to_ndarrays(aggregated_parameters)
         aggregated_keys = [key for key in self.global_model.state_dict().keys()]
         self.global_model.load_state_dict(
-            collections.OrderedDict({key:torch.tensor(value) for key, value in zip(aggregated_keys, aggregated_parameters)}), 
-            strict=False, 
+            collections.OrderedDict({key:torch.tensor(value) for key, value in zip(aggregated_keys, copy.deepcopy(aggregated_parameters))}), 
+            strict=True, 
         )
 
         results = server_test_fn(

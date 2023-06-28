@@ -73,6 +73,7 @@ def server_test_fn(
     print("\nStart Server Testing ...\n" + " = "*16)
 
     ####################
+    # Load the saved best noise
     checkpoint_path = args.args_dict.narcissus_gen.checkpoint_path
     exp_id = args.args_dict.fl_training.experiment_id
     # Specify the pattern to match
@@ -105,18 +106,16 @@ def server_test_fn(
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ])
 
-    ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
+    ori_test = torchvision.datasets.CIFAR10(root="./data/", train=False, download=False, transform=transform_test)
     
     multi_test = args.args_dict.narcissus_gen.multi_test
     criterion = nn.CrossEntropyLoss()
 
-    poi_ori_test = torchvision.datasets.CIFAR10(root="./data", train=False, download=False, transform=transform_test)
-    #Attack success rate testing, estimated on test dataset, 10000 images of CIFAR-10
+    poi_ori_test = torchvision.datasets.CIFAR10(root="./data/", train=False, download=False, transform=transform_test)
+    
+    # Attack success rate testing, estimated on test dataset, 10000 images of CIFAR-10
     test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))]
-    # test_non_target = list(np.where(np.array(test_label)!=target_label)[0])
     test_non_target = list(np.where(np.array(test_label)!=target_class)[0])
-    # test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_label ,None) # change original labels of poisoned inputs to the target label
-    # test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None) # change original labels of poisoned inputs to the target label
     test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None, patch_mode) # change original labels of poisoned inputs to the target label
     asr_loaders = torch.utils.data.DataLoader(test_non_target_change_image_label, batch_size=args.args_dict.fl_training.test_batch_size, shuffle=True, num_workers=0) # to compute the attack success rate (ASR)
     print('Poison test dataset size is:', len(test_non_target_change_image_label))
@@ -134,7 +133,6 @@ def server_test_fn(
         # 9000 samples from test dataset (with labels changed to target label)
         images, labels = images.to(device), labels.to(device)
         with torch.no_grad():
-            # logits = model(images)
             logits = global_model(images)
             out_loss = criterion(logits,labels)
             _, predicted = torch.max(logits.data, 1)
@@ -149,14 +147,12 @@ def server_test_fn(
     for i, (images, labels) in enumerate(clean_test_loader): # original test CIFAR-10, no poisoned examples
         images, labels = images.to(device), labels.to(device)
         with torch.no_grad():
-            # logits = model(images)
             logits = global_model(images)
             out_loss = criterion(logits,labels)
             _, predicted = torch.max(logits.data, 1)
             total_clean += labels.size(0)
             correct_clean += (predicted == labels).sum().item()
     acc_clean = correct_clean / total_clean
-    # clean_ACC.append(acc_clean)
     print('\nTest clean Accuracy %.2f' % (acc_clean*100))
     print('Test_loss:', out_loss)
     
@@ -165,23 +161,14 @@ def server_test_fn(
         # 1000 samples labeled 2 (no poisoned) 
         images, labels = images.to(device), labels.to(device)
         with torch.no_grad():
-            # logits = model(images)
             logits = global_model(images)
             out_loss = criterion(logits, labels)
             _, predicted = torch.max(logits.data, 1)
             total_tar += labels.size(0)
             correct_tar += (predicted == labels).sum().item()
     acc_tar = correct_tar / total_tar
-    # target_ACC.append(acc_tar)
     print('\nTarget test clean Accuracy %.2f' % (acc_tar*100))
     print('Test_loss:', out_loss)
-
-    # self.args.get_logger().debug('Test set: Accuracy: {}/{} ({:.0f}%)'.format(correct, total, accuracy))
-    # self.args.get_logger().debug('Test set: Loss: {}'.format(loss))
-    # self.args.get_logger().debug("Classification Report:\n" + classification_report(targets_, pred_))
-    # self.args.get_logger().debug("Confusion Matrix:\n" + str(confusion_mat))
-    # self.args.get_logger().debug("Class precision: {}".format(str(class_precision)))
-    # self.args.get_logger().debug("Class recall: {}".format(str(class_recall)))
 
 
     args.get_logger().debug('Attack success rate: {}'.format(acc))
@@ -190,25 +177,3 @@ def server_test_fn(
     
     print("\nFinish Server Testing ...\n" + " = "*16)
     return {"asr": acc, "clean_acc": acc_clean, "tar_acc": acc_tar}
-
-    # print("\nStart Server Testing ...\n" + " = "*16)
-    # with torch.no_grad():
-        
-    #     running_loss, running_corrects,  = 0.0, 0.0, 
-    #     for images, labels in tqdm.tqdm(test_loader):
-    #         images, labels = images.to(device), labels.to(device)
-
-    #         logits = global_model(images.float())
-    #         loss = F.cross_entropy(logits, labels)
-
-    #         running_loss, running_corrects,  = running_loss + loss.item()*images.size(0), running_corrects + torch.sum(torch.max(logits, 1)[1] == labels.data).item(), 
-    # test_loss, test_accuracy,  = running_loss/len(test_loader.dataset), running_corrects/len(test_loader.dataset), 
-    # print("{:<8} - loss:{:.4f}, accuracy:{:.4f}".format(
-    #     "test", 
-    #     test_loss, test_accuracy, 
-    # ))
-
-    # print("\nFinish Server Testing ...\n" + " = "*16)
-    # return {
-    #     "test_loss":test_loss, "test_accuracy":test_accuracy, 
-    # }
