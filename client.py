@@ -64,18 +64,27 @@ class Client(fl.client.NumPyClient):
             self.args.get_min_lr())
 
         self.train_data_loader = train_data_loader
-        # self.test_data_loader = test_data_loader
 
     def get_parameters(self, config):
         """
-        Return the parameters of the neural network. This function is for the Flower framework.
-        Make sure to have the argument config
+        The function "get_parameters" returns the parameters of a neural network model as numpy arrays.
+        
+        :param config: The `config` parameter is a configuration object or dictionary that is passed to
+        the `get_parameters` method. It is used to provide any additional information or settings that
+        may be needed to retrieve the parameters from the network
+        :return: a list of numpy arrays. Each array contains the values of the parameters in the
+        network's state dictionary.
         """
         return [val.cpu().numpy() for _, val in self.net.state_dict().items()]
 
     def set_parameters(self, parameters):
         """
-        Set the parameters of the neural network. This function is for the Flower framework.
+        The function sets the parameters of a neural network model using a dictionary of parameter
+        values.
+        
+        :param parameters: The `parameters` variable is expected to be a list or iterable containing the
+        values for the parameters of the neural network model. Each value in the `parameters` list
+        should correspond to a parameter in the `self.net` model
         """
         params_dict = zip(self.net.state_dict().keys(), copy.deepcopy(parameters))
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
@@ -83,8 +92,19 @@ class Client(fl.client.NumPyClient):
     
     def fit(self, parameters, config):
         """
-        Fitting the neural network using the given parameters. This function is for the Flower framework.
-        Make sure to have the argument config.
+        The function "fit" trains the client using the given parameters and configuration, and returns
+        the trained parameters, the number of data samples used for training, and the results of the
+        training.
+        
+        :param parameters: The `parameters` parameter is a dictionary that contains the model's
+        parameters. These parameters are used to set the model's initial state before training
+        :param config: The `config` parameter is a dictionary that contains various configuration
+        settings for the training process. It may include settings such as the learning rate, batch
+        size, number of epochs, etc
+        :return: a tuple containing three elements:
+        1. An empty dictionary, which represents the parameters of the model.
+        2. The length of the train_data_loader, which is the number of training data points.
+        3. The results of the training process.
         """
         self.set_parameters(parameters)
         results = self.train() # Training the client
@@ -99,11 +119,11 @@ class Client(fl.client.NumPyClient):
         else:
             return torch.device("cpu")
 
-    def set_net(self, net):
+    def set_net(self, net: torch.nn.Module):
         """
         Set the client's NN.
 
-        :param net: torch.nn
+        :param net: torch.nn.Module
         """
         self.net = net
         self.net.to(self.device)
@@ -118,11 +138,11 @@ class Client(fl.client.NumPyClient):
 
         return self.load_model_from_file(default_model_path)
 
-    def load_model_from_file(self, model_file_path):
+    def load_model_from_file(self, model_file_path: str):
         """
         Load a model from a file.
 
-        :param model_file_path: string
+        :param model_file_path: Path to the model file
         """
         model_class = self.args.get_net()
         model = model_class()
@@ -163,7 +183,7 @@ class Client(fl.client.NumPyClient):
         """
         return self.net.state_dict()
 
-    def update_nn_parameters(self, new_params):
+    def update_nn_parameters(self, new_params: Dict):
         """
         Update the NN's parameters.
 

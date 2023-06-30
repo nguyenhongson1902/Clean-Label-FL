@@ -153,18 +153,18 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
     # save_path = './checkpoint/surrogate_pretrain_' + str(surrogate_epochs) +'.pth'
     # torch.save(surrogate_model.state_dict(),save_path)
 
-    #Prepare models and optimizers for poi_warm_up training
+    # Prepare models and optimizers for poi_warm_up training
     poi_warm_up_model = generating_model
     poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
 
     poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
 
-    #Poi_warm_up stage
+    # Poi_warm_up stage
     poi_warm_up_model.train()
     for param in poi_warm_up_model.parameters():
         param.requires_grad = True
 
-    #Training the surrogate model
+    # Training the surrogate model
     for epoch in range(0, warmup_round):
         poi_warm_up_model.train()
         loss_list = []
@@ -180,7 +180,7 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
         ave_loss = np.average(np.array(loss_list))
         print('Epoch:%d, Loss: %e' % (epoch, ave_loss))
 
-    #Trigger generating stage
+    # Trigger generating stage
     for param in poi_warm_up_model.parameters():
         param.requires_grad = False
 
@@ -216,7 +216,7 @@ def narcissus_gen(dataset_path = dataset_path, lab = lab):
 
 
 if __name__ == "__main__":
-    #How to launch the attack with the Push of ONE Button?
+    # How to launch the attack with the Push of ONE Button?
     narcissus_trigger = narcissus_gen(dataset_path = '../data/', lab = 0)
     # narcissus_trigger = narcissus_gen(dataset_path = './dataset', lab = 9)
     print(narcissus_trigger)

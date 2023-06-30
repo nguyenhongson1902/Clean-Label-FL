@@ -53,7 +53,12 @@ def select_poisoned_workers(args, train_dataset, net_dataidx_map):
     return poisoned_workers, n_target_samples
 
 def run_exp():
-
+    """
+    The `run_exp()` function initializes a logger, parses command line arguments, sets up the
+    configuration, creates a global model, and starts a federated learning server using the FedAvg
+    strategy.
+    """
+    
     # Initialize logger
     handler = logger.add("logs/0_server.log", enqueue=True)
 

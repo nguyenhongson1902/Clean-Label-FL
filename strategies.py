@@ -1,4 +1,3 @@
-import os, sys
 import flwr as fl
 import collections
 import torch
@@ -15,6 +14,22 @@ class FedAvg(fl.server.strategy.FedAvg):
         device,
         *args, **kwargs, 
     ):
+        """
+        The above function is an implementation of the `aggregate_fit` method that aggregates the model
+        parameters from multiple clients and updates the global model.
+        
+        :param arguments: The `arguments` parameter is an object that contains various arguments and
+        settings for the code. It is used to pass information and configuration to the class
+        :param global_model: The `global_model` parameter is an instance of a PyTorch model that
+        represents the global model in a federated learning setting. It is used to aggregate the model
+        updates from multiple clients during the training process
+        :param client_idx: The `client_idx` parameter represents the index of the client in the
+        federated learning system. It is used to identify and differentiate between different clients
+        participating in the training process
+        :param device: The "device" parameter is used to specify the device (CPU or GPU) on which the
+        model should be trained and evaluated. It is a torch.device instance, which could be torch.device("cpu")
+        or torch.device("cuda")
+        """
         super().__init__(*args, **kwargs, )
         self.arguments = arguments
         self.global_model = global_model
@@ -29,6 +44,19 @@ class FedAvg(fl.server.strategy.FedAvg):
         server_round, 
         results, failures, 
     ):
+        """
+        The function `aggregate_fit` aggregates the model parameters from the clients, updates the
+        global model with the aggregated parameters, performs testing on the server, logs the results,
+        and returns the aggregated parameters.
+        
+        :param server_round: The `server_round` parameter represents the current round of the federated
+        learning process on the server side. It is used to keep track of the progress of the training
+        :param results: The `results` parameter is a dictionary that contains the results of the
+        training or testing process. It includes metrics such as ASR, Clean ACC, Target ACC
+        :param failures: The "failures" parameter is not used in the given code snippet. It is included
+        as a parameter in the function definition but is not referenced or used within the function body
+        :return: the aggregated parameters and an empty dictionary.
+        """
         aggregated_parameters = super().aggregate_fit(
             server_round, 
             results, failures, 

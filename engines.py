@@ -1,10 +1,10 @@
 import os
 import torch
 import torch.nn.functional as F
-from tqdm import tqdm
 import torchvision.transforms as transforms
 import torchvision
 import torch.nn as nn
+
 from federated_learning.utils import get_labels
 from federated_learning.utils import poison_image_label
 import numpy as np
@@ -12,67 +12,32 @@ from torch.utils.data import Subset
 import glob
 
 
-def client_fit_fn(
-    fit_loaders, num_epochs, 
-    client_model, 
-    optimizer, 
-    device = torch.device("cpu"), 
-):
-    print("\nStart Client Fitting ...\n" + " = "*16)
-    client_model = client_model.to(device)
-
-    for epoch in range(1, num_epochs + 1):
-        print("epoch {}/{}".format(epoch, num_epochs) + "\n" + " - "*16)
-
-        client_model.train()
-        running_loss, running_corrects,  = 0.0, 0.0, 
-        for images, labels in tqdm.tqdm(fit_loaders["fit"]):
-            images, labels = images.to(device), labels.to(device)
-
-            logits = client_model(images.float())
-            loss = F.cross_entropy(logits, labels)
-
-            loss.backward()
-            optimizer.step(), optimizer.zero_grad()
-
-            running_loss, running_corrects,  = running_loss + loss.item()*images.size(0), running_corrects + torch.sum(torch.max(logits, 1)[1] == labels.data).item(), 
-        fit_loss, fit_accuracy,  = running_loss/len(fit_loaders["fit"].dataset), running_corrects/len(fit_loaders["fit"].dataset), 
-        print("{:<8} - loss:{:.4f}, accuracy:{:.4f}".format(
-            "fit", 
-            fit_loss, fit_accuracy, 
-        ))
-
-        with torch.no_grad():
-            client_model.eval()
-            running_loss, running_corrects,  = 0.0, 0.0, 
-            for images, labels in tqdm.tqdm(fit_loaders["evaluate"]):
-                images, labels = images.to(device), labels.to(device)
-
-                logits = client_model(images.float())
-                loss = F.cross_entropy(logits, labels)
-
-                running_loss, running_corrects,  = running_loss + loss.item()*images.size(0), running_corrects + torch.sum(torch.max(logits, 1)[1] == labels.data).item(), 
-        evaluate_loss, evaluate_accuracy,  = running_loss/len(fit_loaders["evaluate"].dataset), running_corrects/len(fit_loaders["evaluate"].dataset), 
-        print("{:<8} - loss:{:.4f}, accuracy:{:.4f}".format(
-            "evaluate", 
-            evaluate_loss, evaluate_accuracy, 
-        ))
-
-    print("\nFinish Client Fitting ...\n" + " = "*16)
-    return {
-        "fit_loss": fit_loss, "fit_accuracy": fit_accuracy, 
-        "evaluate_loss": evaluate_loss, "evaluate_accuracy": evaluate_accuracy, 
-    }
-
 def server_test_fn(
     args,
     global_model, 
     client_idx,
     device=torch.device("cpu"), 
 ):
+    """
+    The function `server_test_fn` performs server testing by evaluating the attack success rate (ASR),
+    clean accuracy, and target accuracy of a global model on a test dataset.
+    
+    :param args: The `args` parameter is an object that contains various arguments and configurations
+    for the server testing function. It is used to access specific values needed for the testing process
+    :param global_model: The `global_model` parameter is the model that will be used for server testing.
+    It should be an instance of a PyTorch model that has been trained on the server using federated
+    learning
+    :param client_idx: The `client_idx` parameter represents the index of the client for which the
+    server is performing the testing. It is used to determine the target label for poisoning and to
+    identify the corresponding noise file
+    :param device: The "device" parameter is used to specify the device on which the model will be
+    evaluated. It can be set to either "cpu" or a specific GPU device (e.g., "cuda:0") if available
+    :return: a dictionary containing the attack success rate (ASR), clean accuracy (clean_acc), and
+    target test accuracy (tar_acc).
+    """
+    
     print("\nStart Server Testing ...\n" + " = "*16)
 
-    ####################
     # Load the saved best noise
     checkpoint_path = args.args_dict.narcissus_gen.checkpoint_path
     exp_id = args.args_dict.fl_training.experiment_id
@@ -89,12 +54,10 @@ def server_test_fn(
         print(file_path + " loaded")
     else:
         print("No matching file found.")
-    ####################
 
     global_model.eval()
     global_model = global_model.to(device)
 
-    # poison_amount_ratio = args.args_dict.narcissus_gen.poison_amount_ratio
     poisoned_workers = args.args_dict.fl_training.poisoned_workers
     target_label = args.args_dict.fl_training.target_label
     patch_mode = args.args_dict.narcissus_gen.patch_mode
