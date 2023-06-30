@@ -10,7 +10,6 @@ from collections import OrderedDict
 from loguru import logger
 from tqdm import tqdm
 
-
 import torch
 import torch.optim as optim
 from federated_learning.schedulers import MinCapableStepLR
@@ -32,6 +31,7 @@ import flwr as fl
 
 SEED = 1
 random.seed(SEED)
+torch.manual_seed(SEED)
 
 class Client(fl.client.NumPyClient):
 

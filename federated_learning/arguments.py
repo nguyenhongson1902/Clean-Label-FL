@@ -5,10 +5,10 @@ import torch
 import json
 from easydict import EasyDict
 
+
 # Setting the seed for Torch
 SEED = 1
 torch.manual_seed(SEED)
-
 
 class Arguments():
     def __init__(self, logger, config_filepath="./config/test.json"):
