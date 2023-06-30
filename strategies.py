@@ -11,12 +11,14 @@ class FedAvg(fl.server.strategy.FedAvg):
     def __init__(self, 
         arguments, 
         global_model, 
+        client_idx,
         device,
         *args, **kwargs, 
     ):
         super().__init__(*args, **kwargs, )
         self.arguments = arguments
         self.global_model = global_model
+        self.client_idx = client_idx
         self.device = device
 
         self.server_accuracy = 0.0
@@ -41,6 +43,7 @@ class FedAvg(fl.server.strategy.FedAvg):
         results = server_test_fn(
             self.arguments, 
             self.global_model, 
+            self.client_idx,
             device=self.device, 
         )
         self.wandb.log({"asr": results["asr"], "clean_acc": results["clean_acc"], "tar_acc": results["tar_acc"]}, step=server_round)

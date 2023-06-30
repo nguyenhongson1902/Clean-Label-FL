@@ -60,6 +60,7 @@ def run_exp(KWARGS, client_selection_strategy):
 
     parser = argparse.ArgumentParser(description="A Clean-Label Attack in FL")
     parser.add_argument("--config", type=str, help="Configuration file", default="federated_learning/config/test.json")
+    parser.add_argument("--client_idx", type=int, help="Client index", default=0) # poisoned client index
 
     config = parser.parse_args().config
     absolute_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), config)
@@ -82,6 +83,7 @@ def run_exp(KWARGS, client_selection_strategy):
     initial_parameters = fl.common.ndarrays_to_parameters(initial_parameters)
 
 
+    client_idx = parser.parse_args().client_idx
     fl.server.start_server(server_address="{}:{}".format(args.args_dict.fl_training.server_address, args.args_dict.fl_training.server_port),
                            config=fl.server.ServerConfig(num_rounds=args.args_dict.fl_training.epochs),
                            strategy=FedAvg(
@@ -92,6 +94,7 @@ def run_exp(KWARGS, client_selection_strategy):
                                         global_model=global_model,
                                         arguments=args,
                                         device=args.device,
+                                        client_idx=client_idx,
                                     ))
 
     logger.remove(handler)

@@ -68,6 +68,7 @@ def client_fit_fn(
 def server_test_fn(
     args,
     global_model, 
+    client_idx,
     device=torch.device("cpu"), 
 ):
     print("\nStart Server Testing ...\n" + " = "*16)
@@ -99,8 +100,7 @@ def server_test_fn(
     target_label = args.args_dict.fl_training.target_label
     patch_mode = args.args_dict.narcissus_gen.patch_mode
     
-    client_idx = args.client_idx
-    idx = poisoned_workers.index(client_idx) # Temporary
+    idx = poisoned_workers.index(client_idx) 
     target_class = target_label[idx]
     # poison_amount = round(poison_amount_ratio * args.args_dict.fl_training.n_target_samples[idx])
 

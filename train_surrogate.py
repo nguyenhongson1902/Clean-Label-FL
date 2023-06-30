@@ -241,7 +241,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="A Clean-Label Attack in FL")
     parser.add_argument("--config", type=str, help="Configuration file", default="federated_learning/config/test.json")
-    parser.add_argument("--client_idx", type=int, help="Client index", default=0)
+    parser.add_argument("--client_idx", type=int, help="Client index", default=0) # poisoned client index
 
     config = parser.parse_args().config
     absolute_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), config)
