@@ -32,10 +32,14 @@ if __name__ == "__main__":
         pass
 
     # Save train loaders, test loader, train indices
-    with open("./data_loaders/cifar10/iid/train_loaders_iid_n_clients_50.pkl", 'wb') as f:
+    n_clients = args.args_dict.fl_training.num_clients
+    train_loaders_path = f"./data_loaders/cifar10/iid/train_loaders_iid_n_clients_{n_clients}"
+    test_data_loader_path = f"./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_{n_clients}"
+    train_indices_path = f"./data_loaders/cifar10/iid/train_indices_iid_n_clients_{n_clients}"
+    with open(train_loaders_path, 'wb') as f:
         pickle.dump(train_loaders, f)
-    with open("./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_50.pkl", 'wb') as f:
+    with open(test_data_loader_path, 'wb') as f:
         pickle.dump(test_data_loader, f)
-    with open("./data_loaders/cifar10/iid/train_indices_iid_n_clients_50.pkl", 'wb') as f:
+    with open(train_indices_path, 'wb') as f:
         pickle.dump(train_indices, f)
 

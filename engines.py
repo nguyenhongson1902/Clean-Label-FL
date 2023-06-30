@@ -119,7 +119,7 @@ def server_test_fn(
     # Attack success rate testing, estimated on test dataset, 10000 images of CIFAR-10
     test_label = [get_labels(ori_test)[x] for x in range(len(get_labels(ori_test)))]
     test_non_target = list(np.where(np.array(test_label)!=target_class)[0])
-    test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu()*multi_test, target_class ,None, patch_mode) # change original labels of poisoned inputs to the target label
+    test_non_target_change_image_label = poison_image_label(poi_ori_test, test_non_target, best_noise.cpu() * multi_test, target_class, None, patch_mode) # change original labels of poisoned inputs to the target label
     asr_loaders = torch.utils.data.DataLoader(test_non_target_change_image_label, batch_size=args.args_dict.fl_training.test_batch_size, shuffle=True, num_workers=0) # to compute the attack success rate (ASR)
     print('Poison test dataset size is:', len(test_non_target_change_image_label))
 

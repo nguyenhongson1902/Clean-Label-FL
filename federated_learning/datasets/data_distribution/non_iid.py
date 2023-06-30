@@ -11,14 +11,13 @@ def generate_non_iid_data(train_dataset, test_dataset, args, kwargs):
         train_dataloader
         test_dataloader
     """
-    # partition_method = args.partition_method
     # list object to numpy
     y_train = np.array(train_dataset.targets)
     # y_train = train_dataset.targets.umpy()
 
     number_of_classs = len(np.unique(y_train))
     n_train = len(train_dataset)
-    n_nets = args.num_workers # #total clients
+    n_nets = args.num_clients # #total clients
         
     # if partition_method == "hetero-dir":
     partition_alpha = args.partition_alpha

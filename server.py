@@ -23,7 +23,7 @@ def select_poisoned_workers(args, train_dataset, net_dataidx_map):
     # with open(os.path.join("./distribution_logs", "exp_id_" + str(exp_id)), "w") as f:
     for target in target_label:
         tmp = []
-        for j in range(args.num_workers):
+        for j in range(args.num_clients):
             # f.write("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
             print("Client %d: %d samples" % (j, len(net_dataidx_map[j])))
             cnt_class = {}
@@ -84,8 +84,8 @@ def run_exp():
                            config=fl.server.ServerConfig(num_rounds=args.args_dict.fl_training.epochs),
                            strategy=FedAvg(
                                         fraction_fit=1.0,  # Sample 100% of available clients for training
-                                        min_fit_clients=args.args_dict.fl_training.num_workers,  # Never sample less than 50 clients for training
-                                        min_available_clients=args.args_dict.fl_training.num_workers,  # Wait until all 50 clients are available
+                                        min_fit_clients=args.args_dict.fl_training.num_clients,  # Never sample less than 50 clients for training
+                                        min_available_clients=args.args_dict.fl_training.num_clients,  # Wait until all 50 clients are available
                                         initial_parameters=initial_parameters,
                                         global_model=global_model,
                                         arguments=args,

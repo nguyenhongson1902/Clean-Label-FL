@@ -28,7 +28,7 @@ class Arguments():
         self.scheduler_step_size = self.args_dict.fl_training.scheduler_step_size
         self.scheduler_gamma = self.args_dict.fl_training.scheduler_gamma
         self.min_lr = self.args_dict.fl_training.min_lr
-        self.num_workers = self.args_dict.fl_training.num_workers
+        self.num_clients = self.args_dict.fl_training.num_clients
         self.num_poisoned_workers = self.args_dict.fl_training.num_poisoned_workers
         self.default_models = self.args_dict.fl_training.default_models
         self.data_path = self.args_dict.fl_training.data_path
@@ -118,8 +118,8 @@ class Arguments():
     def set_num_poisoned_workers(self, num_poisoned_workers):
         self.num_poisoned_workers = num_poisoned_workers
 
-    def set_num_workers(self, num_workers):
-        self.num_workers = num_workers
+    def set_num_clients(self, num_clients):
+        self.num_clients = num_clients
 
     def set_model_save_path(self, save_model_path):
         self.save_model_path = save_model_path
@@ -133,8 +133,8 @@ class Arguments():
     def get_net(self):
         return self.net
 
-    def get_num_workers(self):
-        return self.num_workers
+    def get_num_clients(self):
+        return self.num_clients
 
     def get_num_poisoned_workers(self):
         return self.num_poisoned_workers
@@ -172,18 +172,18 @@ class Arguments():
 
         return lr
 
-    def should_save_model(self, epoch_idx):
-        """
-        Returns true/false models should be saved.
+    # def should_save_model(self, epoch_idx):
+    #     """
+    #     Returns true/false models should be saved.
 
-        :param epoch_idx: current training epoch index
-        :type epoch_idx: int
-        """
-        if not self.save_model:
-            return False
+    #     :param epoch_idx: current training epoch index
+    #     :type epoch_idx: int
+    #     """
+    #     if not self.save_model:
+    #         return False
 
-        if epoch_idx == 1 or epoch_idx % self.save_epoch_interval == 0:
-            return True
+    #     if epoch_idx == 1 or epoch_idx % self.save_epoch_interval == 0:
+    #         return True
 
     def log(self):
         """
@@ -233,7 +233,7 @@ class Arguments():
                "Model Saving Path (Relative): {}\n".format(self.save_model_path) + \
                "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix) + \
                "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix) + \
-               "Number of Clients: {}\n".format(self.num_workers) + \
+               "Number of Clients: {}\n".format(self.num_clients) + \
                "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers) + \
                "NN: {}\n".format(self.net) + \
                "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path) + \

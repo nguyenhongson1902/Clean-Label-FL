@@ -27,8 +27,6 @@ from federated_learning.utils import concate_dataset
 from federated_learning.utils import apply_noise_patch
 from federated_learning.nets import ResNet18
 from federated_learning.arguments import Arguments
-from generate_train_test import get_dataset
-from federated_learning.datasets.data_distribution import generate_iid_data
 
 import flwr as fl
 
@@ -691,11 +689,15 @@ if __name__ == "__main__":
     kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
 
     # Load train loaders, test loader, train indices
-    with open("./data_loaders/cifar10/iid/train_loaders_iid_n_clients_5.pkl", 'rb') as f:
+    n_clients = args.args_dict.fl_training.num_clients
+    train_loaders_path = f"./data_loaders/cifar10/iid/train_loaders_iid_n_clients_{n_clients}"
+    test_data_loader_path = f"./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_{n_clients}"
+    train_indices_path = f"./data_loaders/cifar10/iid/train_indices_iid_n_clients_{n_clients}"
+    with open(train_loaders_path, 'rb') as f:
         train_loaders = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_5.pkl", 'rb') as f:
+    with open(test_data_loader_path, 'rb') as f:
         test_data_loader = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/train_indices_iid_n_clients_5.pkl", 'rb') as f:
+    with open(train_indices_path, 'rb') as f:
         train_indices = pickle.load(f)
     
     client_idx = parser.parse_args().client_idx

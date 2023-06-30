@@ -10,7 +10,7 @@ random.seed(1)
 
 
 def generate_iid_data(train_dataset, test_dataset, args, kwargs):
-	N = args.num_workers  # number of clients in total
+	N = args.num_clients  # number of clients in total
 	all_range = list(range(len(train_dataset)))
 	random.shuffle(all_range)
 	print("all_range: ", all_range)

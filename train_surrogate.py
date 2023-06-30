@@ -7,7 +7,7 @@ from tqdm import tqdm
 import pickle
 
 import torch
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import Subset
 import torchvision.transforms as transforms
 import torchvision
 
@@ -55,16 +55,12 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
         client_train_loader = train_data_loader
         
         # Radius of the L-inf ball
-        
         l_inf_r = args.args_dict.narcissus_gen.l_inf_r / 255 # Default: l_inf_r = 16/255
 
         # Model for generating surrogate model and trigger
         surrogate_model = args.net().to(device) # default: ResNet18_201
 
-
         # surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '_comm_round_' + str(comm_round) + '.pth')
-        # pattern = "*exp_{}.pth".format(exp_id)
-        # matching_files = glob.glob(os.path.join(checkpoint_path, pattern))
 
         generating_model = args.net().to(device) # default: ResNet18_201
 
@@ -249,18 +245,19 @@ if __name__ == "__main__":
     args = Arguments(logger, config_filepath=absolute_config_path)
     args.log()
 
-    kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
-
     # Load train loaders, test loader, train indices
-    with open("./data_loaders/cifar10/iid/train_loaders_iid_n_clients_5.pkl", 'rb') as f:
+    n_clients = args.args_dict.fl_training.num_clients
+    train_loaders_path = f"./data_loaders/cifar10/iid/train_loaders_iid_n_clients_{n_clients}"
+    test_data_loader_path = f"./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_{n_clients}"
+    train_indices_path = f"./data_loaders/cifar10/iid/train_indices_iid_n_clients_{n_clients}"
+    with open(train_loaders_path, 'rb') as f:
         train_loaders = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_5.pkl", 'rb') as f:
+    with open(test_data_loader_path, 'rb') as f:
         test_data_loader = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/train_indices_iid_n_clients_5.pkl", 'rb') as f:
+    with open(train_indices_path, 'rb') as f:
         train_indices = pickle.load(f)
 
+
     client_idx = parser.parse_args().client_idx
-
     target_label = args.args_dict.fl_training.target_label
-
     train_poisoned_worker(args, client_idx, target_label, train_loaders[client_idx], pood_path="./data/")
