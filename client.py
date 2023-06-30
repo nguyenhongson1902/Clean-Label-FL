@@ -32,8 +32,8 @@ from federated_learning.datasets.data_distribution import generate_iid_data
 
 import flwr as fl
 
-
-random.seed(1)
+SEED = 1
+random.seed(SEED)
 
 class Client(fl.client.NumPyClient):
 

@@ -192,6 +192,32 @@ class Arguments():
         self.logger.debug("Arguments: {}", str(self))
 
     def __str__(self):
+        # return "\nBatch Size: {}\n".format(self.batch_size) + \
+        #        "Test Batch Size: {}\n".format(self.test_batch_size) + \
+        #        "Epochs: {}\n".format(self.epochs) + \
+        #        "Learning Rate: {}\n".format(self.lr) + \
+        #        "Momentum: {}\n".format(self.momentum) + \
+        #        "CUDA Enabled: {}\n".format(self.cuda) + \
+        #        "Log Interval: {}\n".format(self.log_interval) + \
+        #        "Scheduler Step Size: {}\n".format(self.scheduler_step_size) + \
+        #        "Scheduler Gamma: {}\n".format(self.scheduler_gamma) + \
+        #        "Scheduler Minimum Learning Rate: {}\n".format(self.min_lr) + \
+        #        "Client Selection Strategy: {}\n".format(self.round_worker_selection_strategy) + \
+        #        "Client Selection Strategy Arguments: {}\n".format(json.dumps(self.round_worker_selection_strategy_kwargs, indent=4, sort_keys=True)) + \
+        #        "Model Saving Enabled: {}\n".format(self.save_model) + \
+        #        "Model Saving Interval: {}\n".format(self.save_epoch_interval) + \
+        #        "Model Saving Path (Relative): {}\n".format(self.save_model_path) + \
+        #        "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix) + \
+        #        "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix) + \
+        #        "Number of Clients: {}\n".format(self.num_workers) + \
+        #        "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers) + \
+        #        "NN: {}\n".format(self.net) + \
+        #        "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path) + \
+        #        "Test Data Loader Path: {}\n".format(self.test_data_loader_pickle_path) + \
+        #        "Loss Function: {}\n".format(self.loss_function) + \
+        #        "Default Model Folder Path: {}\n".format(self.default_model_folder_path) + \
+        #        "Data Path: {}\n".format(self.data_path)
+
         return "\nBatch Size: {}\n".format(self.batch_size) + \
                "Test Batch Size: {}\n".format(self.test_batch_size) + \
                "Epochs: {}\n".format(self.epochs) + \
@@ -202,8 +228,6 @@ class Arguments():
                "Scheduler Step Size: {}\n".format(self.scheduler_step_size) + \
                "Scheduler Gamma: {}\n".format(self.scheduler_gamma) + \
                "Scheduler Minimum Learning Rate: {}\n".format(self.min_lr) + \
-               "Client Selection Strategy: {}\n".format(self.round_worker_selection_strategy) + \
-               "Client Selection Strategy Arguments: {}\n".format(json.dumps(self.round_worker_selection_strategy_kwargs, indent=4, sort_keys=True)) + \
                "Model Saving Enabled: {}\n".format(self.save_model) + \
                "Model Saving Interval: {}\n".format(self.save_epoch_interval) + \
                "Model Saving Path (Relative): {}\n".format(self.save_model_path) + \

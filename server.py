@@ -4,7 +4,6 @@ import numpy as np
 
 from federated_learning.arguments import Arguments
 from federated_learning.nets import ResNet18
-from federated_learning.worker_selection import RandomSelectionStrategy
 
 import argparse
 
@@ -53,7 +52,7 @@ def select_poisoned_workers(args, train_dataset, net_dataidx_map):
         n_target_samples.append([1][1])
     return poisoned_workers, n_target_samples
 
-def run_exp(KWARGS, client_selection_strategy):
+def run_exp():
 
     # Initialize logger
     handler = logger.add("logs/0_server.log", enqueue=True)
@@ -66,12 +65,9 @@ def run_exp(KWARGS, client_selection_strategy):
     absolute_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), config)
 
     args = Arguments(logger, config_filepath=absolute_config_path)
-    args.set_round_worker_selection_strategy_kwargs(KWARGS)
-    args.set_client_selection_strategy(client_selection_strategy)
     args.log()
 
     device = args.device
-    kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
     
     poisoned_workers = args.args_dict.fl_training.poisoned_workers
     n_target_samples = args.args_dict.fl_training.n_target_samples
@@ -101,10 +97,7 @@ def run_exp(KWARGS, client_selection_strategy):
 
 
 if __name__ == "__main__":
-    KWARGS = {
-        "NUM_WORKERS_PER_ROUND" : 5
-    }
-    run_exp(KWARGS, RandomSelectionStrategy())
+    run_exp()
     # Wandb initialization
     # Test loader
     # Server model

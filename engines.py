@@ -1,4 +1,4 @@
-import os, sys
+import os
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
@@ -6,10 +6,9 @@ import torchvision.transforms as transforms
 import torchvision
 import torch.nn as nn
 from federated_learning.utils import get_labels
-from federated_learning.utils import poison_image
 from federated_learning.utils import poison_image_label
 import numpy as np
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import Subset
 import glob
 
 
@@ -61,8 +60,8 @@ def client_fit_fn(
 
     print("\nFinish Client Fitting ...\n" + " = "*16)
     return {
-        "fit_loss":fit_loss, "fit_accuracy":fit_accuracy, 
-        "evaluate_loss":evaluate_loss, "evaluate_accuracy":evaluate_accuracy, 
+        "fit_loss": fit_loss, "fit_accuracy": fit_accuracy, 
+        "evaluate_loss": evaluate_loss, "evaluate_accuracy": evaluate_accuracy, 
     }
 
 def server_test_fn(
@@ -143,7 +142,6 @@ def server_test_fn(
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     acc = correct / total
-    # test_ACC.append(acc)
     print('\nAttack success rate %.2f' % (acc*100))
     print('Test_loss:', out_loss)
     
