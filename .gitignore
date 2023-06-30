@@ -116,3 +116,5 @@ Narcissus/__pycache__/
 # Narcissus/dataset/
 
 wandb/
+
+logs_clients/

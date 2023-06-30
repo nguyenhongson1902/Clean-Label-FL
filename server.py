@@ -1,45 +1,15 @@
 import os
-import time
-from tqdm import tqdm
 from loguru import logger
 import numpy as np
 
 from federated_learning.arguments import Arguments
-from federated_learning.utils import generate_data_loaders_from_distributed_dataset
-from federated_learning.datasets.data_distribution import distribute_batches_equally
-from federated_learning.datasets.data_distribution import generate_non_iid_data
-from federated_learning.datasets.data_distribution import generate_iid_data
-from federated_learning.datasets.data_distribution import distribute_non_iid
-
-from federated_learning.utils import average_nn_parameters
-from federated_learning.utils import poison_data
-from federated_learning.utils import identify_random_elements
-from federated_learning.utils import save_results
-from federated_learning.utils import load_train_data_loader
-from federated_learning.utils import load_test_data_loader
-from federated_learning.utils import generate_experiment_ids
-from federated_learning.utils import convert_results_to_csv
-from federated_learning.utils import convert_results_to_csv_asr_cleanacc_taracc
-from client import Client
-from generate_train_test import get_dataset
-from federated_learning.utils import get_labels
-from federated_learning.utils import concate_dataset
-from federated_learning.utils import apply_noise_patch
 from federated_learning.nets import ResNet18
 from federated_learning.worker_selection import RandomSelectionStrategy
 
-import torch
-import torchvision
-import torchvision.transforms as transforms
-from torch.utils.data import Subset
 import argparse
-import wandb
-import pandas as pd
-from copy import deepcopy
 
 import flwr as fl
 from strategies import FedAvg
-import glob
 
 
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):

@@ -188,7 +188,8 @@ class Client(fl.client.NumPyClient):
             n_target_samples = self.args.args_dict.fl_training.n_target_samples # [100, 100, 100], in order with target_label
             poisoned_workers = self.get_poisoned_workers() # [0, 1, 5], randomly selected
 
-            for epoch in tqdm(range(self.args.args_dict.fl_training.epochs)): # communication_rounds
+            # for epoch in tqdm(range(self.args.args_dict.fl_training.epochs)): # communication_rounds
+            for epoch in range(self.args.args_dict.fl_training.local_epochs):
                 # First, we need to generate a trigger
                 best_noise = self.train_poisoned_worker(epoch, client_idx, target_label, pood_path="./data/")
                 assert best_noise is not None, "best_noise is None. There is no trigger generated." # 
@@ -201,6 +202,7 @@ class Client(fl.client.NumPyClient):
 
                 # Poison training data
                 poi_ori_train = self.train_data_loader.dataset
+                print("poi_ori_train", len(poi_ori_train))
                 train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
                 train_target_list = list(np.where(np.array(train_label)==target_class)[0])
                 transform_after_train = transforms.Compose([
@@ -213,9 +215,10 @@ class Client(fl.client.NumPyClient):
 
                 # random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
                 poison_train_target = poison_image(poi_ori_train, random_poison_idx, best_noise.cpu(), transform_after_train, patch_mode) # doesn't change labels of poisoned images, only poisoning some examples of inputs
+                print("poison_train_target", len(poison_train_target))
                 print('Traing dataset size is:', len(poison_train_target), " Poison numbers is:", len(random_poison_idx))
                 clean_train_loader = DataLoader(poison_train_target, batch_size=self.args.test_batch_size, shuffle=True, num_workers=0)
-                
+                print("clean_train_loader", len(clean_train_loader))
                 self.net.train()
                 acc_meter = AverageMeter()
                 loss_meter = AverageMeter()
@@ -254,36 +257,36 @@ class Client(fl.client.NumPyClient):
             # save model
             # if self.args.should_save_model(epoch):
             #     self.save_model(epoch, self.args.get_epoch_save_start_suffix())
+            print("self.train_data_loader", len(self.train_data_loader.dataset), len(self.train_data_loader))
+            # for epoch in tqdm(range(self.args.args_dict.fl_training.epochs)): # communication_rounds
+            for epoch in range(self.args.args_dict.fl_training.local_epochs):
+                running_loss, running_corrects = 0.0, 0.0 
+                for i, (inputs, labels) in tqdm(enumerate(self.train_data_loader, 0)):
+                    inputs, labels = inputs.to(device), labels.to(device)
 
-            for epoch in tqdm(range(self.args.args_dict.fl_training.epochs)): # communication_rounds
-                for _ in range(self.args.args_dict.fl_training.local_epochs):
-                    running_loss, running_corrects = 0.0, 0.0 
-                    for i, (inputs, labels) in enumerate(self.train_data_loader, 0):
-                        inputs, labels = inputs.to(device), labels.to(device)
+                    # zero the parameter gradients
+                    self.optimizer.zero_grad()
 
-                        # zero the parameter gradients
-                        self.optimizer.zero_grad()
+                    # forward + backward + optimize
+                    outputs = self.net(inputs)
+                    loss = self.loss_function(outputs, labels)
+                    loss.backward()
+                    self.optimizer.step()
 
-                        # forward + backward + optimize
-                        outputs = self.net(inputs)
-                        loss = self.loss_function(outputs, labels)
-                        loss.backward()
-                        self.optimizer.step()
+                    running_loss += loss.item()*inputs.size(0)
+                    running_corrects += torch.sum(torch.max(outputs, 1)[1] == labels.data).item()
+                    if i % self.args.get_log_interval() == 0:
+                        self.args.get_logger().info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / self.args.get_log_interval()))
 
-                        running_loss += loss.item()*inputs.size(0)
-                        running_corrects += torch.sum(torch.max(outputs, 1)[1] == labels.data).item()
-                        if i % self.args.get_log_interval() == 0:
-                            self.args.get_logger().info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / self.args.get_log_interval()))
+                        running_loss = 0.0
 
-                            running_loss = 0.0
+                self.scheduler.step()
 
-                    self.scheduler.step()
-
-                client_train_loss, client_train_acc = running_loss / len(self.train_data_loader.dataset), running_corrects / len(self.train_data_loader.dataset)
-                print("{:<8} - loss:{:.4f}, accuracy:{:.4f}".format(
-                                        "Client Training", 
-                                        client_train_loss, client_train_acc, 
-                                    ))
+            client_train_loss, client_train_acc = running_loss / len(self.train_data_loader.dataset), running_corrects / len(self.train_data_loader.dataset)
+            print("{:<8} - loss:{:.4f}, accuracy:{:.4f}".format(
+                                    "Client Training", 
+                                    client_train_loss, client_train_acc, 
+                                ))
             # save model
             # if self.args.should_save_model(epoch):
             #     self.save_model(epoch, self.args.get_epoch_save_end_suffix())
@@ -528,7 +531,7 @@ class Client(fl.client.NumPyClient):
 
         ori_train = client_train_loader.dataset # original client train dataset
 
-        outter_trainset = torchvision.datasets.ImageFolder(root=os.path.join(dataset_path, '/tiny-imagenet-200/train/'), transform=transform_surrogate_train) # POOD
+        outter_trainset = torchvision.datasets.ImageFolder(root=dataset_path + '/tiny-imagenet-200/train/', transform=transform_surrogate_train) # POOD
 
         # Outter train dataset (POOD)
         train_label = [get_labels(ori_train)[x] for x in range(len(get_labels(ori_train)))]
@@ -688,11 +691,11 @@ if __name__ == "__main__":
     kwargs = {"num_workers": 0, "pin_memory": True} if args.cuda else {}
 
     # Load train loaders, test loader, train indices
-    with open("./data_loaders/cifar10/iid/train_loaders_iid_num_workers_0.pkl", 'rb') as f:
+    with open("./data_loaders/cifar10/iid/train_loaders_iid_n_clients_5.pkl", 'rb') as f:
         train_loaders = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/test_data_loader_iid_num_workers_0.pkl", 'rb') as f:
+    with open("./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_5.pkl", 'rb') as f:
         test_data_loader = pickle.load(f)
-    with open("./data_loaders/cifar10/iid/train_indices_iid_num_workers_0.pkl", 'rb') as f:
+    with open("./data_loaders/cifar10/iid/train_indices_iid_n_clients_5.pkl", 'rb') as f:
         train_indices = pickle.load(f)
     
     client_idx = parser.parse_args().client_idx

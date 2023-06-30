@@ -95,9 +95,13 @@ def server_test_fn(
     global_model = global_model.to(device)
 
     # poison_amount_ratio = args.args_dict.narcissus_gen.poison_amount_ratio
+    poisoned_workers = args.args_dict.fl_training.poisoned_workers
+    target_label = args.args_dict.fl_training.target_label
     patch_mode = args.args_dict.narcissus_gen.patch_mode
-    idx = 0 # Temporary
-    target_class = args.args_dict.fl_training.target_label[idx]
+    
+    client_idx = args.client_idx
+    idx = poisoned_workers.index(client_idx) # Temporary
+    target_class = target_label[idx]
     # poison_amount = round(poison_amount_ratio * args.args_dict.fl_training.n_target_samples[idx])
 
     transform_test = transforms.Compose([

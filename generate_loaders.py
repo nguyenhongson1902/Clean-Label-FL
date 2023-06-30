@@ -5,7 +5,9 @@ from federated_learning.datasets.data_distribution import generate_iid_data
 from loguru import logger
 import argparse
 from federated_learning.arguments import Arguments
+import random
 
+random.seed(1)
 
 if __name__ == "__main__":
     # Initialize logger
@@ -27,10 +29,10 @@ if __name__ == "__main__":
         train_loaders, train_indices, test_data_loader = generate_iid_data(train_dataset, test_dataset, args, kwargs)
 
     # Save train loaders, test loader, train indices
-    with open("./data_loaders/cifar10/iid/train_loaders_iid_num_workers_0.pkl", 'wb') as f:
+    with open("./data_loaders/cifar10/iid/train_loaders_iid_n_clients_5.pkl", 'wb') as f:
         pickle.dump(train_loaders, f)
-    with open("./data_loaders/cifar10/iid/test_data_loader_iid_num_workers_0.pkl", 'wb') as f:
+    with open("./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_5.pkl", 'wb') as f:
         pickle.dump(test_data_loader, f)
-    with open("./data_loaders/cifar10/iid/train_indices_iid_num_workers_0.pkl", 'wb') as f:
+    with open("./data_loaders/cifar10/iid/train_indices_iid_n_clients_5.pkl", 'wb') as f:
         pickle.dump(train_indices, f)
 
