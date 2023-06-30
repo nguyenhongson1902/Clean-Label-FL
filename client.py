@@ -96,13 +96,13 @@ class Client(fl.client.NumPyClient):
         the trained parameters, the number of data samples used for training, and the results of the
         training.
         
-        :param parameters: The `parameters` parameter is a dictionary that contains the model's
+        :param parameters: The `parameters` parameter is a list that contains the model's
         parameters. These parameters are used to set the model's initial state before training
         :param config: The `config` parameter is a dictionary that contains various configuration
         settings for the training process. It may include settings such as the learning rate, batch
         size, number of epochs, etc
         :return: a tuple containing three elements:
-        1. An empty dictionary, which represents the parameters of the model.
+        1. A list of numpy arrays representing the parameters of a network.
         2. The length of the train_data_loader, which is the number of training data points.
         3. The results of the training process.
         """
@@ -112,37 +112,44 @@ class Client(fl.client.NumPyClient):
 
     def initialize_device(self):
         """
-        Creates appropriate torch device for client operation.
+        The function initializes the device to be used for computation, either CUDA if available and
+        specified, or CPU otherwise.
+        :return: a torch device. If CUDA is available and the `args` object has CUDA enabled, it will
+        return a device with CUDA support ("cuda"). Otherwise, it will return a device without CUDA
+        support ("cpu").
         """
         if torch.cuda.is_available() and self.args.get_cuda():
             return torch.device("cuda")
         else:
             return torch.device("cpu")
 
-    def set_net(self, net: torch.nn.Module):
+    def set_net(self, net):
         """
-        Set the client's NN.
-
-        :param net: torch.nn.Module
+        The function sets the neural network model and moves it to the specified device.
+        
+        :param net: The "net" parameter is a torch.nn.Module object, which represents a neural network
+        model in PyTorch. It is used to set the neural network model for the current object
+        :type net: torch.nn.Module
         """
         self.net = net
         self.net.to(self.device)
 
     def load_default_model(self):
         """
-        Load a model from default model file.
-        This is used to ensure consistent default model behavior.
+        The function loads the default model based on the model class and its corresponding file path.
         """
         model_class = self.args.get_net()
         default_model_path = os.path.join(self.args.get_default_model_folder_path(), model_class.__name__ + ".model")
 
         return self.load_model_from_file(default_model_path)
 
-    def load_model_from_file(self, model_file_path: str):
+    def load_model_from_file(self, model_file_path):
         """
-        Load a model from a file.
-
-        :param model_file_path: Path to the model file
+        The function `load_model_from_file` loads a model from a file and returns it.
+        
+        :param model_file_path: The `model_file_path` parameter is the path to the file where the model
+        is saved
+        :return: the loaded model.
         """
         model_class = self.args.get_net()
         model = model_class()
@@ -161,42 +168,49 @@ class Client(fl.client.NumPyClient):
 
     def get_client_index(self):
         """
-        Returns the client index.
+        The function returns the client index.
+        :return: The method is returning the value of the variable `self.client_idx`.
         """
         return self.client_idx
     
     def get_poisoned_workers(self):
         """
-        Returns the list of poisoned workers.
+        The function returns the list of poisoned workers.
+        :return: The method is returning the list of poisoned workers.
         """
         return self.poisoned_workers
     
     def get_device(self):
         """
-        Returns the device.
+        The function returns the device attribute of an object.
+        :return: The `get_device` method is returning the `device` attribute of the object.
         """
         return self.device
 
     def get_nn_parameters(self):
         """
-        Return the NN's parameters.
+        The function returns the state dictionary of a neural network.
+        :return: the state dictionary of the neural network parameters.
         """
         return self.net.state_dict()
 
-    def update_nn_parameters(self, new_params: Dict):
+    def update_nn_parameters(self, new_params):
         """
-        Update the NN's parameters.
-
-        :param new_params: New weights for the neural network
-        :type new_params: dict
+        The function updates the parameters of a neural network with new parameters.
+        
+        :param new_params: The `new_params` parameter is a dictionary that contains the updated
+        parameters for the neural network. It is used to update the current parameters of the neural
+        network model
         """
         self.net.load_state_dict(copy.deepcopy(new_params), strict=True)
 
     def train(self):
         """
-        Train a client
+        The function `train` trains a machine learning model using federated learning, with an
+        additional step for poisoning the training data if the client is marked as a poisoned worker.
+        :return: a dictionary with the keys "client_train_loss" and "client_train_acc", which represent
+        the loss and accuracy of the client's training process.
         """
-        # poison_amount_ratio = self.args.args_dict.narcissus_gen.poison_amount_ratio
         client_idx = self.get_client_index()
         device = self.get_device()
         if client_idx in self.poisoned_workers:
@@ -326,7 +340,13 @@ class Client(fl.client.NumPyClient):
 
     def test(self, best_noise):
         """
-        Tests the model on the given test dataset.
+        The function `test` performs testing on a model using the CIFAR-10 dataset, including evaluating
+        the attack success rate, clean accuracy, and target accuracy.
+        
+        :param best_noise: The `best_noise` parameter is a tensor representing the noise that will be
+        used for poisoning the training data
+        :return: the attack success rate (ASR), clean accuracy (acc_clean), and target test clean
+        accuracy (acc_tar).
         """
         device = self.args.get_device()
         client_idx = self.get_client_index()
@@ -438,20 +458,24 @@ class Client(fl.client.NumPyClient):
 
     def train_poisoned_worker(self, epoch, client_idx, target_label, pood_path="./data/"):
         """
-        Train the model on the poisoned dataset to get an optimized trigger
-        :param epoch: current epoch
-        :param client_idx: index of the poisoned client
-        :param pood_path: path to the POOD dataset (e.g: TinyImageNet)
-        :return: best_noise: an optimized trigger"""
+        The function trains a poisoned worker for a given epoch and returns the best noise generated by
+        the narcissus_gen function.
+        
+        :param epoch: The epoch parameter represents the current epoch number during training. It is
+        used to track the progress of the training process
+        :param client_idx: The client index is the identifier of the specific client that is being
+        trained. It is used to differentiate between different clients in a federated learning setting
+        :param target_label: The target label is the list of target labels that each corresponding poisoned worker is trying to
+        misclassify the data patched with the trigger (i.e. the best noise)
+        :param pood_path: The `pood_path` parameter is the path to the directory where the poisoned data
+        is stored, defaults to ./data/ (optional)
+        :return: the best noise generated by the "narcissus_gen" function.
+        """
         args.get_logger().info("Training epoch #{} on poisoned client #{}", str(epoch), str(client_idx))
         best_noise = self.narcissus_gen(epoch, pood_path, client_idx, target_label)
         return best_noise
-
-
+    
     def narcissus_gen(self, comm_round, dataset_path, client_idx, target_label): # POOD + client dataset
-        """
-        Generate an optimized trigger
-        """
         device = self.get_device()
         poisoned_workers = self.get_poisoned_workers()
         idx = poisoned_workers.index(client_idx) # index of the poisoned client

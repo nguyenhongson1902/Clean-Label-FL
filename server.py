@@ -8,7 +8,7 @@ from federated_learning.nets import ResNet18
 import argparse
 
 import flwr as fl
-from strategies import FedAvg
+from federated_learning.flower import FedAvg
 
 
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):

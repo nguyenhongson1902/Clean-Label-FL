@@ -3,7 +3,7 @@ import collections
 import torch
 import wandb
 import copy
-from engines import server_test_fn
+from .engines import server_test_fn
 
 
 class FedAvg(fl.server.strategy.FedAvg):
