@@ -734,9 +734,9 @@ if __name__ == "__main__":
 
     # Load train loaders, test loader, train indices
     n_clients = args.args_dict.fl_training.num_clients
-    train_loaders_path = f"./data_loaders/cifar10/iid/train_loaders_iid_n_clients_{n_clients}"
-    test_data_loader_path = f"./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_{n_clients}"
-    train_indices_path = f"./data_loaders/cifar10/iid/train_indices_iid_n_clients_{n_clients}"
+    train_loaders_path = f"./data_loaders/cifar10/iid/train_loaders_iid_n_clients_{n_clients}.pkl"
+    test_data_loader_path = f"./data_loaders/cifar10/iid/test_data_loader_iid_n_clients_{n_clients}.pkl"
+    train_indices_path = f"./data_loaders/cifar10/iid/train_indices_iid_n_clients_{n_clients}.pkl"
     with open(train_loaders_path, 'rb') as f:
         train_loaders = pickle.load(f)
     with open(test_data_loader_path, 'rb') as f:
