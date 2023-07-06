@@ -11,6 +11,10 @@ import flwr as fl
 from federated_learning.flower import FedAvg
 
 
+SEED = 1
+np.random.seed(SEED)
+
+
 def select_poisoned_workers(args, train_dataset, net_dataidx_map):
     # exp_id = args.args_dict.fl_training.experiment_id
     

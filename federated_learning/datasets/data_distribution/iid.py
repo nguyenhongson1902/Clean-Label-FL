@@ -5,8 +5,10 @@ from torch.utils.data import Subset
 import numpy as np
 import random
 
-np.random.seed(1)
-random.seed(1)
+SEED = 1
+np.random.seed(SEED)
+random.seed(SEED)
+torch.manual_seed(SEED)
 
 
 def generate_iid_data(train_dataset, test_dataset, args, kwargs):

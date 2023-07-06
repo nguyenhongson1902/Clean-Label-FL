@@ -12,8 +12,14 @@ import torchvision
 
 from federated_learning.utils import get_labels
 from federated_learning.utils import concate_dataset
+from federated_learning.utils import FlippedDataset
 from federated_learning.utils import apply_noise_patch
 from federated_learning.arguments import Arguments
+
+
+SEED=1
+torch.manual_seed(SEED)
+np.random.seed(SEED)
 
 
 def train_poisoned_worker(args, client_idx, target_label, train_data_loader, pood_path="./data/"):
@@ -123,11 +129,29 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
     noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
 
     # Inner train dataset
-    train_target_list = list(np.where(np.array(train_label)==target_class)[0])
-    
+    # train_target_list = list(np.where(np.array(train_label)==target_class)[0])
+
+
+    ############Test duplicating and augmenting target examples###############
+    train_target_list = list(np.where(np.array(train_label)==target_class)[0]) * 10
+    ##########################################################################
     train_target = Subset(ori_train, train_target_list)
 
     concate_train_dataset = concate_dataset(train_target, outter_trainset)
+
+    #######################Test flipping TinyImageNet + target examples (CIFAR-10)###############################
+    # X, Y = [], []
+    # for x, y in tqdm(concate_train_dataset, total=len(concate_train_dataset), desc="Flipping labels"):
+    #     X.append(x)
+    #     # Flip the label
+    #     if y != 200: # class 200 is the label of CIFAR-10 target examples
+    #         Y.append(200)
+    #     else:
+    #         Y.append(y)
+
+    # flipped_dataset = FlippedDataset(X, Y)
+    # concate_train_dataset = flipped_dataset # A trick to help not to change the variable below
+    #############################################################################################################
 
     surrogate_loader = torch.utils.data.DataLoader(concate_train_dataset, batch_size=train_batch_size, shuffle=True, num_workers=0)
 

@@ -31,7 +31,9 @@ import flwr as fl
 
 SEED = 1
 random.seed(SEED)
+np.random.seed(SEED)
 torch.manual_seed(SEED)
+
 
 class Client(fl.client.NumPyClient):
 

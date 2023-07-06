@@ -12,6 +12,11 @@ from torch.utils.data import Subset
 import glob
 
 
+SEED = 1
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+
+
 def server_test_fn(
     args,
     global_model, 

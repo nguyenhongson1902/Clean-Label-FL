@@ -6,6 +6,10 @@ import copy
 from .engines import server_test_fn
 
 
+SEED = 1
+torch.manual_seed(SEED)
+
+
 class FedAvg(fl.server.strategy.FedAvg):
     def __init__(self, 
         arguments, 

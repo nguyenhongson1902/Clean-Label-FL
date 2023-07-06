@@ -2,7 +2,7 @@ import torch
 
 
 class concate_dataset(torch.utils.data.Dataset):
-    def __init__(self, target_dataset,outter_dataset):
+    def __init__(self, target_dataset, outter_dataset):
         """
         self.idataset: in-distribution dataset
         self.odataset: out-distribution dataset
@@ -15,11 +15,11 @@ class concate_dataset(torch.utils.data.Dataset):
             img = self.odataset[idx][0]
             labels = self.odataset[idx][1]
         else:
-            img = self.idataset[idx-len(self.odataset)][0]
+            img = self.idataset[idx - len(self.odataset)][0]
             #labels = torch.tensor(len(self.odataset.classes),dtype=torch.long)
             labels = len(self.odataset.classes)
         #label = self.dataset[idx][1]
-        return (img,labels)
+        return (img, labels)
 
     def __len__(self):
-        return len(self.idataset)+len(self.odataset)
+        return len(self.idataset) + len(self.odataset)

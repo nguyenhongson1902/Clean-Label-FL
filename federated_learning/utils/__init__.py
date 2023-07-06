@@ -31,3 +31,4 @@ from .poison_image_label import poison_image_label
 from .average_meter import AverageMeter
 from .plot_trainacc_asr_cleanacc_taracc import plot_trainacc_asr_cleanacc_taracc
 from .plot import plot_data_dis_to_file
+from .flip_dataset import FlippedDataset
