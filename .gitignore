@@ -118,3 +118,5 @@ Narcissus/__pycache__/
 wandb/
 
 logs_clients/
+
+nohup.out
