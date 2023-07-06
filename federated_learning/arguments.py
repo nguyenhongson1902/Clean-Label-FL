@@ -29,7 +29,7 @@ class Arguments():
         self.scheduler_gamma = self.args_dict.fl_training.scheduler_gamma
         self.min_lr = self.args_dict.fl_training.min_lr
         self.num_clients = self.args_dict.fl_training.num_clients
-        self.num_poisoned_workers = self.args_dict.fl_training.num_poisoned_workers
+        self.num_poisoned_clients = self.args_dict.fl_training.num_poisoned_clients
         self.default_models = self.args_dict.fl_training.default_models
         self.data_path = self.args_dict.fl_training.data_path
         self.dataset = self.args_dict.fl_training.dataset
@@ -115,8 +115,8 @@ class Arguments():
     def get_num_epochs(self):
         return self.epochs
 
-    def set_num_poisoned_workers(self, num_poisoned_workers):
-        self.num_poisoned_workers = num_poisoned_workers
+    def set_num_poisoned_clients(self, num_poisoned_clients):
+        self.num_poisoned_clients = num_poisoned_clients
 
     def set_num_clients(self, num_clients):
         self.num_clients = num_clients
@@ -136,8 +136,8 @@ class Arguments():
     def get_num_clients(self):
         return self.num_clients
 
-    def get_num_poisoned_workers(self):
-        return self.num_poisoned_workers
+    def get_num_poisoned_clients(self):
+        return self.num_poisoned_clients
 
     def get_learning_rate(self):
         return self.lr
@@ -210,7 +210,7 @@ class Arguments():
         #        "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix) + \
         #        "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix) + \
         #        "Number of Clients: {}\n".format(self.num_workers) + \
-        #        "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers) + \
+        #        "Number of Poisoned Clients: {}\n".format(self.num_poisoned_clients) + \
         #        "NN: {}\n".format(self.net) + \
         #        "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path) + \
         #        "Test Data Loader Path: {}\n".format(self.test_data_loader_pickle_path) + \
@@ -234,7 +234,7 @@ class Arguments():
                "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix) + \
                "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix) + \
                "Number of Clients: {}\n".format(self.num_clients) + \
-               "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers) + \
+               "Number of Poisoned Clients: {}\n".format(self.num_poisoned_clients) + \
                "NN: {}\n".format(self.net) + \
                "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path) + \
                "Test Data Loader Path: {}\n".format(self.test_data_loader_pickle_path) + \
