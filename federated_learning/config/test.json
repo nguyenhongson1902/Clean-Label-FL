@@ -1,14 +1,14 @@
 {
     "fl_training": {
-        "experiment_id": 96,
+        "experiment_id": 102,
         "project_name": "clean-label-attack-fl",
         "wandb_name": "cifar10__fedavg",
         "target_label": [2],
         "poisoned_workers": [0],
-        "n_target_samples": [1000],
+        "n_target_samples": [250],
         "batch_size": 10,
         "test_batch_size": 100,
-        "epochs": 1000,
+        "epochs": 500,
         "local_epochs": 1,
         "learning_rate": 0.01,
         "momentum": 0.5,
@@ -17,7 +17,7 @@
         "scheduler_step_size": 50,
         "scheduler_gamma": 0.5, 
         "min_lr": 1e-10,
-        "num_clients": 5,
+        "num_clients": 20,
         "num_poisoned_clients": 1,
         "default_models": "default_models",
         "data_path": "data", 
@@ -26,7 +26,7 @@
         "train_data_loader_pickle_path": "data_loaders/cifar10/train_data_loader.pickle",
         "test_data_loader_pickle_path": "data_loaders/cifar10/test_data_loader.pickle",
         "gen_trigger_interval": 1,
-        "server_address": "127.0.0.1",
+        "server_address": "slurmnode10",
         "server_port": 9999
     },
     "narcissus_gen": {
@@ -43,7 +43,7 @@
         "gen_round": 1000,
         "train_batch_size": 10,
         "patch_mode": "add",
-        "poison_amount_ratio": 0.002,
+        "poison_amount_ratio": 0.1,
         "multi_test": 3,
         "training_lr": 0.1,
         "optimizer": "radam"
