@@ -4,6 +4,7 @@ import argparse
 from loguru import logger
 from tqdm import tqdm
 import pickle
+from copy import deepcopy
 
 import torch
 from torch.utils.data import Subset
@@ -88,7 +89,7 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
 
     # surrogate_pretrained_path = os.path.join(checkpoint_path, 'surrogate_pretrain_client_' + str(client_idx) + '_comm_round_' + str(comm_round) + '.pth')
 
-    generating_model = args.net().to(device) # default: ResNet18_201
+    # generating_model = args.net().to(device) # default: ResNet18_201
 
     # Surrogate model training epochs
     surrogate_epochs = args.args_dict.narcissus_gen.surrogate_epochs # Default: surrogate_epochs = 200
@@ -129,12 +130,8 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
     noise = torch.zeros((1, n_channels, noise_size, noise_size), device=device)
 
     # Inner train dataset
-    # train_target_list = list(np.where(np.array(train_label)==target_class)[0])
+    train_target_list = list(np.where(np.array(train_label)==target_class)[0])
 
-
-    ############Test duplicating and augmenting target examples###############
-    train_target_list = list(np.where(np.array(train_label)==target_class)[0]) * 10
-    ##########################################################################
     train_target = Subset(ori_train, train_target_list)
 
     concate_train_dataset = concate_dataset(train_target, outter_trainset)
@@ -157,7 +154,13 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
 
     poi_warm_up_loader = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
-    trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
+    # trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
+
+    # Create a duplicated target examples dataset
+    train_target_list_duplicated = list(np.where(np.array(train_label)==target_class)[0]) * 10 # duplicate 10 times
+    train_target_duplicated = Subset(ori_train, train_target_list_duplicated)
+
+    trigger_gen_loaders = torch.utils.data.DataLoader(train_target_duplicated, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
 
     criterion = torch.nn.CrossEntropyLoss()
@@ -175,38 +178,44 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
     saving_surrogate_model_prefix = args.args_dict.narcissus_gen.saving_surrogate_model_prefix
     surrogate_pretrained_path = os.path.join(checkpoint_path, saving_surrogate_model_prefix + "__client_" + str(client_idx) + "__target_label_" + str(target_class) + "__exp_" + str(exp_id) + ".pth")
 
-    print('Training the surrogate model')
-    for epoch in range(0, surrogate_epochs):
-        surrogate_model.train()
-        loss_list = []
-        for images, labels in surrogate_loader:
-            images, labels = images.to(device), labels.to(device)
-            surrogate_opt.zero_grad()
-            outputs = surrogate_model(images)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            loss_list.append(float(loss.data))
-            surrogate_opt.step()
-        if args.args_dict.narcissus_gen.optimizer == "sgd":
-            surrogate_scheduler.step()
-        ave_loss = np.average(np.array(loss_list))
-        print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
-    # Save the surrogate model
-    print("Saving the surrogate model...")
-    torch.save(surrogate_model.state_dict(), surrogate_pretrained_path)
-    print("Done saving!!")
+    if os.path.exists(surrogate_pretrained_path):
+        print("Loading the surrogate model...")
+        surrogate_model.load_state_dict(torch.load(surrogate_pretrained_path))
+        print("Done loading!!")
+    else:
+        print('Training the surrogate model')
+        for epoch in range(0, surrogate_epochs):
+            surrogate_model.train()
+            loss_list = []
+            for images, labels in surrogate_loader:
+                images, labels = images.to(device), labels.to(device)
+                surrogate_opt.zero_grad()
+                outputs = surrogate_model(images)
+                loss = criterion(outputs, labels)
+                loss.backward()
+                loss_list.append(float(loss.data))
+                surrogate_opt.step()
+            if args.args_dict.narcissus_gen.optimizer == "sgd":
+                surrogate_scheduler.step()
+            ave_loss = np.average(np.array(loss_list))
+            print('Epoch:%d, Loss: %.03f' % (epoch, ave_loss))
+        # Save the surrogate model
+        print("Saving the surrogate model...")
+        torch.save(surrogate_model.state_dict(), surrogate_pretrained_path)
+        print("Done saving!!")
+
 
     # After getting the pre-trained surrogate model, we start to train the poi_warm_up model
     # Prepare models and optimizers for poi_warm_up training
-    poi_warm_up_model = generating_model
-    poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
+    poi_warm_up_model = deepcopy(surrogate_model) # use poi_warm_up_model for generating the trigger later on
+    # poi_warm_up_model.load_state_dict(surrogate_model.state_dict())
 
     if args.args_dict.narcissus_gen.optimizer == "radam" or args.args_dict.narcissus_gen.optimizer == "sgd":
         poi_warm_up_opt = torch.optim.RAdam(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
     elif args.args_dict.narcissus_gen.optimizer == "adamw":
         poi_warm_up_opt = torch.optim.AdamW(params=poi_warm_up_model.parameters(), lr=generating_lr_warmup)
 
-    #Poi_warm_up stage
+    # Poi_warm_up stage
     poi_warm_up_model.train()
     for param in poi_warm_up_model.parameters():
         param.requires_grad = True
@@ -263,8 +272,8 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
         ave_grad = np.sum(abs(batch_pert.grad).detach().cpu().numpy())
         print('Gradient:', ave_grad, 'Loss:', ave_loss)
         # wandb.log({"gradient": ave_grad, "trigger_gen_loss": ave_loss, "gen_round": round})
-        if ave_grad == 0:
-            break
+        # if ave_grad == 0:
+        #     break
 
     noise = torch.clamp(batch_pert, -l_inf_r*2, l_inf_r*2)
     best_noise = noise.clone().detach().cpu()
