@@ -157,7 +157,8 @@ def narcissus_gen(args, dataset_path, client_idx, target_label, train_data_loade
     # trigger_gen_loaders = torch.utils.data.DataLoader(train_target, batch_size=train_batch_size, shuffle=True, num_workers=0)
 
     # Create a duplicated target examples dataset
-    train_target_list_duplicated = list(np.where(np.array(train_label)==target_class)[0]) * 10 # duplicate 10 times
+    # train_target_list_duplicated = list(np.where(np.array(train_label)==target_class)[0]) * 10 # duplicate 10 times
+    train_target_list_duplicated = list(np.where(np.array(train_label)==target_class)[0]) * 5 # duplicate 5 times
     train_target_duplicated = Subset(ori_train, train_target_list_duplicated)
 
     trigger_gen_loaders = torch.utils.data.DataLoader(train_target_duplicated, batch_size=train_batch_size, shuffle=True, num_workers=0)

@@ -244,7 +244,7 @@ class Client(fl.client.NumPyClient):
                                             transforms.RandomHorizontalFlip(),
                                             ])
 
-                random_poison_idx = train_target_list[:poison_amount] # for now, it's fixed, not randomly
+                random_poison_idx = train_target_list[:poison_amount] # for now, it's fixed, not chosen randomly
                 print("random_poison_idx", random_poison_idx)
 
                 # random_poison_idx = random.sample(train_target_list, poison_amount) # randomly sample 25 images from 5000 target-class examples (select indices)
